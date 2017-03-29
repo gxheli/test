@@ -1,0 +1,33 @@
+.md-nav{
+	position: absolute;
+	bottom:0;
+	width:100%;
+	font-size:.12rem;
+	color:#1E1E1E;
+	height:.5rem;
+	overflow:hidden;
+	text-align:center;
+	color:#A1A1A1;
+	border-top:1px solid #999;
+	background:#fff;
+
+	a{
+		color:#A1A1A1;
+	}
+
+	.nav-item{
+		float:left;
+		width:33.3333333%;
+		line-height: .2rem;
+		margin-top: .06rem;
+
+		i{
+			display: inline-block;
+			width:100%;
+			font-size: .15rem;
+		}
+	}
+	a.selected{
+		color:#2E9DE6;
+	}
+}

@@ -1,0 +1,305 @@
+﻿@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "价格列表";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/itemPricesList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<style>
+    .text-price-changing {
+        color: #6600FF;
+    }
+
+    .text-price-deleting {
+        text-decoration: line-through;
+        color: #999999;
+    }
+</style>
+
+
+
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>价格列表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="ServiceType">
+                    <a href="javascript:" class="buttonradio" data-code="0">全部</a>
+                    @foreach (LanghuaNew.Data.ServiceType s in ViewBag.ServiceType)
+                    {
+                    <a href="javascript:" class="buttonradio" data-code="@s.ServiceTypeID">@s.ServiceTypeName</a>
+                    }
+                </div>
+            </div>
+            <div style="vertical-align:top;display:inline-block;margin-left:30px">
+                <div class="btn-group">
+
+                    <a type="button" href="/ServiceItems/Index" class="btn button86 btn-sm btn-default" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                        产品列表
+                    </a>
+                    <a type="button" href="/ServiceItems/ItemPrices" class="btn button86 btn-sm btn-primary actas" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                        价格列表
+                    </a>
+                </div>
+            </div>
+
+            <span class="rightbar">
+                <a href="javascript:;" id="reflashTable" class="btn btn-default btn-sm button65"><i class="fa fa-refresh"></i> 刷新 </a>
+                <a href="~/ServiceItems/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增产品</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+
+            <span class="rightbar">
+                @{
+                    if (ViewBag.ChangeNum != null && ViewBag.ChangeNum > 0)
+                    {
+                <span id="ChangeButton" class="displayInlineBlock leftkeys">
+                    <span class="buttonradio" style="color:white;background:#6600FF;margin:0px 5px;">@ViewBag.ChangeNum 个产品价格待确认 </span>
+
+                </span>
+                    }
+                }
+                <span id="mainSearch">
+                    <select id="CityID" class="input input-sm input-small">
+                        <option selected value="0">目的地</option>
+                        @foreach (LanghuaNew.Data.City s in ViewBag.Cities)
+                        {
+                            <option value="@s.CityID">@s.CityName</option>
+                        }
+                    </select>
+                    <select id="SupplierID" class="input input-sm input-small">
+                        <option selected value="0">供应商</option>
+                        @foreach (LanghuaNew.Data.Supplier s in ViewBag.Supplier)
+                        {
+                            <option value="@s.SupplierID">@s.SupplierNo-@s.SupplierName</option>
+                        }
+                    </select>
+                    <input placeholder="模糊搜索：产品名称、编码" style="padding:0px 10px" href="javascript:;" id="FuzzySearch" class="border-rounded rightbaritems searchipnut" />
+                </span>
+
+                <a href="javascript:;" id="search" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+                <a href="javascript:;" id="exportItemPrices" class="rightbaritems LINKDOWNLOAD   btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+
+<table id="itemPrices" class="table-lh  table-lh-bordered-white table-lh-bordered-edge-remove table-lh-td-nopadding  table-lh-stripped-by-even">
+    <colgroup>
+        <col width="60">
+        <col width="200">
+        <col width="69">
+        <col width="43">
+        <col width="48">
+        <col width="84">
+        <col width="49">
+        <col width="58">
+        <col width="59">
+        <col width="72">
+        <col width="62">
+        <col width="54">
+        <col width="62">
+        <col width="54">
+        <col width="72">
+        <col width="65">
+        <col width="67">
+    </colgroup>
+    <thead>
+        <tr role="row">
+            <th rowspan="1" colspan="1">编码</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">中文名</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">目的地</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">状态</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">供应商</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">
+                <div>价格开始日期</div>
+                <div>价格结束日期</div>
+            </th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">成人</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">儿童</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">婴儿</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">单价</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">成人卖价</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">利润（率）</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">儿童卖价</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">利润（率）</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">附加项目</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">价格状态</th>
+            <th id="tooltipscontainer" class="sorting_disabled" rowspan="1" colspan="1">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+
+<div id="historyDisplay" class="modal  modal-giantSize modal-animate" tabindex="-1" data-backdrop="static" data-width="1020" data-max-height="500" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="whichPrice"></span>
+            </div>
+            <div id="" class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="vertical-middle" style="height:36px;line-height:36px">
+                            <div class="vertical-middle displayInlineBlock" style="line-height:18px">结算货币 :</div>
+                            <div id="CurrencyName" class="vertical-middle displayInlineBlock">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="vertical-middle" style="height:36px;line-height:36px">
+                            <div class="vertical-middle displayInlineBlock" style="line-height:18px">计费标准 :</div>
+                            <div id="PayType" class="vertical-middle displayInlineBlock">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="vertical-middle" style="height:36px;line-height:36px">
+                            <div class="vertical-middle displayInlineBlock" style="line-height:18px">生效方式 :</div>
+                            <div id="SelectEffectiveWay" class="vertical-middle displayInlineBlock">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="margin-top-10 margin-top-10"></div>
+                <div class="row">
+                    <div class="col-md-1">价格说明 :</div>
+                    <div class="col-md-10">
+                        <div class="row" id="Remark">
+                            <div class="col-md-6">
+                                <textarea id="#Remark"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <textarea id="RemarkChange"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <table id="prices" class="table-lh  table-lh-bordered-white table-lh-bordered-edge-remove">
+                    <colgroup>
+                        <col width="40">
+                        <col width="132">
+                        <col width="132">
+                        <col width="86">
+                        <col width="86">
+                        <col width="86">
+                        <col width="93">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>生效开始日期</th>
+                            <th>生效结束日期</th>
+                            <th>成人</th>
+                            <th>儿童</th>
+                            <th>婴儿</th>
+                            <th>单价</th>
+                        </tr>
+                    </thead>
+                </table>
+
+                <div id="extraALL">
+                    <div class="margin-bottom-10 margin-top-10">附加项目:</div>
+
+                    <table id="extraPrices" class="table-lh  table-lh-bordered-white table-lh-bordered-edge-remove">
+                        <colgroup>
+                            <col width="59">
+                            <col width="631">
+                            <col width="154">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>附加项目</th>
+                                <th>单价</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" data-dismiss="modal">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="sellPriceSet" class="modal  modal-largeSize modal-animate" tabindex="-1" data-backdrop="static" data-width="830" data-max-height="500" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">卖价</span>
+            </div>
+            <div id="" class="modal-body">
+                <div class="row">
+                    <div class="priceByPerson col-md-4">
+                        <div class="vertical-middle" style="height:30px;line-height:30px">
+                            <span>成人卖价： </span>
+                            <input id="AdultSellPrice" type="text" name="name" class="form-control input100 displayInlineBlock price-format" value="" />
+                            <span class="margin-left-10">RMB</span>
+                        </div>
+                    </div>
+                    <div class="priceByPerson col-md-4">
+                        <div class="vertical-middle" style="height:30px;line-height:30px">
+                            <span>儿童卖价： </span>
+                            <input id="ChildSellPrice" type="text" name="name" class="form-control input100 displayInlineBlock price-format" value="" />
+                            <span class="margin-left-10">RMB</span>
+                        </div>
+                    </div>
+                    <div id="priceByNumber" class="col-md-4 hidden">
+                        <div class="vertical-middle" style="height:30px;line-height:30px">
+                            <span>卖价： </span>
+                            <input id="SellPrice" type="text" name="name" class="form-control input100 displayInlineBlock price-format" value="" />
+                            <span class="margin-left-10">RMB</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="extraALL">
+                    <div class="margin-bottom-10 margin-top-10">附加项目：</div>
+                    <table id="extraSellPrices" class="table-lh  table-lh-bordered-white table-lh-bordered-edge-remove">
+                        <colgroup>
+                            <col width="45">
+                            <col width="400">
+                            <col width="200">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>附加项目</th>
+                                <th>卖价</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="payTypeFlag"></span>
+                <span id="SupplierServiceItemID"></span>
+                <span style="line-height:30px;float:left">如有多个不同价格请填写最低价格</span>
+                <a id="sellPriceConfirm" type="button" href="javascript:;" class="btn btn-sm button86  btn-primary">确定</a>
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

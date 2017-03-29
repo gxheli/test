@@ -1,0 +1,107 @@
+*{
+	margin:0;
+	padding:0;
+	font-family:Helvetica, Tahoma, Arial, 微软雅黑, "Microsoft YaHei", sans-serif, SimSun, 宋体;
+	line-height: .2rem;
+}
+html,body,#app{
+	height: 100%;
+	width:100%;
+	font-size: .14rem;
+	color:#333;
+}
+a{
+	text-decoration: none;
+	color:#333;
+}
+.mandatory-fields{ color:#ff0000 !important; padding-right:3px; font-style: normal; }
+.modal-box{
+	position: fixed;
+	left:50%;
+	top:50%;
+	width:2.4rem;
+	height: 2.4rem;
+	margin-top: -1.2rem;
+	margin-left:-1.2rem;
+	border:1px solid #e8e8e8;
+	background: #fff;
+	visibility: hidden;
+	/*transform: scale(0);*/
+	transition: transform .18s;
+}
+.modal-box.show{
+	visibility: visible;
+	transform: scale(1);
+}
+.modal-box .modal-icon{
+	margin: .2rem;
+    font-size: .8rem;
+    text-align: center;
+    color: #2E9DE6;
+    margin-bottom: .1rem;
+}
+#md-modal-error .modal-icon{
+	color: #fc5651;
+}
+
+
+.modal-box .modal-msg{
+	margin: 0 .1rem;
+    font-size: .15rem;
+    height: .6rem;
+    color:#333;
+    text-align: center;
+    word-break: break-word;
+}
+.modal-box .modal-btn{
+	height: .4rem;
+	line-height: .4rem;
+	text-align: center;
+	background: #2E9DE6;
+	color:#fff;
+	font-size: .16rem;
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+#md-modal-error .modal-btn{
+	background: #fc5651;
+}
+#md-modal-confirm button{
+	height: .4rem;
+	line-height: .4rem;
+	text-align: center;
+	background: #2E9DE6;
+	color:#fff;
+	font-size: .16rem;
+	position: absolute;
+    bottom: 0;
+    width: 48%;
+    outline: none;
+    border:0;
+}
+#md-modal-confirm button.cancel{
+	right:0;
+	border:1px solid #2E9DE6;
+	color:#2E9DE6;
+	background: #fff;
+}
+.datepicker-viewport,.datepicker-scroll{
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+	-webkit-overflow-scrolling : touch;
+	overflow-scrolling : touch;
+}
+.md-loading{
+	position: absolute;
+	height: 1rem;
+	width: 1rem;
+	left:50%;
+	top:50%;
+	margin-left: -.5rem;
+	margin-top: -.5rem;
+	z-index: 100;
+}
+.md-loading img{ width:100%; height: 100%; }

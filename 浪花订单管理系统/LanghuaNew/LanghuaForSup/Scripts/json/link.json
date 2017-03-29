@@ -1,0 +1,72 @@
+﻿{
+    "_comment": "",
+    "enable": true,
+    "displayLength": true,
+    "list": [{
+            "text": "百度",
+            "href": "http://www.baidu.com",
+            "target": "_blank",
+            "enable": true
+        },
+        {
+            "text": "w3cschool",
+            "href": "www.w3school.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "新浪",
+            "href": "http://www.sina.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "苹果",
+            "href": "http://www.apple.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "亚马逊",
+            "href": "http://www.amazon.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "新浪",
+            "href": "http://www.sina.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "苹果",
+            "href": "http://www.apple.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "亚马逊",
+            "href": "http://www.amazon.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "新浪",
+            "href": "http://www.sina.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "苹果",
+            "href": "http://www.apple.com",
+            "target": "_blank",
+            "enable": false
+        },
+        {
+            "text": "亚马逊",
+            "href": "http://www.amazon.com",
+            "target": "_blank",
+            "enable": false
+        }
+    ]
+}

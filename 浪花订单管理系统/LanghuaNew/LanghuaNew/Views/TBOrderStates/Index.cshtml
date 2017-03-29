@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.SECTION = "发货";
+    ViewBag.FUNCTION = "发货";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/stateslist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section ZeroCopy{
+    @Scripts.Render("~/bundles/plugins/zeroCopy")
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>发货
+            </span>
+            <div class="leftkeys" style="">
+                <div id="SendState">
+                    <a href="javascript:" class="buttonradio" data-code="1">未发货</a>
+                    <a href="javascript:" class="buttonradio" data-code="2">已发货</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left:200px">
+                <a type="button" href="~/TBOrderStates/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                    发货
+                </a>
+                <a type="button" href="~/TBOrderStates/CheckDelivery" class="btn button86 btn-sm btn-default" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                    查漏发货
+                </a>
+            </div>
+            <span class="rightbar">
+                <select id="datetype" class="input input-sm input-small">
+                    <option selected value="1">最早出行日期</option>
+                    <option value="2">最晚出行日期</option>
+                </select>
+                <span class="input-icon-right " id="traveldate">
+                    <input class="border-rounded rightbaritems searchipnut input-small" style="max-width:140px" value="@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")" />
+                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                </span>
+                <select id="ordersourse" class="input input-sm" style="width:92px">
+                    @foreach (var item in ViewBag.OrderSourse)
+                    {
+                        <option value="@item.OrderSourseID">@item.OrderSourseName</option>
+                    }
+                </select>
+                <a id="screen" href="javascript:;" class="rightbaritems border-rounded  ddbutton searchbutton"> 筛选 </a>
+                <button type="button" class="btn btn-default button70" disabled=""><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个记录：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="ddbutton action border-rounded">发货</a>
+            </div>
+            <span class="rightbar">
+                <input placeholder="模糊搜索：淘宝ID" style="padding:0px 10px" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems border-rounded  ddbutton searchbutton"> 搜索 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:100px">淘宝ID </th>
+            <th style="width:100px">订单来源 </th>
+            <th style="width:200px">最早出行日期</th>
+            <th style="width:200px">最晚出行日期</th>
+            <th style="width:100px">发货人</th>
+            <th style="width:150px">发货时间</th>
+            <th style="width:100px">发货状态</th>
+            <th style="width:140px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

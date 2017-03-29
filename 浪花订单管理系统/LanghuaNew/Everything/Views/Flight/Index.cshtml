@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "航班抓取";
+    ViewBag.SECTION = "航班抓取";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>航班抓取</h2>
+<div class="ddtitle ">
+    <div class="title-left">
+        <span class="border-left"></span>请选择出发地和目标地
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal" method="post">
+            <div class="form-body">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">出发地：</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-inline" name="departureCity" value="@ViewBag.DepartureCity" />
+                    </div>
+                    <label class="col-md-2 control-label">目的地：</label>
+                    <div class="col-md-3">
+                        <input type="text" class="form-control input-inline" name="arrivalCity" value="@ViewBag.ArrivalCity" />
+                    </div>
+                    <div class="col-md-2">
+                       <button type="submit" class="btn btn-primary button70 btn-sm" formaction="Search">查询</button>
+                       <button type="submit" class="btn btn-primary button70 btn-sm" formaction="SearchReturn">返程</button>                        
+                       <button type="submit" class="btn btn-primary button70 btn-sm" formaction="Spider">抓取</button>
+                    </div>
+                    <div class="col-md-12 control-label">
+                        <span style="text-align:center;display: block;" >@ViewBag.Message</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="form-group">
+            <div class="row">
+                <table class="table ddtable table-striped" id="fliterList">
+                    <thead>
+                        <tr>
+                            <th style="width:25%; cursor:pointer">航班号</th>
+                            <th style="width:25%">出发地 </th>
+                            <th style="width:25%">目的地</th>
+                            <th style="width:25%">抓取时间</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">正在加载列表......</td></tr>*@
+                        @if (ViewBag.FliterList != null)
+                        {
+                            foreach (var Fliter in ViewBag.FliterList)
+                            {
+                        <tr>
+                            <th style="width:25%">@Fliter.FliterNum</th>
+                            <th style="width:25%">@Fliter.FilterDeparture (@Fliter.DepartureCity)</th>
+                            <th style="width:25%">@Fliter.FilterArrival (@Fliter.ArrivalCity)</th>
+                            <th style="width:25%">@Fliter.SpliderTime</th>
+                        </tr>
+                            }
+                        }else
+                        {
+                        <tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">没有发现匹配的结果</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+

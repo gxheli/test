@@ -1,0 +1,51 @@
+﻿@model IEnumerable<LanghuaNew.Data.OrderHistory>
+
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "操作日志";
+    Layout = "~/Views/Shared/Dairy.cshtml";
+    ViewBag.name = "日志查看";
+    
+}
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove table-Dairy" >
+    <thead>
+        <tr>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.OperTime)
+            </th>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.OperUserID)
+            </th>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th style="width:40%">
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.OperTime.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OperUserNickName)
+                </td>
+                <td>
+                    @{
+                        var strOldState = LanghuaNew.Data.EnumHelper.GetEnumDescription(item.State).Substring(0, LanghuaNew.Data.EnumHelper.GetEnumDescription(item.State).IndexOf("|"));
+                    }
+                    @strOldState
+                </td>
+                <td>
+                    @Html.Raw(item.Remark)
+                </td>
+            </tr>
+                        }
+    </tbody>
+</table>
+

@@ -1,0 +1,297 @@
+﻿@using Newtonsoft.Json;
+@model LanghuaNew.Data.Customer
+@{
+    ViewBag.FUNCTION = Model.CustomerTBCode;
+    ViewBag.SECTION = "个人中心";
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePicker_Css")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTables_Css")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/personal.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+@{
+    var showRQ = false;
+    if (@ViewBag.ImageUrl != null)
+    {
+        showRQ = true;
+    }
+}
+<div class="hidden" id="customerid">@Model.CustomerID</div>
+<div class="panel panel-default" id="noborder-mobbile">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="one-block">
+                            <div class="height160" style="text-align:center;">
+                                @{
+                                    string src = "";
+                                    try
+                                    {
+                                        src = Commond.WeiXinHelper.GetWeixinImage(Model.OpenID);
+                                    }
+                                    catch
+                                    {
+                                        src = "";
+                                    }
+                                    if (src == "")
+                                    {
+                                        src = "../../Content/img/portrait.png";
+                                    }
+                                }
+                                <img class="width120" style="border-radius:100%" src="@src" alt="Alternate Text" />
+                                <div class="text-center margin-top-10">
+                                    <a href="" data-toggle="modal" data-target="#password-revise" style="color:#0066CC">修改密码</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="one-block">
+                            <div class="height48 ">
+                                <span id="name" class=" font20 vertical-middle margin-right-10 ">@Model.CustomerTBCode</span>
+                                <a data-full-info="@JsonConvert.SerializeObject(Model)" href="javascript:;" class="reviseBasicInfo btn btn-sm btn-default button70 vertical-middle margin-left-10">编辑</a>
+                            </div>
+                            <div class="height24">
+                                <span class="left">
+                                    中文姓名：
+                                </span>
+                                <span class="right">@Model.CustomerName</span>
+                            </div>
+                            <div class="height24">
+                                <span class="left">
+                                    联系电话：
+                                </span>
+                                <span class="right">@Model.Tel</span>
+                            </div>
+                            <div class="height24">
+                                <span class="left">
+                                    Email地址：
+                                </span>
+                                <span class="right">@Model.Email</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="one-block">
+                    <div class="height48 visible-lg-inline-block visible-md-inline-block hidden-sm hidden-xs"></div>
+                    <div class="height24">
+                        <span class="left">
+                            姓名拼音：
+                        </span>
+                        <span class="right">@Model.CustomerEnname</span>
+                    </div>
+                    <div class="height24">
+                        <span class="left">
+                            备用联系电话：
+                        </span>
+                        <span class="right">@Model.BakTel</span>
+                    </div>
+                    <div class="height24">
+                        <span class="left">
+                            微信号：
+                        </span>
+                        <span class="right">@Model.Wechat</span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4">
+                <div class="one-block" style="text-align:center">
+                    @{
+
+                        if (!string.IsNullOrEmpty(ViewBag.ImageUrl))
+                        {
+                            <div class="QR-container" style="height:220px;width:220px">
+                                <div class="img">
+                                    <img src="@ViewBag.ImageUrl" alt="">
+                                </div>
+                                <div class="bold font16"> 微信扫码关注，绑定帐号后</div>
+                                <div class="bold font16"> 随时跟踪订单，查看确认单</div>
+                            </div>
+
+                        }
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="group-title">
+    <span class="left">
+        <span class="big">常用游客资料</span>
+    </span>
+    <span class="right">
+        <a href="javascript:;" id="toaddaperson" data-toggle="modal" data-target="#" class="btn btn-primary btn-sm ">新增常用游客</a>
+    </span>
+</div>
+
+<div class="margin-bottom-10"></div>
+
+<table class="table table-bordered table-passenger table-striped ">
+    <COLGROUP>
+        <COL width=54>
+        <COL width=187>
+        <COL width=194>
+        <COL width=172>
+        <COL width=142>
+        <COL width=85>
+        <COL width=145>
+        <COL width=181>
+    </COLGROUP>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>中文姓名</th>
+            <th>姓名拼音</th>
+            <th>护照号</th>
+            <th>生日</th>
+            <th>性别</th>
+            <th>附加资料</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model.Travellers != null)
+            {
+                int i = 1;
+                foreach (var one in Model.Travellers)
+                {
+                    bool hasEdited = false;
+                    if (
+                        !string.IsNullOrEmpty(one.TravellerDetail.ClothesSize) ||
+                        !string.IsNullOrEmpty(one.TravellerDetail.GlassesNum) ||
+                        !string.IsNullOrEmpty(one.TravellerDetail.Height) ||
+                        !string.IsNullOrEmpty(one.TravellerDetail.ShoesSize) ||
+                        !string.IsNullOrEmpty(one.TravellerDetail.Weight)
+                        )
+                    {
+                        hasEdited = true;
+
+                    }
+
+                    <tr id="@one.TravellerID" data-full-info="@JsonConvert.SerializeObject(one)">
+                        <td>@i</td>
+                        <td>@one.TravellerName</td>
+                        <td>@one.TravellerEnname</td>
+                        <td>@one.PassportNo</td>
+                        <td>@one.Birthday.ToString("yyyy-MM-dd")</td>
+                        <td>@LanghuaNew.Data.EnumHelper.GetEnumDescription(one.TravellerSex)</td>
+                        @if (hasEdited)
+                        {
+                            <td data-detail="@JsonConvert.SerializeObject(one.TravellerDetail)"><span>已填写（</span><a href="javascript:;" class="revise">修改</a><span>）</span></td>
+                        }
+                        else
+                        {
+                            <td data-detail="@JsonConvert.SerializeObject(one.TravellerDetail)"><a href="javascript:;" class="revise">请填写</a></td>
+                        }
+                        <td>
+                            <a role="button" data-full-info="@JsonConvert.SerializeObject(one)" class="reviseaperson displayInlineBlock button-like any-unselectable ">
+                                <span class="glyphicon glyphicon-pencil " aria-hidden="true"></span>&nbsp;修改
+                            </a>
+                            <a role="button" class=" delete displayInlineBlock button-like any-unselectable">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;删除
+                            </a>
+                        </td>
+                    </tr>
+
+                    i++;
+                }
+            }
+        }
+    </tbody>
+</table>
+
+
+<div id="password-revise" class="modal modal-animate" data-backdrop="static">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">修改密码</h4>
+            </div>
+            <div class="modal-body">
+                <div class="margin-bottom-10">
+                    系统第一次默认使用联系电话作为初始密码。为了安全起见，请修改为您的常用密码。
+                </div>
+
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                <span class="redspark">*</span>旧密码：
+                            </label>
+                            <div class="col-md-9">
+                                <input id="password-old-r" type="password" class="form-control input200 input-inline">
+                                <span class="help-inline "></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                <span class="redspark">*</span>新密码：
+                            </label>
+                            <div class="col-md-9">
+                                <input id="password-new" type="password" class="form-control input200 input-inline">
+                                <span class="help-inline "></span>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                <span class="redspark">*</span>确认新密码：
+                            </label>
+                            <div class="col-md-9">
+                                <input id="password-revise-confirm" type="password" class="form-control input200 input-inline">
+                                <span class="help-inline "></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="passwrod-revise-confirm" class="btn btn-sm btn-primary button65">确定</a>
+                <a data-dismiss="modal" class="btn btn-sm btn-default button65">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="agreeFlightDiving" class="modal modal-animate" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">重要提醒</h4>
+            </div>
+            <div class="modal-body">
+                <p style="color:red;text-indent:2em;font-size:20px">参加深潜后18小时不能乘坐飞机，否则会对身体造成伤害，请检查您的航班时间在深潜之后至少18小时！</p>
+                <p style="color:red;text-indent:2em;font-size:20px">如您点击确定按钮并填写了深潜需要的附加资料后，代表您已经知晓以上提示。浪花朵朵已尽到告知义务，对因此带来的无法参加深潜，航班改签，以及造成的身体伤害等全部后果不承担任何责任！</p>
+            </div>
+            <div class="modal-footer">
+                <span style="float:left;display:inline-block;margin-top:5px;">
+                    <label class="form-lables">
+                        <input type="checkbox" id="remberMe" value="" /><span>我已知道，下次不提示</span>
+                    </label>
+                </span>
+                <a id="confirmagree" class="btn btn-sm btn-primary button65">确定</a>
+                <a id="cancelagree" data-dismiss="modal" class="btn btn-sm btn-default button65">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

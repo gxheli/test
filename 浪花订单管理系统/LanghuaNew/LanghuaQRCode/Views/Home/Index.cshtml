@@ -1,0 +1,280 @@
+﻿@{ ViewBag.Title = "Home Page"; Layout = ""; }
+
+<html>
+<title>浪花朵朵</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<body>
+    <style>
+        body {
+            font-family: "Microsoft YaHei", Arial, sans-serif;
+            margin:0px;
+        }
+        #container{
+            position:absolute;
+            top:0px;
+            bottom:0px;
+            left:0px;
+            right:0px;
+            padding:8px;
+            background-color:none;
+            background-image: url("../../Content/img/background.jpg");
+            background-size:cover;
+        }
+
+        #tipscontainer {
+            /*display: none;*/
+            position: relative;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        #word {
+            margin-top: 31.5px;
+            margin-bottom: 22.5px;
+            
+            line-height: 1;
+            color:white;
+        }
+        #word .font3x{
+                font-size: 59.2px;
+                font-size: 26.6px;
+                font-weight: bold;
+                letter-spacing: 4px;
+                margin-bottom:13px;
+        }
+        #word .font2x{
+                font-size: 38.9px;
+                font-size: 17.5px;
+                font-weight: bold;
+                
+        }
+         #word .font1x{
+                font-size: 32px;
+                font-size: 14.4px;
+                
+        }
+        #word .gap{
+            height: 1px;
+            background:rgba(255,255,255,0.5);
+            margin:auto;
+            width:86.9px;
+            margin-top:20px;
+            margin-bottom:20px;
+            
+
+               
+        }
+        .icon{
+            margin-bottom:31.5px;
+        }
+        .icon img{
+            width:211.5px;
+        }
+
+        #linkToShop {
+            min-height: 30px;
+            font-size: 20px;
+        }
+
+        #mask {
+            display: none;
+            position: fixed;
+            top: 0px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            color: white;
+            background: rgba(0, 0, 0, 0.75);
+            
+            line-height: 30px;
+        }
+            #mask #inner {
+                margin: 8px 30px;
+                position: fixed;
+                top: 8px;
+                bottom: 8px;
+                left: 8px;
+                right: 8px;
+            }
+
+            #mask #arrow {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                width: 60px;
+            }
+            #mask .step{
+                padding-left:22px;
+                position:relative;
+            }
+
+            #mask .step1 {
+                margin: 76px 0px 0px 0px;
+            }
+             #mask .step2 {
+                margin: 36px 0px;
+            }
+           
+
+            #mask .badge {
+                position:absolute;
+                top:6px;
+                left:0px;
+                display: inline-block;
+                background: #ffffff;
+                color: #000000;
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                text-align: center;
+                line-height: 19px;
+            }
+
+        .weui-btn {
+            box-shadow: 0px 0px 1px  0px #0d75b2 inset;
+            background-color: #10a7ff;
+            position: relative;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 14px;
+            padding-right: 14px;
+            box-sizing: border-box;
+            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            color: #FFFFFF;
+            line-height: 2.4;
+            border-radius: 10px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, .4); 
+            overflow: hidden;
+        }
+
+            .weui-btn:after {
+                content: " ";
+                width: 200%;
+                height: 200%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                -webkit-transform-origin: 0 0;
+                transform-origin: 0 0;
+                box-sizing: border-box;
+                border-radius: 10px;
+            }
+
+            .weui-btn:not(.weui-btn_disabled):active {
+                color: rgba(255, 255, 255, 0.6);
+                background-color: #10a7ff;
+            }
+    </style>
+<div id="container">
+    <div id="tipscontainer">
+        <div id="word">
+            <div class="font3x">长按二维码</div>
+            <div class="font2x">关注浪花朵朵微信公众号</div>
+            <div class="gap"></div>
+            <div class="font1x"> 即时查询订单状态，联系客服</div>
+            <div></div>
+        </div>
+        <div class="icon">
+            <img src="../../Content/img/QR-PUBLIC-WECHAT.jpg" alt="浪花朵朵官方统一二维码">
+        </div>
+        <div id="show">
+            <a id='txtOpenTaobao' class="weui-btn">打开天猫店铺</a>
+
+        </div>
+    </div>
+</div>
+
+</div>
+<div id="mask">
+    <img id="arrow" src="../../Content/img/arrow.png" alt="">
+    <div id="inner">
+        <div class="step step1">
+            <span class="badge">1</span>
+            <span class="details">点击右上角的三点按钮</span>
+        </div>
+        <div class="step step2">
+            <span class="badge">2</span>
+            <span class="details">选择“在浏览器打开”,或者选择“复制链接”然后在浏览器打开</span>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<script>
+        var container = document.getElementById("container");
+        var mask = document.getElementById("mask");
+        mask.addEventListener("click", function (e) {
+            this.style.display = "none";
+            container.style.filter = "";
+        });
+        var show = document.getElementById("show");
+        show.addEventListener("click", function (e) {
+            mask.style.display = "block";
+            container.style.filter = "blur(7px)";
+            
+        });
+        var mask = document.getElementById("mask");
+        mask.addEventListener("touchend", function (e) {
+            e.preventDefault();
+            this.style.display = "none";
+            container.style.filter = "";
+            
+        });
+        var show = document.getElementById("show");
+        show.addEventListener("touchend", function (e) {
+            e.preventDefault();
+            mask.style.display = "block";
+            container.style.filter = "blur(7px)";
+        });
+       
+
+
+
+
+        var userAgent = navigator.userAgent;
+        //url= "https://szlhddgl.m.tmall.com";
+        //window.location = "https://szlhddgl.alitrip.com/shop/view_shop.htm";
+        //window.location = "taobao://szlhddgl.m.tmall.com";
+	var tips = document.getElementById("tipscontainer");
+        if ((/MicroMessenger/).test(userAgent)) {
+            tips.style.display = "block";
+        } else {
+            var ifr = document.createElement('iframe');
+	    tips.style.display = "none";
+            ifr.src = 'taobao://shop110383781.taobao.com';
+            ifr.style.display = 'none';
+            document.body.appendChild(ifr);
+
+            var _clickTime = +(new Date()),
+                _count = 0,
+                intHandle = 0;
+            //启动间隔20ms运行的定时器，并检测累计消耗时间是否超过3000ms，超过则结束
+            intHandle = setInterval(function() {
+                _count++;
+                var elsTime = +(new Date()) - _clickTime;
+                if (_count >= 100 || elsTime > 3000) {
+                    clearInterval(intHandle);
+                    //计算结束，根据不同，做不同的跳转处理，大于表示已经跳转APP成功了
+                    if (elsTime > 3000) {} else {
+                        window.location = "https://shop110383781.taobao.com";
+                    }
+                }
+            }, 20);
+        }
+    </script>
+
+
+</body>
+
+</html>

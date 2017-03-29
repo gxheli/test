@@ -1,0 +1,114 @@
+﻿@model LanghuaNew.Data.SupplierUser
+
+@{
+    ViewBag.FUNCTION = "消息提醒";
+}
+@section TimepickerJS {
+    @Scripts.Render("~/bundles/plugins/timePickerJs")
+}
+@section TimepickerCSS {
+    @Styles.Render("~/Content/plugins/timePickerCss")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/messagesetting.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>消息提醒</div>
+</div>
+
+
+
+<div class="panel panel-default" id="message">
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="QR-container" style="height:183px;width:183px;margin-bottom:0px">
+                    <div class="img" style="width:100%;height:100%">
+                        <img src="@ViewBag.ImageUrl" alt="">
+                    </div>
+                    <div id="weixinbind">
+                        @if (string.IsNullOrEmpty(Model.OpenID))
+                        {
+                            @Html.Raw("未绑定")
+                        }
+                        else
+                        {
+                            <div class="margin-bottom-10">@Html.Raw("已绑定:")@Model.SupplierUserName</div>
+                            <div><a id='UnbindWeixin' href='javascript:;'>解除绑定</a></div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div style="margin-top:7px;">
+                    <div class="font18" style="margin-bottom:17px">
+                        微信消息提醒
+                    </div>
+
+                    <div style="line-height:28px">
+                        1. 使用微信扫描左侧二维码，关注“浪花朵朵旅游”公众号，会自动将您的用户名和微信进行绑定。<br />
+                        2. 绑定成功后，在收到新订单、请求变更、请求取消等待处理订单时，会收到微信消息提示。<br />
+                        3. 为了避免频繁骚扰到您，您可以选择实时消息或者汇总消息。<br />
+                        4. 一个系统用户名（子帐号）只能绑定一个微信，如需更换微信请先解绑。<br />
+                    </div>
+                </div>
+
+
+
+
+            </div>
+            <div class="col-md-4">
+                <div  style="margin-top:7px;padding:15px;border:1px solid #cccccc;">
+                    <div class="font18" style="margin-bottom:30px">微信消息设置</div>
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.SupplierUserID)
+                        @Html.HiddenFor(model => model.SupplierUserName)
+                        <div style="margin-bottom:15px">
+                            <div class="checkbox">
+                                @*@Html.LabelFor(model => model.RealTimeMessage, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label>
+                                    @Html.EditorFor(model => model.RealTimeMessage)
+                                    实时消息：如有订单，立马就发消息给我
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:15px">
+                            <div class="checkbox">
+
+                                @*@Html.LabelFor(model => model.SummaryMessage, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <label class="checkbox-inline">
+                                    @Html.EditorFor(model => model.SummaryMessage)
+                                    汇总消息：如有订单，每个整点提醒我一次
+                                </label>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:15px">
+                            <div class="form-inline">
+                                @*@Html.LabelFor(model => model.Disturb, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.EditorFor(model => model.Disturb)
+                                        免打扰时段：
+                                    </label>
+                                </div>
+                                @Html.EditorFor(model => model.BeginTime, new { htmlAttributes = new { @class = "form-control", @style = "max-width:80px;" } })
+                                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @style = "max-width:80px;" } })
+                                <span style="margin-left:20px;" class="help-inline">北京时间</span>
+                                @if (!string.IsNullOrEmpty(ViewBag.Message))
+                                {
+                                    <span class="help-inline tips">@ViewBag.Message</span>
+                                }
+
+                            </div>
+                        </div>
+                        <input type="submit" value="@(ViewBag.Save == null ? "保存" : ViewBag.Save)" class="btn btn-primary button70" />
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

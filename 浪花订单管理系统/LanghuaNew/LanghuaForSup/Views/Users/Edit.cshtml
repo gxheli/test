@@ -1,0 +1,71 @@
+﻿@model LanghuaForSup.Models.UserViewModel
+@{
+    ViewBag.SECTION = "子账户管理";
+    ViewBag.FUNCTION = "修改";
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>子账号设置</div>
+    <div class="button-right"><a href="~/Users/Index" class="btn btn-sm btn-default button70">返回</a></div>
+</div>
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.SupplierUserID)
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.SupplierUserName)：</label>
+                    <div class="col-md-10">
+                        <p class="form-control-static"> @Html.DisplayFor(model => model.SupplierUserName, new { htmlAttributes = new { @class = "form-control" } })</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.SupplierNickName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SupplierNickName, new { htmlAttributes = new { @class = "form-control input250 " } })
+                        @Html.ValidationMessageFor(model => model.SupplierNickName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group" id="checkbox">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.SupplierRoles)：</label>
+                    <div class="col-md-10">
+                        @{
+                            foreach (var one in Model.AllRole)
+                            {
+                                var check= "";
+                                if (Model.SupplierRoles != null)
+                                {
+                                    foreach (var item in Model.SupplierRoles)
+                                    {
+                                        if (item.SupplierRoleID == one.SupplierRoleID)
+                                        {
+                                            check = "checked";
+                                        }
+                                    }
+                                }
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" @check name="SupplierRoles" value="@one.SupplierRoleID" />
+                                        @one.SupplierRoleName：@one.Remark
+                                    </label>
+                                </div>
+                              
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="submit" value="保存" class="btn input-sm btn-primary button70" >保存</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

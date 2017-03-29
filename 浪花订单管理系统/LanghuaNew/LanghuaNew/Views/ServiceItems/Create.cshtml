@@ -1,0 +1,183 @@
+﻿@model LanghuaNew.Data.ServiceItem
+@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "产品新增";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/Item.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+        <div class=" title-left"><span class="border-left"></span>供应商</div>
+        <div class="button-right"><a href="~/ServiceItems/Index" class="btn btn-sm btn-default ">返回产品首页</a></div>
+</div>
+
+<div class="panel panel-default">   
+    <div class="panel-body">
+        <table>
+            <tr>
+                <td>
+                    <span class="border-left">可选供应商：</span><br />
+                    <select id="supplierLeft" multiple="multiple" class="form-control input-inline" style="height:231px;width:260px;margin-right:0px">
+                        @foreach (LanghuaNew.Data.Supplier s in ViewBag.Supplier)
+                        {
+                            <option value="@s.SupplierID">@s.SupplierNo-@s.SupplierName</option>
+                        }
+                    </select>
+                </td>
+                <td style="width:100px;" align="center">
+                    <a id="yes" class="btn btn-default btn-sm button65">></a><br /><br />
+                    <a id="no" class="btn btn-default btn-sm button65"><</a>
+                </td>
+                <td>
+                    <span id="supplier" class="border-left">所属供应商：</span><br />
+                    <select id="supplierRight" multiple="multiple"class="form-control input-inline" style="height:231px;width:260px;margin-right:0px"></select>
+                </td>
+                <td valign="top" align="center"  style="width:100px;">
+                    <br />
+                    <a id="default" class="btn btn-default btn-sm button65">设为默认</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="ddtitle ">
+        <div class="title-left"><span class="border-left"></span>产品基本信息</div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body form " style="display: block;">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>目的地：</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("Countries", null, "请选择国家", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px", @onchange = "selectCity()" })
+                        <select id="Cities" class="form-control input input-sm input-small input-inline" style="width:120px">
+                            <option value=''>请选择目的地</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品类型：</label>
+                    <div class="col-md-10">
+                            <span id="ServiceType" style="display:inline-block">
+                                @foreach (LanghuaNew.Data.ServiceType s in ViewBag.ServiceType)
+                                {
+                                    <label class="radio-inline"><input class="ServiceType" type="radio" name="ServiceType" value="@s.ServiceTypeID " /><span class="vertical-middle">@s.ServiceTypeName</span></label>
+                                }
+                            </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品编码：</label>
+                    <div class="col-md-10">
+                        <input id="ServiceCode" type="text" class="form-control neworder-input-medium input-inline" style="width:280px">
+                        <a id='CheckCode' class='btn btn-sm btn-default button70'>检查重复</a>
+                        <span id="CheckCodeMsg" class="help-inline help-line-vertical-bottom"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品中文名：</label>
+                    <div class="col-md-10">
+                        <input id="cnItemName" type="text" class="form-control neworder-input-medium input-inline" style="width:400px">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">产品英文名：</label>
+                    <div class="col-md-10">
+                        <input id="enItemName" type="text" class="form-control neworder-input-medium input-inline" style="width:400px">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">行程公司：</label>
+                    <div class="col-md-10">
+                        <input id="TravelCompany" type="text" class="form-control neworder-input-medium input-inline" style="width:280px">
+                    </div>
+                </div>
+                <div class="form-group" style="display:none" id="divFixedDays">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>行程天数：</label>
+                    <div class="col-md-10">
+                        <input id="FixedDays" type="text" class="form-control neworder-input-medium input-inline" style="width:80px">
+                        <span class="help-inline help-line-vertical-bottom">只能填写整数，行程不固定天数的填0</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>保险天数：</label>
+                    <div class="col-md-10">
+                        <input id="InsuranceDays" type="text" class="form-control neworder-input-medium input-inline" style="width:80px">
+                        <span class="help-inline help-line-vertical-bottom">只能填写整数，不要保险的填0</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>销售平台自动发货：</label>
+                    <div class="col-md-10">
+                        <label class="radio-inline"><input class="IsAutomaticDeliver" type="radio" name="IsAutomaticDeliver" value="true" /><span class="vertical-middle">是</span></label>
+                        <label class="radio-inline"><input class="IsAutomaticDeliver" type="radio" name="IsAutomaticDeliver" value="false" checked /><span class="vertical-middle">否</span></label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left"><span class="border-left"></span>产品附加项目</div>
+    </div>
+</div>
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-black" id="tbExtraService">
+    <thead>
+        <tr>
+            <th style="width:200px;">产品中文名</th>
+            <th style="width:200px;">产品英文名</th>
+            <th style="width:100px;">单位</th>
+            <th style="width:100px;">最小值</th>
+            <th style="width:100px;">最大值</th>
+            <th style="width:150px;">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*<tr>
+            <td><input type="text" class="form-control neworder-input-medium input-inline" style="width:150px;" /></td>
+            <td><input type="text" class="form-control neworder-input-medium input-inline" style="width:150px;" /></td>
+            <td><input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" /></td>
+            <td><input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" /></td>
+            <td><input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" /></td>
+            <td>
+                <a id="btnAdd" class="btn btn-sm btn-default button65">保存</a>
+            </td>
+        </tr>*@
+        <tr>
+            <td colspan="5"></td>
+
+            <td>
+                <a id="oneMoreRow" class="btn btn-sm btn-default button65" title="添加一行">添加</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div class="" style="text-align:center">
+    <a id="btnSave" class="btn btn-sm btn-primary button65">保存，去配置表单</a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript" language="javascript">
+    function selectCity() {
+        var id = jQuery("#Countries").val();
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/Hotals/GetCity/' + id,
+            success: function (data) {
+                var str = "<option value=''>请选择目的地</option>";
+                for (var i in data.city) {
+                    str += '<option value="' + data.city[i].CityID + '">' + data.city[i].CityName + '</option>';
+                }
+                $('#Cities').empty().append(str);
+            }
+        });
+    }
+</script>

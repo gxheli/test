@@ -1,0 +1,155 @@
+﻿@model IEnumerable<LanghuaNew.Data.CustomerReturnList>
+@{
+    ViewBag.SECTION = "客户";
+    ViewBag.FUNCTION = "客户列表";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/customerlist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>客户列表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="State">
+                    <a href="javascript:" class="buttonradio" data-code="0">全部</a>
+                    <a href="javascript:;" class="buttonradio" data-code="1">要售后</a>
+                    <a href="javascript:;" class="buttonradio" data-code="2">已回访</a>
+                    <a href="javascript:;" class="buttonradio" data-code="3">未回访</a>
+                </div>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="#ReturnList" class="fixbuttonnew btn btn-sm btn-primary button65" data-toggle="modal">回访名单</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font12">
+                搜索结果中：要售后<span id="needservice">0</span>人，已回访<span id="back">0</span>人，微信绑定<span id="weixinbind">0</span>人
+            </span>
+            <span class="rightbar">
+                <input placeholder="模糊搜索：淘宝ID、姓名、电话、微信、邮箱" style="padding:0px 10px" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems border-rounded  ddbutton searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove " id="orderList">
+    <thead>
+        <tr>
+            <th style="width:120px">淘宝ID</th>
+            <th style="width:120px">姓名</th>
+            <th style="width:120px">联系电话</th>
+            <th style="width:120px">登记微信号</th>
+            <th style="width:100px">订单数</th>
+            <th style="width:100px">要售后</th>
+            <th style="width:100px">回访</th>
+            <th style="width:300px">最近备注</th>
+            <th style="width:100px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="modal modal-largeSize modal-animate" id="ReturnList" tabindex="-1" data-backdrop="static" role="dialog" data-width=650>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">回访名单</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>出行时间：</label>
+                            <div class="col-md-9">
+                                <div id="daterange" class="input-group date-picker input-daterange" style="width:290px">
+                                    <div class="input-icon-right ">
+                                        <input id="StartTime" class="form-control input-sm input-small" style="width:140px" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                        <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                    <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                                    <div class="input-icon-right ">
+                                        <input id="EndTime" class="form-control input-sm input-small" style="width:140px" value="@DateTime.Now.ToString("yyyy-MM-dd")">
+                                        <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (ViewBag.SetReturnList)
+                        {
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">产品：</label>
+                                <div class="col-md-9">
+                                    <span class="caption-subject  ">
+                                        <input id="ServiceItems" style="vertical-align:middle;width:200px" placeholder="输入产品编码、名称查询" class="form-control input-sm input-inline " />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">供应商：</label>
+                                <div class="col-md-9">
+                                    <select id="supplier" class="form-control input input-sm input-small input-inline" style="max-width:140px"></select>
+                                    <a id="btnAdd" style="" class="btn btn-default btn-sm button65">添加</a>
+                                </div>
+                            </div>
+                        }
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">回访产品：</label>
+                            <div class="col-md-9">
+                                <select id="itemlist" size="8" style="height:180px;width:360px;max-width:360px;" class="form-control input-inline">
+                                    @foreach (var item in Model)
+                                    {
+                                        <option data-itemid="@item.ServiceItemID" data-supplierid="@item.SupplierID">(@item.ReturnSupplier.SupplierNo)@item.ReturnServiceItem.cnItemName@item.ReturnServiceItem.ServiceCode</option>
+                                    }
+                                </select>
+                                @if (ViewBag.SetReturnList)
+                                {
+                                    <div style="width:50px;right:0px;position:relative;display:inline-block;top:0px;vertical-align:top">
+                                        <a id="btnDel" style="" class="btn btn-default btn-sm button50">删除</a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                @if (ViewBag.SetReturnList)
+                {
+                    <a id="btnSave" style="" class="btn btn-primary btn-sm button65">保存并搜索</a>
+                    <a id="btnSelect" style="" class="btn btn-primary btn-sm button65 hidden">搜索</a>
+                }
+                else
+                {
+                    <a id="btnSelect" style="" class="btn btn-primary btn-sm button65">搜索</a>
+                }
+                <span></span>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

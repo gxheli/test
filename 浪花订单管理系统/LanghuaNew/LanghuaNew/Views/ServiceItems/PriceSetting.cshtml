@@ -1,0 +1,479 @@
+﻿@model LanghuaNew.Data.ServiceItem
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section PageJS {
+<script src="../../Scripts/pages/itemPrice.js?v=@System.Configuration.ConfigurationManager.AppSettings[" version"]"></script>
+    @*
+<script src="../../Scripts/pages/itempriceold.js?v=@System.Configuration.ConfigurationManager.AppSettings[" version"]"></script>*@
+}
+@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "产品价格设置";
+}
+@{
+    LanghuaNew.Data.SupplierServiceItem SupplierServiceItem = ViewBag.SupplierServiceItem;
+    LanghuaNew.Data.SupplierServiceItemChange SupplierServiceItemChange = ViewBag.SupplierServiceItemChange;
+    int? CurrencyID = null;
+    int? PayType = null;
+    int? SelectEffectiveWay = null;
+    string Remark = "";
+    if (SupplierServiceItemChange != null)
+    {
+        CurrencyID = SupplierServiceItemChange.CurrencyID;
+        PayType = (int)SupplierServiceItemChange.PayType;
+        SelectEffectiveWay = (int)SupplierServiceItemChange.SelectEffectiveWay;
+        Remark = SupplierServiceItemChange.Remark;
+    }
+    else if (SupplierServiceItem != null)
+    {
+        CurrencyID = SupplierServiceItem.CurrencyID;
+        PayType = (int)SupplierServiceItem.PayType;
+        SelectEffectiveWay = (int)SupplierServiceItem.SelectEffectiveWay;
+        Remark = SupplierServiceItem.Remark;
+
+    }
+        }
+        <style>
+            .text-price-changing {
+                color: #6600FF;
+            }
+
+            .text-price-deleting {
+                text-decoration: line-through;
+                color: #999999;
+            }
+        </style>
+        <div class="ddtitle ">
+            <div class="title-left">
+                <span class="border-left"></span>产品价格设置：@Model.cnItemName
+            </div>
+            <div class="col-md-6  button-right">
+                <a href="~/ServiceItems/Index" class="btn btn-sm btn-default">返回产品首页</a>
+            </div>
+        </div>
+        <div class="panel-default panel light ">
+            <div class="panel-body form ">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>供应商：</label>
+                            <div class="col-md-10">
+                                <input id="ItemID" value="@Model.ServiceItemID" class="hidden" />
+                                <div class="container-warn" style="display:inline-block;padding:2px">
+
+                                    <select id="supplier" class="input input-sm input-small">
+                                        @if (Model.ItemSuplier != null)
+                                        {
+                                        foreach (var s in Model.ItemSuplier.OrderBy(oo => oo.SupplierNo))
+                                        {
+                                        var SupplierID = s.SupplierID;
+                                        var name = s.SupplierNo + "-" + s.SupplierName;
+                                        if (Model.DefaultSupplierID == SupplierID)
+                                        {
+                                        name += "(默认)";
+                                        }
+                                        if (ViewBag.SupplierID == SupplierID)
+                                        {
+                                        <option value="@SupplierID" selected="selected">@name</option>
+                                        }
+                                        else
+                                        {
+                                        <option value="@SupplierID">@name</option>
+                                        }
+                                        }
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>结算货币：</label>
+                            <div id="Currency" class="col-md-10">
+                                <div class="container-warn" style="display:inline-block;padding:2px">
+                                    <select id="currency" class="input input-sm input-small">
+                                        <option value="-1">请选择</option>
+                                        @foreach (var c in ViewBag.Currency)
+                                        {
+                                        if (CurrencyID == c.CurrencyID)
+                                        {
+                                        <option value="@c.CurrencyID" selected="selected">@c.CurrencyName</option>
+                                        }
+                                        else
+                                        {
+                                        <option value="@c.CurrencyID">@c.CurrencyName</option>
+                                        }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>计费标准：</label>
+                            <div  id="PayTypeList"class="col-md-10 PayTypeList">
+                                <div class="container-warn" style="display:inline-block;padding:2px">
+                                    @if (PayType == 0)
+                                    {
+                                    <label class="radio-inline"><input class="PayType" type="radio" name="PayType" value="0" checked="checked" /><span class="vertical-middle">按游客人头数（例如一日游、门票）</span></label>
+                                    <br />
+                                    <br />
+                                    <label class="radio-inline"><input class="PayType" type="radio" name="PayType" value="1" /><span class="vertical-middle">按产品数量（例如酒店、包车）</span></label>
+                                    }
+                                    else if (PayType == 1)
+                                    {
+                                    <label class="radio-inline"><input class="PayType" type="radio" name="PayType" value="0" /><span class="vertical-middle">按游客人头数（例如一日游、门票）</span></label>
+                                    <br />
+                                    <br />
+                                    <label class="radio-inline"><input class="PayType" type="radio" name="PayType" value="1" checked="checked" /><span class="vertical-middle">按产品数量（例如酒店、包车）</span></label>
+                                    }
+                                    else
+                                    {
+                                    <label class="radio-inline"><input class="PayType" type="radio" name="PayType" value="0" /><span class="vertical-middle">按游客人头数（例如一日游、门票）</span></label>
+                                    <br />
+                                    <br />
+                                    <label class="radio-inline"><input class="PayType" type="radio" name="PayType" value="1" /><span class="vertical-middle">按产品数量（例如酒店、包车）</span></label>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>生效方式：</label>
+                            <div id="SelectEffectiveWayList" class="col-md-10 SelectEffectiveWayList">
+                                <div class="container-warn" style="display:inline-block;padding:2px">
+                                    @if (SelectEffectiveWay == 0)
+                                    {
+                                    <label class="radio-inline"><input class="SelectEffectiveWay" type="radio" name="SelectEffectiveWay" value="1" /><span class="vertical-middle">按出行日期计算（推荐）&nbsp&nbsp</span></label>
+                                    <label class="radio-inline"><input class="SelectEffectiveWay" type="radio" name="SelectEffectiveWay" value="0" checked="checked" /><span class="vertical-middle">按下单日期计算</span></label>
+
+                                    <br />
+                                    }
+                                    else if (SelectEffectiveWay == 1)
+                                    {
+                                    <label class="radio-inline"><input class="SelectEffectiveWay" type="radio" name="SelectEffectiveWay" value="1" checked="checked" /><span class="vertical-middle">按出行日期计算（推荐）&nbsp&nbsp</span></label>
+                                    <label class="radio-inline"><input class="SelectEffectiveWay" type="radio" name="SelectEffectiveWay" value="0" /><span class="vertical-middle">按下单日期计算</span></label>
+
+                                    <br />
+                                    }
+                                    else
+                                    {
+                                    <label class="radio-inline"><input class="SelectEffectiveWay" type="radio" name="SelectEffectiveWay" value="1" /><span class="vertical-middle">按出行日期计算（推荐）&nbsp&nbsp</span></label>
+                                    <label class="radio-inline"><input class="SelectEffectiveWay" type="radio" name="SelectEffectiveWay" value="0" /><span class="vertical-middle">按下单日期计算</span></label>
+
+                                    <br />
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">价格说明：</label>
+                            <div class="col-md-10">
+                                <div class="container-warn" style="display:inline-block;padding:2px">
+                                    <textarea id="remark" class="form-control" rows="5" style="max-width:500px;width:500px">@Remark</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @*
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>产品基础价格：</label>
+                            <div class="col-md-10">
+
+                                <table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove  hidden" id="tbItemPriceByPerson">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px;">序号</th>
+                                            <th style="width:200px;">生效开始日期</th>
+                                            <th style="width:200px;">生效结束日期</th>
+                                            <th style="width:100px;">成人</th>
+                                            <th style="width:100px;">儿童</th>
+                                            <th style="width:100px;">婴儿</th>
+                                            <th style="width:150px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (PayType == 0)
+                                        {
+                                        if (ItemPriceBySuppliers != null)
+                                        {
+                                        int i = 1;
+                                        foreach (var item in ItemPriceBySuppliers)
+                                        {
+                                        <tr class='itemRow'>
+                                            <td>@i</td>
+                                            <td class='startTime'>
+                                                <span>@item.startTime.ToString("yyyy-MM-dd")</span>
+                                                <input class='form-control input-inline hidden' style='width:150px;' value='@item.startTime.ToString("yyyy-MM-dd")' />
+                                            </td>
+                                            <td class='EndTime'>
+                                                <span>@item.EndTime.ToString("yyyy-MM-dd")</span>
+                                                <input class='form-control input-inline hidden' style='width:150px;' value='@item.EndTime.ToString("yyyy-MM-dd")' />
+                                            </td>
+                                            <td class='AdultNetPrice'>
+                                                <span>@item.AdultNetPrice</span>
+                                                <input class='form-control input-inline hidden' style='width:80px;' value='@item.AdultNetPrice' />
+                                            </td>
+                                            <td class='ChildNetPrice'>
+                                                <span>@item.ChildNetPrice</span>
+                                                <input class='form-control input-inline hidden' style='width:80px;' value='@item.ChildNetPrice' />
+                                            </td>
+                                            <td class='BobyNetPrice'>
+                                                <span>@item.BobyNetPrice</span>
+                                                <input class='form-control input-inline hidden' style='width:80px;' value='@item.BobyNetPrice' />
+                                            </td>
+                                            <td>
+                                                <a id='update' class='btn btn-sm btn-default button65'>修改</a>
+                                                <a id='save' class='btn btn-sm btn-primary button65 hidden'>保存</a>
+                                                <a id='delete' class='btn btn-sm btn-default button45'>删除</a>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                        }
+                                        }
+                                        }
+                                        <tr>
+                                            <td></td>
+                                            <td class='startTime'>
+                                                <input type="text" class="form-control input-inline" name="from" style="width:150px;">
+                                            </td>
+                                            <td class='EndTime'>
+                                                <input type="text" class="form-control input-inline" name="to" style="width:150px;">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" />
+                                            </td>
+                                            <td>
+                                                <a id="btnAddPriceByPerson" class="btn btn-sm btn-default button65">保存</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove  hidden" id="tbItemPriceByOther">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px;">序号</th>
+                                            <th style="width:200px;">生效开始日期</th>
+                                            <th style="width:200px;">生效结束日期</th>
+                                            <th style="width:300px;">单价</th>
+                                            <th style="width:150px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (PayType == 1)
+                                        {
+                                        if (ItemPriceBySuppliers != null)
+                                        {
+                                        int i = 1;
+                                        foreach (var item in ItemPriceBySuppliers)
+                                        {
+                                        <tr class='itemRow'>
+                                            <td>@i</td>
+                                            <td class='startTime'>
+                                                <span>@item.startTime.ToString("yyyy-MM-dd")</span>
+                                                <input class='form-control input-inline hidden' style='width:150px;' value='@item.startTime.ToString("yyyy-MM-dd")' />
+                                            </td>
+                                            <td class='EndTime'>
+                                                <span>@item.EndTime.ToString("yyyy-MM-dd")</span>
+                                                <input class='form-control input-inline hidden' style='width:150px;' value='@item.EndTime.ToString("yyyy-MM-dd")' />
+                                            </td>
+                                            <td class='Price'>
+                                                <span>@item.Price</span>
+                                                <input class='form-control input-inline hidden' style='width:80px;' value='@item.Price' />
+                                            </td>
+                                            <td>
+                                                <a id='update' class='btn btn-sm btn-default button65'>修改</a>
+                                                <a id='save' class='btn btn-sm btn-primary button65 hidden'>保存</a>
+                                                <a id='delete' class='btn btn-sm btn-default button45'>删除</a>
+                                            </td>
+                                        </tr>
+                                        i++;
+                                        }
+                                        }
+                                        }
+                                        <tr>
+                                            <td></td>
+                                            <td class='startTime'>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:150px;" />
+                                            </td>
+                                            <td class='EndTime'>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:150px;" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:80px;" />
+                                            </td>
+                                            <td>
+                                                <a id="btnAddPriceByOther" class="btn btn-sm btn-default button65">保存</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>附加项目价格：</label>
+                            <div class="col-md-10">
+                                <table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove  " id="tbExtraService">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px;">序号</th>
+                                            <th style="width:200px;">附加项目</th>
+                                            <th style="width:200px;">单价</th>
+                                            <th style="width:150px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @if (Model.ExtraServices != null)
+                                        {
+                                        int i = 1;
+                                        foreach (var item in Model.ExtraServices)
+                                        {
+                                        string price = "";
+                                        if (ExtraServicePrices != null)
+                                        {
+                                        foreach (var ex in ExtraServicePrices)
+                                        {
+                                        if (item.ExtraServiceID == ex.ExtraServiceID)
+                                        {
+                                        price = ex.ServicePrice.ToString();
+                                        }
+                                        }
+                                        }
+                                        <tr class='itemRow'>
+                                            <td class='No'>
+                                                @i
+                                                <input id="ExtraServiceID" value="@item.ExtraServiceID" style="display:none" />
+                                            </td>
+                                            <td class='serviceName'>@item.ServiceName</td>
+                                            @if (price == "")
+                                            {
+                                            <td class="servicePrice">
+                                                <span class="hidden"></span>
+                                                <input type="text" class="form-control neworder-input-medium input-inline" style="width:150px;" />
+                                            </td>
+                                            <td>
+                                                <a id="btnSaveExPrice" class="btn btn-sm btn-default button65 ischeck">保存</a>
+                                                <a id="btnUpdateExPrice" class="btn btn-sm btn-default button65 hidden">修改</a>
+                                            </td>
+                                            }
+                                            else
+                                            {
+                                            <td class="servicePrice">
+                                                <span>@price</span>
+                                                <input type="text" class="form-control neworder-input-medium input-inline hidden" style="width:150px;" value="@price" />
+                                            </td>
+                                            <td>
+                                                <a id="btnSaveExPrice" class="btn btn-sm btn-default button65 hidden">保存</a>
+                                                <a id="btnUpdateExPrice" class="btn btn-sm btn-default button65">修改</a>
+                                            </td>
+                                            }
+                                        </tr>
+                                        i++;
+                                        }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>*@
+
+
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>产品基础价格：</label>
+                            <div class="col-md-10">
+
+                                <table class="table-lh table-lh-bordered-white table-lh-bordered-edge-black" id="priceSettings">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px;">序号</th>
+                                            <th style="width:200px;">生效开始日期</th>
+                                            <th style="width:200px;">生效结束日期</th>
+                                            <th style="width:100px;">成人</th>
+                                            <th style="width:100px;">儿童</th>
+                                            <th style="width:100px;">婴儿</th>
+                                            <th style="width:300px;">单价</th>
+                                            <th style="width:150px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="8">正在加载价格 . . . . . .</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody id="priceCreate">
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <input type="text" class="form-control datepickersx price-creating input-inline" style="width:150px;margin-right:0px" id="startTime">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control datepickersx price-creating input-inline" style="width:150px;margin-right:0px" id="EndTime">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control input-inline price-creating price-format" style="width:100px;margin-right:0px" id="AdultNetPrice">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control input-inline price-creating price-format" style="width:100px;margin-right:0px" id="ChildNetPrice">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control input-inline price-creating price-format" style="width:100px;margin-right:0px" id="BobyNetPrice">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control input-inline price-creating price-format" style="width:100px;margin-right:0px" id="Price">
+                                            </td>
+                                            <td>
+                                                <button id="toCreate" type="button" class="btn btn-default button65">保存</button>
+                                                <button id="toCancel" type="button" class="btn btn-default button65">取消</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>附加项目价格：</label>
+                            <div class="col-md-10">
+                                <table class="table-lh table-lh-bordered-white table-lh-bordered-edge-black" id="extraPriceSettings">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:80px;">序号</th>
+                                            <th style="width:200px;">附加项目</th>
+                                            <th style="width:200px;">单价</th>
+                                            <th style="width:150px;">操作</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">正在加载价格 . . . . . .</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                      
+                    </div>
+                </form>
+                <hr />
+                <div class="" style="text-align:center">
+                    <a id="priceSave" class="btn btn-sm btn-primary">保存价格设置</a>
+                </div>
+            </div>
+        </div>

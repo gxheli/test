@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.SECTION = "微信设置";
+    ViewBag.FUNCTION = "消息配置";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/WeixinMessagesList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>微信设置
+            </span>
+            <div class="btn-group">
+                <a type="button" href="~/WeiXinMenu/Index" class="btn button86 btn-sm btn-default" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                    菜单设置
+                </a>
+                <a type="button" href="~/WeixinMessages/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                    消息配置
+                </a>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="~/WeixinMessages/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个选项：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="status-green action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+                <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+                <a href="javascript:" class="status-dark action btn btn-sm btn-default button65" data-next-code="delete">删除</a>
+            </div>
+            <span class="rightbar">
+                <select id="status" class="input input-sm input-xsmall">
+                    <option value="0">状态</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+                <select id="country" class="input input-sm input-xsmall">
+                    <option value="">请选择</option>
+                    @foreach (var item in ViewBag.Country)
+                    {
+                        <option value="@item.CountryID">@item.CountryName</option>
+                    }
+                </select>
+                <input placeholder="模糊搜索：消息内容" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ddtable" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:100px">供应商国家</th>
+            <th style="width:300px">消息内容</th>
+            <th style="width:200px">页面链接</th>
+            <th style="width:150px">日期范围</th>
+            <th style="width:150px">最后更新时间</th>
+            <th style="width:100px">最后更新人</th>
+            <th style="width:80px">状态</th>
+            <th style="width:100px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

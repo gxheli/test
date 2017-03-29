@@ -1,0 +1,335 @@
+﻿@using Commond;
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+
+@{
+    var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+}
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    @if (action == "allorder" && controllerName == "orders")
+    {
+        <style>
+            html {
+                min-width: 1200px;
+            }
+        </style>
+    }
+
+
+    else
+    {
+        <meta name="viewport" content="width=device-width, initial-scale=1.0   minimum-scale=1 maximum-scale=1">
+    }
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+
+
+
+    <title>@ViewBag.FUNCTION-@ViewBag.SECTION - 浪花朵朵</title>
+
+
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/plugins/modal_Css")
+
+
+
+
+    @if (IsSectionDefined("DatatableCSS"))
+    {
+        @RenderSection("DatatableCSS", required: false)
+    }
+
+    @if (IsSectionDefined("DatepickerCSS"))
+    {
+        @RenderSection("DatepickerCSS", required: false)
+    }
+
+    @if (IsSectionDefined("TypeaheadCSS"))
+    {
+        @RenderSection("TypeaheadCSS", required: false)
+    }
+    @if (IsSectionDefined("ModalCSS"))
+    {
+        @RenderSection("ModalCSS", required: false)
+
+    }
+    @if (IsSectionDefined("jqueryUICSS"))
+    {
+        @RenderSection("jqueryUICSS", required: false)
+    }
+
+    @if (IsSectionDefined("TimepickerCSS"))
+    {
+        @RenderSection("TimepickerCSS", required: false)
+    }
+
+
+
+
+    @if (IsSectionDefined("ValidateCSS"))
+    {
+        @RenderSection("ValidateCSS", required: false)
+    }
+
+
+    @*@Styles.Render("~/Content/theme/css")*@
+    @*@Styles.Render("~/Content/layout/css")*@
+
+
+
+
+
+
+</head>
+@{
+
+    string[] whitegroundlisgt = {
+        "home-index",
+        "orders-allorder",
+        "orders-finished",
+        "orders-details",
+        "orders-oldorders",
+    };
+    var teststr = controllerName + '-' + action;
+    var background = " ";
+    if (Array.IndexOf(whitegroundlisgt, teststr) != -1)
+    {
+        background = "white";
+    }
+
+}
+
+
+<body style="background:@background">
+    @{ 
+
+        TimeSpan ts = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+        string severTimeStamp= Convert.ToInt64(ts.TotalSeconds*1000).ToString();
+    }
+    <div id="severTimeStamp"  class="hidden">@severTimeStamp</div>
+    <div class="hidden" id="controlleraction" data-controller="@controllerName" data-action="@action"></div>
+    <div id="LHDDHeader" class="navbar navbar-inverse ">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("浪花朵朵", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+                <a style="padding-bottom:5px;padding-top:5px;line-height:40px" class="navbar-brand" href="/"><img src="../../Content/img/dodotour_logo_cn_140_30.png" alt="浪花朵朵" /></a>
+
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul id="LHDDNavLeft" class="nav navbar-nav">
+                    <li class="home">@Html.ActionLink("个人中心", "Index", "Home")</li>
+                   
+                    
+                    <li class="orders tborders">@Html.ActionLink("订单", "Index", "Orders")</li>
+                    
+                  
+                    
+                     
+                    
+
+                </ul>
+
+                <ul id="LhDDNAVRight" class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa  fa-user"></i>&nbsp;&nbsp;@ViewBag.TBID <span class="caret"></span>
+
+
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/Home/Index"><i class="fa font18  fa-user "></i>&nbsp;个人中心</a>
+                            </li>
+
+                            @{
+                                if (!string.IsNullOrEmpty(ViewBag.ImageUrl))
+                                {
+                                    <li>
+                                        <a href="javascript:;" data-target="#wechat" data-toggle="modal"><i class="fa font18 fa-qrcode" aria-hidden="true"></i>&nbsp;微信查单</a>
+                                    </li>
+
+                                }
+                            }
+
+                            <li>
+                                <a href="#"><i class="fa fa-question-circle font18"></i>&nbsp;帮助</a>
+                            </li>
+
+
+                            <li>
+                                <a href="/langhua/LogOut/"><i class="fa fa-sign-out font18"></i>&nbsp;退出</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="mainContainer" class="container-fluid body-content">
+        @RenderBody()
+
+        @if (!string.IsNullOrEmpty(ViewBag.ImageUrl))
+        {
+            <div id="wechat" class="modal modal-animate" data-backdrop="static" tabindex="-1" aria-hidden="false">
+                <div class="modal-dialog " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title">微信查单</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div style="margin:auto;width:220px">
+                                <div class="QR-container" style="height:220px;width:220px;float:none">
+                                    <div class="img">
+                                        <img src="@ViewBag.ImageUrl" alt="正在生成">
+                                    </div>
+                                    <div class="bold font16"> 微信扫码关注，绑定帐号后</div>
+                                    <div class="bold font16"> 随时跟踪订单，查看确认单</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a data-dismiss="modal" class="btn btn-sm btn-primary button65">确定</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+
+        @*<hr />
+            <footer>
+                <p>&copy; 粤ICP备15019733号-1 Powered By DoDoTour</p>
+            </footer>*@
+    </divid=">
+
+    <!--[if lte IE 8]>
+    @Scripts.Render("~/bundles/essupport")
+    <![endif]-->
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/plugins/modalJs")
+    @Scripts.Render("~/bundles/Langhua")
+    <script src="../../Scripts/LangHua/notification.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+
+
+
+
+
+
+
+
+    @*@Scripts.Render("~/bundles/core/js")
+        @Scripts.Render("~/bundles/common/js")*@
+
+
+
+
+    @if (IsSectionDefined("DatatableJS"))
+    {
+        @RenderSection("DatatableJS", required: false)
+    }
+
+    @if (IsSectionDefined("DatepickerJS"))
+    {
+        @RenderSection("DatepickerJS", required: false)
+    }
+
+    @if (IsSectionDefined("TypeaheadJS"))
+    {
+        @RenderSection("TypeaheadJS", required: false)
+    }
+    @if (IsSectionDefined("ValidateJS"))
+    {
+        @RenderSection("ValidateJS", required: false)
+    }
+    @if (IsSectionDefined("ZeroCopy"))
+    {
+        @RenderSection("ZeroCopy", required: false)
+    }
+
+    @if (IsSectionDefined("BootBox"))
+    {
+        @RenderSection("BootBox", required: false)
+    }
+
+    @if (IsSectionDefined("ModalJS"))
+    {
+        @*@RenderSection("ModalJS", required: false)*@
+    }
+
+    @section ZeroCopy{
+        @Scripts.Render("~/bundles/zeroCopy/js")
+    }
+
+    @if (IsSectionDefined("Html2Canvas"))
+    {
+
+        @RenderSection("Html2Canvas", required: false)
+    }
+
+    @if (IsSectionDefined("jqueryUIJS"))
+    {
+
+        @RenderSection("jqueryUIJS", required: false)
+    }
+
+    @if (IsSectionDefined("TimepickerJS"))
+    {
+        @RenderSection("TimepickerJS", required: false)
+    }
+    @Scripts.Render("~/bundles/Langhua")
+
+
+
+
+
+
+    @Scripts.Render("~/bundles/reactbase")
+
+    @Scripts.Render("~/bundles/reactcomponents")
+
+    @if (IsSectionDefined("PageJS"))
+    {
+        @RenderSection("PageJS", required: false)
+    }
+
+
+
+
+
+
+
+    @if (
+                        (controllerName == "tborders" && action == "ordernew") ||
+                        (controllerName == "orders" && action == "edit")
+             )
+    {
+        @Html.ReactInitJavaScript()
+    }
+    @RenderSection("scripts", required: false)
+  
+</body>
+</html>

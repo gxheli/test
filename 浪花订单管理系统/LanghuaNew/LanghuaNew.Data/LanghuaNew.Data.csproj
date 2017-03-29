@@ -1,0 +1,800 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ECB07BFD-1E9A-4CF4-AD7F-6031AB5BB1E4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LanghuaNew.Data</RootNamespace>
+    <AssemblyName>LanghuaNew.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.2.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.2.0\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper.EF6, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.EF6.0.3.0\lib\net45\AutoMapper.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DelegateDecompiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.0.17.0\lib\net40-Client\DelegateDecompiler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DelegateDecompiler.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.EntityFramework.0.17.0\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MvcCheckBoxList, Version=1.4.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcCheckBoxList.1.4.5\lib\net45\MvcCheckBoxList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin, Version=4.5.20.25374, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.4.5.20\lib\net45\Senparc.Weixin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Senparc.Weixin.MP, Version=13.8.4.26917, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Senparc.Weixin.MP.13.8.4\lib\net45\Senparc.Weixin.MP.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlipayTransfer.cs" />
+    <Compile Include="Area.cs" />
+    <Compile Include="BillReport.cs" />
+    <Compile Include="CancelRegister.cs" />
+    <Compile Include="City.cs" />
+    <Compile Include="ComnondEnum.cs" />
+    <Compile Include="Country.cs" />
+    <Compile Include="Currency .cs" />
+    <Compile Include="CustomerBack.cs" />
+    <Compile Include="CustomerReturnList.cs" />
+    <Compile Include="CustomerService.cs" />
+    <Compile Include="DistributionTally.cs" />
+    <Compile Include="ExportOrder.cs" />
+    <Compile Include="FliterInfo.cs" />
+    <Compile Include="FormField.cs" />
+    <Compile Include="Hotal.cs" />
+    <Compile Include="ItemPriceLog.cs" />
+    <Compile Include="ItemPriceBySupplier.cs" />
+    <Compile Include="Migrations\201605280941522_Country.cs" />
+    <Compile Include="Migrations\201605280941522_Country.Designer.cs">
+      <DependentUpon>201605280941522_Country.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605300930194_Country1.cs" />
+    <Compile Include="Migrations\201605300930194_Country1.Designer.cs">
+      <DependentUpon>201605300930194_Country1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201605310917474_Country2.cs" />
+    <Compile Include="Migrations\201605310917474_Country2.Designer.cs">
+      <DependentUpon>201605310917474_Country2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606030127230_Country3.cs" />
+    <Compile Include="Migrations\201606030127230_Country3.Designer.cs">
+      <DependentUpon>201606030127230_Country3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606130257062_Country4.cs" />
+    <Compile Include="Migrations\201606130257062_Country4.Designer.cs">
+      <DependentUpon>201606130257062_Country4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606130638410_Country5.cs" />
+    <Compile Include="Migrations\201606130638410_Country5.Designer.cs">
+      <DependentUpon>201606130638410_Country5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606150634516_Country6.cs" />
+    <Compile Include="Migrations\201606150634516_Country6.Designer.cs">
+      <DependentUpon>201606150634516_Country6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606170318201_Country7.cs" />
+    <Compile Include="Migrations\201606170318201_Country7.Designer.cs">
+      <DependentUpon>201606170318201_Country7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606170401433_Country8.cs" />
+    <Compile Include="Migrations\201606170401433_Country8.Designer.cs">
+      <DependentUpon>201606170401433_Country8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606200108053_Country9.cs" />
+    <Compile Include="Migrations\201606200108053_Country9.Designer.cs">
+      <DependentUpon>201606200108053_Country9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606200119136_Country10.cs" />
+    <Compile Include="Migrations\201606200119136_Country10.Designer.cs">
+      <DependentUpon>201606200119136_Country10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606230120295_Country11.cs" />
+    <Compile Include="Migrations\201606230120295_Country11.Designer.cs">
+      <DependentUpon>201606230120295_Country11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606230324083_Country12.cs" />
+    <Compile Include="Migrations\201606230324083_Country12.Designer.cs">
+      <DependentUpon>201606230324083_Country12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606270949380_Country13.cs" />
+    <Compile Include="Migrations\201606270949380_Country13.Designer.cs">
+      <DependentUpon>201606270949380_Country13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606281003314_Country14.cs" />
+    <Compile Include="Migrations\201606281003314_Country14.Designer.cs">
+      <DependentUpon>201606281003314_Country14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606281009001_Country15.cs" />
+    <Compile Include="Migrations\201606281009001_Country15.Designer.cs">
+      <DependentUpon>201606281009001_Country15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606281010591_Country16.cs" />
+    <Compile Include="Migrations\201606281010591_Country16.Designer.cs">
+      <DependentUpon>201606281010591_Country16.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606300119395_Country17.cs" />
+    <Compile Include="Migrations\201606300119395_Country17.Designer.cs">
+      <DependentUpon>201606300119395_Country17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607060645410_Country18.cs" />
+    <Compile Include="Migrations\201607060645410_Country18.Designer.cs">
+      <DependentUpon>201607060645410_Country18.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607090937540_Country19.cs" />
+    <Compile Include="Migrations\201607090937540_Country19.Designer.cs">
+      <DependentUpon>201607090937540_Country19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607120129261_Country20.cs" />
+    <Compile Include="Migrations\201607120129261_Country20.Designer.cs">
+      <DependentUpon>201607120129261_Country20.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607120138326_Country21.cs" />
+    <Compile Include="Migrations\201607120138326_Country21.Designer.cs">
+      <DependentUpon>201607120138326_Country21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607120248429_Country22.cs" />
+    <Compile Include="Migrations\201607120248429_Country22.Designer.cs">
+      <DependentUpon>201607120248429_Country22.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607130859227_Country23.cs" />
+    <Compile Include="Migrations\201607130859227_Country23.Designer.cs">
+      <DependentUpon>201607130859227_Country23.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607140819069_Country24.cs" />
+    <Compile Include="Migrations\201607140819069_Country24.Designer.cs">
+      <DependentUpon>201607140819069_Country24.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607140902109_Country25.cs" />
+    <Compile Include="Migrations\201607140902109_Country25.Designer.cs">
+      <DependentUpon>201607140902109_Country25.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607140928163_Country26.cs" />
+    <Compile Include="Migrations\201607140928163_Country26.Designer.cs">
+      <DependentUpon>201607140928163_Country26.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151027517_Country27.cs" />
+    <Compile Include="Migrations\201607151027517_Country27.Designer.cs">
+      <DependentUpon>201607151027517_Country27.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151031520_Country28.cs" />
+    <Compile Include="Migrations\201607151031520_Country28.Designer.cs">
+      <DependentUpon>201607151031520_Country28.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151034014_Country29.cs" />
+    <Compile Include="Migrations\201607151034014_Country29.Designer.cs">
+      <DependentUpon>201607151034014_Country29.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151038427_Country30.cs" />
+    <Compile Include="Migrations\201607151038427_Country30.Designer.cs">
+      <DependentUpon>201607151038427_Country30.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151044131_Country31.cs" />
+    <Compile Include="Migrations\201607151044131_Country31.Designer.cs">
+      <DependentUpon>201607151044131_Country31.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607151046422_Country32.cs" />
+    <Compile Include="Migrations\201607151046422_Country32.Designer.cs">
+      <DependentUpon>201607151046422_Country32.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607180135454_Country33.cs" />
+    <Compile Include="Migrations\201607180135454_Country33.Designer.cs">
+      <DependentUpon>201607180135454_Country33.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607180707175_Country34.cs" />
+    <Compile Include="Migrations\201607180707175_Country34.Designer.cs">
+      <DependentUpon>201607180707175_Country34.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607180721029_Country35.cs" />
+    <Compile Include="Migrations\201607180721029_Country35.Designer.cs">
+      <DependentUpon>201607180721029_Country35.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190150463_Country36.cs" />
+    <Compile Include="Migrations\201607190150463_Country36.Designer.cs">
+      <DependentUpon>201607190150463_Country36.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190212360_Country37.cs" />
+    <Compile Include="Migrations\201607190212360_Country37.Designer.cs">
+      <DependentUpon>201607190212360_Country37.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190223577_Country38.cs" />
+    <Compile Include="Migrations\201607190223577_Country38.Designer.cs">
+      <DependentUpon>201607190223577_Country38.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190225357_Country39.cs" />
+    <Compile Include="Migrations\201607190225357_Country39.Designer.cs">
+      <DependentUpon>201607190225357_Country39.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190308121_Country40.cs" />
+    <Compile Include="Migrations\201607190308121_Country40.Designer.cs">
+      <DependentUpon>201607190308121_Country40.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190309113_Country41.cs" />
+    <Compile Include="Migrations\201607190309113_Country41.Designer.cs">
+      <DependentUpon>201607190309113_Country41.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607190901446_Country42.cs" />
+    <Compile Include="Migrations\201607190901446_Country42.Designer.cs">
+      <DependentUpon>201607190901446_Country42.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607230603091_Country43.cs" />
+    <Compile Include="Migrations\201607230603091_Country43.Designer.cs">
+      <DependentUpon>201607230603091_Country43.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607250305310_Country44.cs" />
+    <Compile Include="Migrations\201607250305310_Country44.Designer.cs">
+      <DependentUpon>201607250305310_Country44.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607270255484_Country45.cs" />
+    <Compile Include="Migrations\201607270255484_Country45.Designer.cs">
+      <DependentUpon>201607270255484_Country45.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010619289_Country46.cs" />
+    <Compile Include="Migrations\201608010619289_Country46.Designer.cs">
+      <DependentUpon>201608010619289_Country46.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010622174_Country47.cs" />
+    <Compile Include="Migrations\201608010622174_Country47.Designer.cs">
+      <DependentUpon>201608010622174_Country47.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010626479_Country48.cs" />
+    <Compile Include="Migrations\201608010626479_Country48.Designer.cs">
+      <DependentUpon>201608010626479_Country48.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608010628226_Country49.cs" />
+    <Compile Include="Migrations\201608010628226_Country49.Designer.cs">
+      <DependentUpon>201608010628226_Country49.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608030137504_Country50.cs" />
+    <Compile Include="Migrations\201608030137504_Country50.Designer.cs">
+      <DependentUpon>201608030137504_Country50.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608050202216_Country51.cs" />
+    <Compile Include="Migrations\201608050202216_Country51.Designer.cs">
+      <DependentUpon>201608050202216_Country51.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608050259497_Customer.cs" />
+    <Compile Include="Migrations\201608050259497_Customer.Designer.cs">
+      <DependentUpon>201608050259497_Customer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608050819538_Customer1.cs" />
+    <Compile Include="Migrations\201608050819538_Customer1.Designer.cs">
+      <DependentUpon>201608050819538_Customer1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608090128028_Customer2.cs" />
+    <Compile Include="Migrations\201608090128028_Customer2.Designer.cs">
+      <DependentUpon>201608090128028_Customer2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608160656370_Customer3.cs" />
+    <Compile Include="Migrations\201608160656370_Customer3.Designer.cs">
+      <DependentUpon>201608160656370_Customer3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608160911581_Customer4.cs" />
+    <Compile Include="Migrations\201608160911581_Customer4.Designer.cs">
+      <DependentUpon>201608160911581_Customer4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608180242194_Customer5.cs" />
+    <Compile Include="Migrations\201608180242194_Customer5.Designer.cs">
+      <DependentUpon>201608180242194_Customer5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608220639409_Customer6.cs" />
+    <Compile Include="Migrations\201608220639409_Customer6.Designer.cs">
+      <DependentUpon>201608220639409_Customer6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608220834468_Customer7.cs" />
+    <Compile Include="Migrations\201608220834468_Customer7.Designer.cs">
+      <DependentUpon>201608220834468_Customer7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608220903180_Customer8.cs" />
+    <Compile Include="Migrations\201608220903180_Customer8.Designer.cs">
+      <DependentUpon>201608220903180_Customer8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608290850222_Customer9.cs" />
+    <Compile Include="Migrations\201608290850222_Customer9.Designer.cs">
+      <DependentUpon>201608290850222_Customer9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608310357065_Customer10.cs" />
+    <Compile Include="Migrations\201608310357065_Customer10.Designer.cs">
+      <DependentUpon>201608310357065_Customer10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609070925299_Customer11.cs" />
+    <Compile Include="Migrations\201609070925299_Customer11.Designer.cs">
+      <DependentUpon>201609070925299_Customer11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609071008401_Customer12.cs" />
+    <Compile Include="Migrations\201609071008401_Customer12.Designer.cs">
+      <DependentUpon>201609071008401_Customer12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609080733160_Customer13.cs" />
+    <Compile Include="Migrations\201609080733160_Customer13.Designer.cs">
+      <DependentUpon>201609080733160_Customer13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609190418118_Customer14.cs" />
+    <Compile Include="Migrations\201609190418118_Customer14.Designer.cs">
+      <DependentUpon>201609190418118_Customer14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609240247284_Customer15.cs" />
+    <Compile Include="Migrations\201609240247284_Customer15.Designer.cs">
+      <DependentUpon>201609240247284_Customer15.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610110634340_Customer16.cs" />
+    <Compile Include="Migrations\201610110634340_Customer16.Designer.cs">
+      <DependentUpon>201610110634340_Customer16.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610170843159_Customer17.cs" />
+    <Compile Include="Migrations\201610170843159_Customer17.Designer.cs">
+      <DependentUpon>201610170843159_Customer17.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610250955048_Customer18.cs" />
+    <Compile Include="Migrations\201610250955048_Customer18.Designer.cs">
+      <DependentUpon>201610250955048_Customer18.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611020329415_Customer19.cs" />
+    <Compile Include="Migrations\201611020329415_Customer19.Designer.cs">
+      <DependentUpon>201611020329415_Customer19.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611080235459_Customer20.cs" />
+    <Compile Include="Migrations\201611080235459_Customer20.Designer.cs">
+      <DependentUpon>201611080235459_Customer20.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611080936308_Customer21.cs" />
+    <Compile Include="Migrations\201611080936308_Customer21.Designer.cs">
+      <DependentUpon>201611080936308_Customer21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611290559446_Customer22.cs" />
+    <Compile Include="Migrations\201611290559446_Customer22.Designer.cs">
+      <DependentUpon>201611290559446_Customer22.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611290736024_Customer23.cs" />
+    <Compile Include="Migrations\201611290736024_Customer23.Designer.cs">
+      <DependentUpon>201611290736024_Customer23.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611291021107_Customer24.cs" />
+    <Compile Include="Migrations\201611291021107_Customer24.Designer.cs">
+      <DependentUpon>201611291021107_Customer24.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612020319505_Customer25.cs" />
+    <Compile Include="Migrations\201612020319505_Customer25.Designer.cs">
+      <DependentUpon>201612020319505_Customer25.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612120258359_Customer26.cs" />
+    <Compile Include="Migrations\201612120258359_Customer26.Designer.cs">
+      <DependentUpon>201612120258359_Customer26.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612200223550_Customer27.cs" />
+    <Compile Include="Migrations\201612200223550_Customer27.Designer.cs">
+      <DependentUpon>201612200223550_Customer27.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701130725249_Customer28.cs" />
+    <Compile Include="Migrations\201701130725249_Customer28.Designer.cs">
+      <DependentUpon>201701130725249_Customer28.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702080225216_Customer29.cs" />
+    <Compile Include="Migrations\201702080225216_Customer29.Designer.cs">
+      <DependentUpon>201702080225216_Customer29.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702100707498_Customer30.cs" />
+    <Compile Include="Migrations\201702100707498_Customer30.Designer.cs">
+      <DependentUpon>201702100707498_Customer30.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702140625127_Customer31.cs" />
+    <Compile Include="Migrations\201702140625127_Customer31.Designer.cs">
+      <DependentUpon>201702140625127_Customer31.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702150317517_Customer32.cs" />
+    <Compile Include="Migrations\201702150317517_Customer32.Designer.cs">
+      <DependentUpon>201702150317517_Customer32.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702210337126_Customer33.cs" />
+    <Compile Include="Migrations\201702210337126_Customer33.Designer.cs">
+      <DependentUpon>201702210337126_Customer33.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702270859540_Customer34.cs" />
+    <Compile Include="Migrations\201702270859540_Customer34.Designer.cs">
+      <DependentUpon>201702270859540_Customer34.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703010750149_Customer35.cs" />
+    <Compile Include="Migrations\201703010750149_Customer35.Designer.cs">
+      <DependentUpon>201703010750149_Customer35.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703030803029_Customer36.cs" />
+    <Compile Include="Migrations\201703030803029_Customer36.Designer.cs">
+      <DependentUpon>201703030803029_Customer36.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703100322299_Customer37.cs" />
+    <Compile Include="Migrations\201703100322299_Customer37.Designer.cs">
+      <DependentUpon>201703100322299_Customer37.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="OrderSourse.cs" />
+    <Compile Include="OrderTraveller.cs" />
+    <Compile Include="QRcodeStatistic.cs" />
+    <Compile Include="RoleRight.cs" />
+    <Compile Include="SalesStatistics.cs" />
+    <Compile Include="SellControl.cs" />
+    <Compile Include="SendMessage.cs" />
+    <Compile Include="ServiceItemTemplte.cs" />
+    <Compile Include="ServiceRule.cs" />
+    <Compile Include="SupplierRole.cs" />
+    <Compile Include="SupplierServiceItemChange.cs" />
+    <Compile Include="SupplierServiceItem.cs" />
+    <Compile Include="SupplierUser.cs" />
+    <Compile Include="SystemLog.cs" />
+    <Compile Include="TBOrder.cs" />
+    <Compile Include="Element.cs" />
+    <Compile Include="LanghuaContent.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="ServiceItemHistory.cs" />
+    <Compile Include="ServiceItem.cs" />
+    <Compile Include="ServiceType.cs" />
+    <Compile Include="Supplier.cs" />
+    <Compile Include="TBOrderState.cs" />
+    <Compile Include="TB_Access_Token.cs" />
+    <Compile Include="Traveller.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="WeixinMessage.cs" />
+    <Compile Include="WorkTableDisplayItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+    <None Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\pages\order_new\order_new.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201605280941522_Country.resx">
+      <DependentUpon>201605280941522_Country.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300930194_Country1.resx">
+      <DependentUpon>201605300930194_Country1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605310917474_Country2.resx">
+      <DependentUpon>201605310917474_Country2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606030127230_Country3.resx">
+      <DependentUpon>201606030127230_Country3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606130257062_Country4.resx">
+      <DependentUpon>201606130257062_Country4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606130638410_Country5.resx">
+      <DependentUpon>201606130638410_Country5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606150634516_Country6.resx">
+      <DependentUpon>201606150634516_Country6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606170318201_Country7.resx">
+      <DependentUpon>201606170318201_Country7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606170401433_Country8.resx">
+      <DependentUpon>201606170401433_Country8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606200108053_Country9.resx">
+      <DependentUpon>201606200108053_Country9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606200119136_Country10.resx">
+      <DependentUpon>201606200119136_Country10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606230120295_Country11.resx">
+      <DependentUpon>201606230120295_Country11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606230324083_Country12.resx">
+      <DependentUpon>201606230324083_Country12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606270949380_Country13.resx">
+      <DependentUpon>201606270949380_Country13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606281003314_Country14.resx">
+      <DependentUpon>201606281003314_Country14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606281009001_Country15.resx">
+      <DependentUpon>201606281009001_Country15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606281010591_Country16.resx">
+      <DependentUpon>201606281010591_Country16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606300119395_Country17.resx">
+      <DependentUpon>201606300119395_Country17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607060645410_Country18.resx">
+      <DependentUpon>201607060645410_Country18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607090937540_Country19.resx">
+      <DependentUpon>201607090937540_Country19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607120129261_Country20.resx">
+      <DependentUpon>201607120129261_Country20.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607120138326_Country21.resx">
+      <DependentUpon>201607120138326_Country21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607120248429_Country22.resx">
+      <DependentUpon>201607120248429_Country22.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607130859227_Country23.resx">
+      <DependentUpon>201607130859227_Country23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607140819069_Country24.resx">
+      <DependentUpon>201607140819069_Country24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607140902109_Country25.resx">
+      <DependentUpon>201607140902109_Country25.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607140928163_Country26.resx">
+      <DependentUpon>201607140928163_Country26.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151027517_Country27.resx">
+      <DependentUpon>201607151027517_Country27.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151031520_Country28.resx">
+      <DependentUpon>201607151031520_Country28.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151034014_Country29.resx">
+      <DependentUpon>201607151034014_Country29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151038427_Country30.resx">
+      <DependentUpon>201607151038427_Country30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151044131_Country31.resx">
+      <DependentUpon>201607151044131_Country31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607151046422_Country32.resx">
+      <DependentUpon>201607151046422_Country32.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607180135454_Country33.resx">
+      <DependentUpon>201607180135454_Country33.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607180707175_Country34.resx">
+      <DependentUpon>201607180707175_Country34.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607180721029_Country35.resx">
+      <DependentUpon>201607180721029_Country35.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190150463_Country36.resx">
+      <DependentUpon>201607190150463_Country36.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190212360_Country37.resx">
+      <DependentUpon>201607190212360_Country37.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190223577_Country38.resx">
+      <DependentUpon>201607190223577_Country38.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190225357_Country39.resx">
+      <DependentUpon>201607190225357_Country39.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190308121_Country40.resx">
+      <DependentUpon>201607190308121_Country40.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190309113_Country41.resx">
+      <DependentUpon>201607190309113_Country41.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607190901446_Country42.resx">
+      <DependentUpon>201607190901446_Country42.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607230603091_Country43.resx">
+      <DependentUpon>201607230603091_Country43.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607250305310_Country44.resx">
+      <DependentUpon>201607250305310_Country44.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607270255484_Country45.resx">
+      <DependentUpon>201607270255484_Country45.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010619289_Country46.resx">
+      <DependentUpon>201608010619289_Country46.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010622174_Country47.resx">
+      <DependentUpon>201608010622174_Country47.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010626479_Country48.resx">
+      <DependentUpon>201608010626479_Country48.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608010628226_Country49.resx">
+      <DependentUpon>201608010628226_Country49.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608030137504_Country50.resx">
+      <DependentUpon>201608030137504_Country50.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608050202216_Country51.resx">
+      <DependentUpon>201608050202216_Country51.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608050259497_Customer.resx">
+      <DependentUpon>201608050259497_Customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608050819538_Customer1.resx">
+      <DependentUpon>201608050819538_Customer1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608090128028_Customer2.resx">
+      <DependentUpon>201608090128028_Customer2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608160656370_Customer3.resx">
+      <DependentUpon>201608160656370_Customer3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608160911581_Customer4.resx">
+      <DependentUpon>201608160911581_Customer4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608180242194_Customer5.resx">
+      <DependentUpon>201608180242194_Customer5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608220639409_Customer6.resx">
+      <DependentUpon>201608220639409_Customer6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608220834468_Customer7.resx">
+      <DependentUpon>201608220834468_Customer7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608220903180_Customer8.resx">
+      <DependentUpon>201608220903180_Customer8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608290850222_Customer9.resx">
+      <DependentUpon>201608290850222_Customer9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608310357065_Customer10.resx">
+      <DependentUpon>201608310357065_Customer10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609070925299_Customer11.resx">
+      <DependentUpon>201609070925299_Customer11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609071008401_Customer12.resx">
+      <DependentUpon>201609071008401_Customer12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609080733160_Customer13.resx">
+      <DependentUpon>201609080733160_Customer13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609190418118_Customer14.resx">
+      <DependentUpon>201609190418118_Customer14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609240247284_Customer15.resx">
+      <DependentUpon>201609240247284_Customer15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610110634340_Customer16.resx">
+      <DependentUpon>201610110634340_Customer16.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610170843159_Customer17.resx">
+      <DependentUpon>201610170843159_Customer17.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610250955048_Customer18.resx">
+      <DependentUpon>201610250955048_Customer18.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611020329415_Customer19.resx">
+      <DependentUpon>201611020329415_Customer19.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611080235459_Customer20.resx">
+      <DependentUpon>201611080235459_Customer20.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611080936308_Customer21.resx">
+      <DependentUpon>201611080936308_Customer21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611290559446_Customer22.resx">
+      <DependentUpon>201611290559446_Customer22.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611290736024_Customer23.resx">
+      <DependentUpon>201611290736024_Customer23.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611291021107_Customer24.resx">
+      <DependentUpon>201611291021107_Customer24.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612020319505_Customer25.resx">
+      <DependentUpon>201612020319505_Customer25.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612120258359_Customer26.resx">
+      <DependentUpon>201612120258359_Customer26.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612200223550_Customer27.resx">
+      <DependentUpon>201612200223550_Customer27.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701130725249_Customer28.resx">
+      <DependentUpon>201701130725249_Customer28.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702080225216_Customer29.resx">
+      <DependentUpon>201702080225216_Customer29.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702100707498_Customer30.resx">
+      <DependentUpon>201702100707498_Customer30.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702140625127_Customer31.resx">
+      <DependentUpon>201702140625127_Customer31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702150317517_Customer32.resx">
+      <DependentUpon>201702150317517_Customer32.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702210337126_Customer33.resx">
+      <DependentUpon>201702210337126_Customer33.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702270859540_Customer34.resx">
+      <DependentUpon>201702270859540_Customer34.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703010750149_Customer35.resx">
+      <DependentUpon>201703010750149_Customer35.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703030803029_Customer36.resx">
+      <DependentUpon>201703030803029_Customer36.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703100322299_Customer37.resx">
+      <DependentUpon>201703100322299_Customer37.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.SECTION = "供应商";
+    ViewBag.FUNCTION = "供应商管理";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/SuppliersList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>供应商管理
+            </span>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="~/Suppliers/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个选项：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="status-green action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+                <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+            </div>
+            <span class="rightbar">
+                <select id="status" class="input input-sm input-xsmall">
+                    <option value="0">状态</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+                <input placeholder="模糊搜索：代码、邮箱、联系方式" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ddtable" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:60px">国家 </th>
+            <th style="width:75px">供应商代码 </th>
+            <th style="width:100px">供应商简称</th>
+            <th style="width:100px">供应商英文名称</th>
+            <th style="width:180px">邮箱</th>
+            <th style="width:180px">联系方式</th>
+            <th style="width:100px">使用本系统</th>
+            <th style="width:100px">供应商用户名</th>
+            <th style="width:80px">状态</th>
+            <th style="width:100px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

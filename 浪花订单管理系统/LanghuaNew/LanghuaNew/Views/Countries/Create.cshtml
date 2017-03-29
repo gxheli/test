@@ -1,0 +1,126 @@
+﻿
+@{
+    ViewBag.SECTION = "基础数据";
+    ViewBag.FUNCTION = "新增国家区域";
+}
+@section PageJS{
+    <script src="../../Scripts/pages/Country.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>国家区域设置</div>
+    <div class="button-right"><a href="~/Countries/Index" class="btn btn-sm btn-default button70">返回</a></div>
+</div>
+
+<div class="panel-default panel" id="divCountry">
+    <div class="panel-body form ">
+        <form class="form-horizontal">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><input class="CountryType" type="radio" name="CountryType" value="selectCountry" checked />选择国家：</label>
+                    <div class="col-md-10">
+                        <select id="Country" class="input input-sm input-small" style="width:120px">
+                            <option value="">请选择</option>
+                            @foreach (LanghuaNew.Data.Country s in ViewBag.Countries)
+                            {
+                                <option value="@s.CountryID">@s.CountryName-@s.CountryEnName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><input class="CountryType" type="radio" name="CountryType" value="insertCountry" />新增国家：</label>
+                    <div class="col-md-10">
+                        <input placeholder="中文名" id="CountryName" type="text" class="form-control neworder-input-medium input-inline" style="width:120px">
+                        <input placeholder="英文名" id="CountryEnName" type="text" class="form-control neworder-input-medium input-inline" style="width:120px">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a id="countryNext" class="btn btn-primary button70" >下一步</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel-default panel hidden" id="divCity">
+    <div class="panel-body form ">
+        <form class="form-horizontal">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="col-md-2 control-label">国家：</label>
+                    <p class="col-md-10 form-control-static">
+                        <span id="countryText"></span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><input class="CityType" type="radio" name="CityType" value="selectCity" />选择省市：</label>
+                    <div class="col-md-10">
+                        <select id="City" class="input input-sm input-small" style="width:120px"></select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><input class="CityType" type="radio" name="CityType" value="insertCity" />新增省市：</label>
+                    <div class="col-md-10">
+                        <input placeholder="中文名" id="CityName" type="text" class="form-control neworder-input-medium input-inline" style="width:120px">
+                        <input placeholder="英文名" id="CityEnName" type="text" class="form-control neworder-input-medium input-inline" style="width:120px">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a id="cityNext" class="btn btn-primary button70" >下一步</a>
+                        <a id="cityPre" class="btn btn-default button70" >上一步</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="panel-default panel hidden" id="divArea">
+    <div class="panel-body form ">
+        <form class="form-horizontal">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="col-md-2 control-label">国家：</label>
+                    <p class="col-md-10 form-control-static">
+                        <span id="countryAreaText"></span>
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">省市：</label>
+                    <p class="col-md-10 form-control-static">
+                        <span id="cityText"></span>
+                    </p>
+                </div>
+
+                <div class="form-group areaRow">
+                    <label class="col-md-2 control-label">新增区域：</label>
+                    <div class="col-md-10">
+                        <input placeholder="中文名" id="AreaName"  type="text" class="AreaName form-control neworder-input-medium input-inline" style="width:120px">
+                        <input placeholder="英文名" id="AreaEnName" type="text" class="AreaEnName form-control neworder-input-medium input-inline" style="width:120px">
+                        <a href="javascript:;" class="add">添加</a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a id="btnSave" class="btn btn-primary button70" >保存</a>
+                        <a id="areaPre" class="btn btn-default button70" >上一步</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

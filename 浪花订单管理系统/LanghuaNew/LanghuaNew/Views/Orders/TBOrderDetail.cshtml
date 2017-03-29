@@ -1,0 +1,182 @@
+﻿
+@model LanghuaNew.Data.TBOrder
+@{
+    ViewBag.Title = "OrderNew";
+}
+@{
+    ViewBag.SECTION ="订单查看";
+    ViewBag.FUNCTION = Model.TBID;
+}
+
+
+<!--日期选择-->
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+
+<!--搜索选择-->
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+
+@section PageJS {
+    <script src="../../Scripts/pages/orderView.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@*联系人基本信息 *@
+
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>联系人基本资料</div>
+    <div class="button-right">
+        <a href="/Orders" class="btn btn-sm btn-default">返回订单首页</a>
+        @if (ViewBag.Type == "All")
+        {
+            <a href="/Orders/TBOrderDetail/@Model.TBOrderID" class="btn btn-sm btn-default" style="margin-right:5px">查看本次</a>
+        }
+        else
+        {
+            <a href="/Orders/TBOrderDetail/@Model.TBOrderID?Type=All" class="btn btn-sm btn-default" style="margin-right:5px">查看全部</a>
+        }
+    </div>
+</div>
+@{
+    var isDisable = true;//为false时整个页面变为不可编辑
+    var isShownowsave = true;//为false时暂存按钮不可用
+                             //不是填写状态时，整个页面变为不可编辑
+    var isOrder = Model.Orders.Where(o => o.state != LanghuaNew.Data.OrderState.Notfilled & o.state != LanghuaNew.Data.OrderState.Filled).FirstOrDefault();
+    if (isOrder != null)
+    {
+        isDisable = false;
+    }
+    else
+    {
+        //不是未填写状态时，暂存按钮不可用
+        var Shownowsave = Model.Orders.Where(o => o.state != LanghuaNew.Data.OrderState.Notfilled).FirstOrDefault();
+        if (Shownowsave != null)
+        {
+            isShownowsave = false;
+        }
+    }
+}
+@{
+    var order = Model.Orders[0];
+    var showRQ = false;
+    if (@ViewBag.ImageUrl != null)
+    {
+        showRQ = true;
+    }
+}
+<div class="hidden" id="customerid">@order.CustomerID</div>
+@*<div class="panel panel-default  " style="position:relative">
+        <div class="panel-body form " style="display: block;">
+            <form class="form-horizontal" role="form">
+                <disv class="form-body" style="padding-top:0px;padding-bottom:0px">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">淘宝ID：</label>
+                        <div class="col-md-10">
+                            <p id="CustomerTBCode" class="form-control-static">@Model.TBID</p>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>姓名（中文）：</label>
+                        <div class="col-md-10">
+                            <input id="CustomerName" type="text" class="form-control input-inline input-sm input200" value="@order.CustomerName" placeholder="中文姓名" />
+                            <span class="help-inline">  </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>姓名（拼音）：</label>
+                        <div class="col-md-10">
+                            <input id="CustomerEnname" type="text" class="form-control input-inline input-sm input200" value="@order.CustomerEnname" placeholder="姓名（拼音）" />
+                            <span class="help-inline">请与护照上的姓名拼音保持一致. </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>联系电话：</label>
+                        <div class="col-md-10">
+                            <input id="Tel" type="text" class="form-control input-inline input-sm input200" value="@order.Tel" placeholder="" />
+                            <span class="help-inline">最好是到国外也能接听的电话</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">备用联系电话：</label>
+                        <div class="col-md-10">
+                            <input id="BakTel" type="text" class="form-control input-inline input-sm input200" value="@order.BakTel" placeholder="" />
+                            <span class="help-inline"> 尽量填写国外当地号码，以便及时联系 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span> Email地址：</label>
+                        <div class="col-md-10">
+                            <input id="Email" type="text" class="form-control input-inline input-sm input200" value="@order.Email" placeholder="" />
+                            <span class="help-inline"> 常用邮箱，用来接收确认单或预订信息变更通知 </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span> 微信号：</label>
+                        <div class="col-md-10">
+                            <input id="Wechat" type="text" class="form-control input-inline input-sm input200" value="@order.Wechat" placeholder="" />
+                            <span class="help-inline"> 不是昵称，在“微信-我”界面中，您头像的旁边可以找到 </span>
+                        </div>
+                    </div>
+                </disv>
+            </form>
+
+        </div>
+    </div>*@
+
+@{
+    Dictionary<string, bool> basebuttons = new Dictionary<string, bool>();
+    basebuttons.Add("copyToClipboard", true);
+}
+@Html.React("BaseInfo", new
+{
+    baseinfo = order.Customers,
+    code = @Model.TBID,
+    editFlag = order.ServiceItemHistorys.ElementsValue == null ? false : true,
+    buttons = basebuttons
+})
+
+
+
+@* 预约产品区域 *@
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left"><span class="border-left"></span>项目预约信息</div>
+    </div>
+</div>
+
+@{
+    Dictionary<string, bool> buttons = new Dictionary<string, bool>();
+    buttons.Add("copyToClipboard", true);
+    buttons.Add("check", true);
+    buttons.Add("toEdit", true);
+}
+
+@Html.React("Orders", new
+{
+    initdata = Model.Orders,
+    UIType = "edit",
+    state = "anyview",
+    isForCusClient = false,
+    buttons = buttons
+})
+
+
+
+<div id="clientOrderLoading" class="modal-scrollable" style="z-index: 10;background:rgba(255,255,255,0.5)!important;"><div class="modal in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="text-align: center; background: rgb(45, 45, 45); height: 60px !important; padding: 8px 0px !important; top: 50% !important; display: block; width: 500px; margin-left: -290.5px; margin-top: -22px;" aria-hidden="false"><div class="" style="display:inline-block;height:30px;width:30px;margin:0px;position:relative;text-align:center;vertical-align:middle"> <div class="ring ring-small"><div class="indicator-1 indeterminate-ring indeterminate-small"></div><div class="indicator-2 indeterminate-ring indeterminate-small"></div><div class="indicator-3 indeterminate-ring indeterminate-small"></div><div class="indicator-4 indeterminate-ring indeterminate-small"></div><div class="indicator-5 indeterminate-ring indeterminate-small"></div></div></div><span id="order-loading-tips" style="display:inline-block;padding-left:20px;line-height:40px;height:40px;vertical-align:middle;font-weight:bold;color:white">正 在 准 备 呈 现 ……  </span></div></div>
+<script>
+    setTimeout(function () {
+        var orderloadingtips = document.getElementById("order-loading-tips");
+        orderloadingtips.innerText = "网络似乎不给力，亲，刷新下？";
+    }, 15000)
+</script>

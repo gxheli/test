@@ -1,0 +1,75 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" style="min-width:1250px">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <title>@ViewBag.FUNCTION-@ViewBag.SECTION-浪花朵朵</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/plugins/modalCss")
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+    <!--[if IE 8]>
+    @Scripts.Render("~/bundles/essupport")
+        <![endif]-->
+</head>
+@{
+    var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var Action = ViewContext.RouteData.Values["Action"];
+    var ControllerName = ViewContext.RouteData.Values["controller"];
+    string[] whitegroundlisgt = { "users-index", "suppliers-index", "orders-index", "orders-details", "serviceitems-index", "serviceitems-formsetting", "sellcontrols-index", "servicerules-index", "orders-orderfinish", "alipaytransfers-index", };
+    var teststr = controllerName + '-' + action;
+}
+
+
+
+
+
+<body style="background:white">
+    <div class="hidden" id="controlleraction" data-controller="@controllerName" data-action="@action"></div>
+    <div class="hidden" id="ControllerAction" data-controller="@ControllerName" data-action="@Action"></div>
+
+    <div  class="container-fluid body-content">
+        <div id="mainContainer" style="margin:0px auto ;width:80%">
+            <div class="font20 text-center">@ViewBag.name</div>
+            <hr />  
+            @RenderBody()
+        </div>
+    </div>
+
+    
+   
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/plugins/modalJs")
+    @Scripts.Render("~/bundles/Langhua")
+    <script>
+        t = 'a';
+        
+    </script>
+
+
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+    <script src="../../Scripts/pages/Dairy.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    @if (IsSectionDefined("PageJS"))
+    {
+        @RenderSection("PageJS", required: false)
+    }
+  
+</body>
+</html>

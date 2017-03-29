@@ -1,0 +1,245 @@
+﻿@model IEnumerable<LanghuaNew.Data.Order>
+@using Commond;
+@{
+    ViewBag.Title = "Index";
+    ViewBag.FUNCTION = "首页";
+    ViewBag.SECTION = "订单";
+}
+@section PageJS{
+    <script src="../../Scripts/pages/recentOrder.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@{ 
+    var Target = "";
+    if (AgentHelper.GetOSNameByUserAgent(HttpContext.Current.Request.UserAgent) == "Desktop")
+    {
+        Target = "_blank";
+    }
+}
+
+@if (Model != null && Model.Count() != 0)
+{
+
+
+    @* 待处理的单子 *@
+    <div class="ulablez" style="height:20px;font-size:20px;text-align:center;margin:15px 0px 35px 0px ;width:100% ;border-bottom: 1px solid black">
+        <span class="ulable ">待处理订单</span>
+    </div>
+    foreach (var item in Model)
+    {
+        var ClassName = "";
+        var URL = "javascript:;";
+       
+        switch ((int)item.CustomerState)
+        {
+            case 0:
+                ClassName = "notFill";
+                URL = "/Orders/Edit/" + item.OrderID;
+                break;
+            case 10:
+                ClassName = "refused";
+                break;
+            case 20:
+                ClassName = "onCheck";
+                URL = "/Orders/Edit/" + item.OrderID;
+                break;
+            case 30:
+                ClassName = "checked";
+                break;
+            case 40:
+                ClassName = "booking";
+                URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                break;
+            case 50:
+                ClassName = "rebooking";
+                URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                break;
+
+            case 60:
+                ClassName = "canceling";
+                URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                break;
+            case 70:
+                ClassName = "confirm";
+                URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                break;
+            default:
+                ClassName = "canceled";
+                URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                break;
+        }
+        <div class="order-tiny margin-bottom-10" data-state="@((int)item.CustomerState)">
+            <div class="left ">
+                <div class="top font20 text-hide-dot"> @item.ServiceItemHistorys.cnItemName</div>
+                <div class="bottom">
+                    <span>人数：&nbsp;</span>
+                    <span class="margin-right-10">@item.ServiceItemHistorys.AdultNum 成人</span>
+                    <span class="margin-right-10">@item.ServiceItemHistorys.ChildNum 儿童</span>
+                    <span class="margin-right-10">@item.ServiceItemHistorys.INFNum 婴儿</span>
+                </div>
+
+            </div>
+            <div class="right @ClassName">
+                <div class="img">
+
+                </div>
+                <div class="text">
+                    @LanghuaNew.Data.EnumHelper.GetEnumDescription(@item.CustomerState)
+                </div>
+
+            </div>
+            <a class="oneorder" target="@Target" href="@URL" role="button"></a>
+        </div>
+
+    }
+}
+@{
+    IEnumerable<LanghuaNew.Data.Order> ReserveOrders = ViewBag.ReserveOrders;
+    if (ReserveOrders != null && ReserveOrders.Count() != 0)
+    {
+        @* 行程 *@
+        <div class="ulablez" style="height:20px;font-size:20px;text-align:center;margin:15px 0px 35px 0px ;width:100% ;border-bottom: 1px solid black">
+            <span class="ulable ">我的行程</span>
+        </div>
+        var DateLast = DateTime.MinValue;
+        var t = 0;
+        foreach (var item in ReserveOrders.OrderBy(s=>s.ServiceItemHistorys.TravelDate))
+        {
+            int mon = item.ServiceItemHistorys.TravelDate.Month;
+            int date = item.ServiceItemHistorys.TravelDate.Day;
+            string timestr = mon + "月" + date + "日";
+            var dayOffset = (item.ServiceItemHistorys.TravelDate.Date - DateTimeOffset.Now.Date).Days;
+            var theSameDate = false;
+            if((item.ServiceItemHistorys.TravelDate.Date - DateLast.Date).Days==0)
+            {
+                theSameDate = true;
+            }
+            DateLast = item.ServiceItemHistorys.TravelDate.Date;
+            string tips = "";
+            switch (dayOffset)
+            {
+                case 0:
+                    tips = "今天";
+                    break;
+                case 1:
+                    tips = "明天";
+                    break;
+                case 2:
+                    tips = "后天";
+                    break;
+                default:
+                    switch ((int)item.ServiceItemHistorys.TravelDate.DayOfWeek)
+                    {
+                        case 0:
+                            tips = "星期天";
+                            break;
+                        case 1:
+                            tips = "星期一";
+                            break;
+                        case 2:
+                            tips = "星期二";
+                            break;
+                        case 3:
+                            tips = "星期三";
+                            break;
+                        case 4:
+                            tips = "星期四";
+                            break;
+                        case 5:
+                            tips = "星期五";
+                            break;
+
+                        case 6:
+                            tips = "星期六";
+                            break;
+                        default:
+                            tips = ((int)item.ServiceItemHistorys.TravelDate.DayOfWeek).ToString();
+                            break;
+                    }
+                    break;
+            }
+
+            var ClassName = "";
+            int state = (int)item.CustomerState;
+            var URL = "javascript:;";
+            switch ((int)item.CustomerState)
+            {
+                case 0:
+                    ClassName = "notFill";
+                    URL = "/Orders/Edit/" + item.OrderID;
+                    break;
+                case 10:
+                    ClassName = "refused";
+                    break;
+                case 20:
+                    ClassName = "onCheck";
+                    URL = "/Orders/Edit/" + item.OrderID;
+                    break;
+                case 30:
+                    ClassName = "checked";
+                    break;
+                case 40:
+                    ClassName = "booking";
+                    URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                    break;
+                case 50:
+                    ClassName = "rebooking";
+                    URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                    break;
+                case 60:
+                    ClassName = "canceling";
+                    URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                    break;
+                case 70:
+                    ClassName = "confirm";
+                    URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                    break;
+                default:
+                    ClassName = "canceled";
+                    URL = "/Orders/Details/" + HttpHelper.UrlEncode(EncryptHelper.Encrypt(item.OrderID.ToString()));
+                    break;
+            }
+            if (t != 0)
+            {
+                <div class="time-link" style="margin-top:-4px;"></div>
+
+            }
+            t++;
+            if (!theSameDate)
+            {
+                <span class="ulable font20">@timestr <span>@tips</span></span>
+                <div class="time-link"></div>
+            }
+
+            <div class="order-tiny" data-state="@state">
+
+                <div class="left ">
+                    <div class="top font20 text-hide-dot"> @item.ServiceItemHistorys.cnItemName</div>
+                    <div class="bottom">
+                        <span>人数：&nbsp;</span>
+                        <span class="margin-right-10">@item.ServiceItemHistorys.AdultNum 成人</span>
+                        <span class="margin-right-10">@item.ServiceItemHistorys.ChildNum 儿童</span>
+                        <span class="margin-right-10">@item.ServiceItemHistorys.INFNum 婴儿</span>
+                    </div>
+
+                </div>
+                <div class="right @ClassName">
+                    <div class="img">
+                    </div>
+                    <div class="text">
+                        @LanghuaNew.Data.EnumHelper.GetEnumDescription(@item.CustomerState)
+                    </div>
+                </div>
+                <a class="oneorder" target="=@Target" href="@URL" role="button"></a>
+            </div>
+
+        }
+    }
+}
+<div class="ulablez" style="height:20px;text-align:center;margin:15px 0px 35px 0px ;width:100% ;">
+    @if ((Model == null || Model.Count() == 0) && (ReserveOrders == null || ReserveOrders.Count() == 0))
+    {
+        <div class="margin-bottom-10" style="font-size:20px;">接下来要去哪嗨？找浪花朵朵问问</div>
+    }
+    <a role="button" href="/Orders/allOrder" style="width:235px;border-radius:10px; height:40px;line-height:26px;font-size:20px;" class="btn btn-default  ">查看我的全部订单</a>
+    
+</div>

@@ -1,0 +1,83 @@
+.md-editVisitor{
+
+	height:calc( 100% - .5rem );
+	overflow-y: auto;
+    //margin-top: .4rem;
+    height: 100%;
+
+	.user-form{
+		margin:.2rem;
+
+		h3{
+			//font-weight: 400;
+			color:#000;
+			span{
+				float:right;
+			}
+		}
+
+		.form-item{
+			margin: .05rem 0;
+			label{
+				display: inline-block;
+				width:100%;
+				height: .24rem;
+				line-height: .24rem;
+			}
+
+			input[type=text]{
+				display: inline-block;
+				width:100%;
+				height: .28rem;
+				line-height: .28rem;
+				text-indent:.1rem;
+				font-size: .14rem;
+			}
+
+			.calendar-box{
+				position: relative;
+				display: inline-block;
+				width:100%;
+				height: .28rem;
+				font-size: .18rem;
+			}
+			.icon-calendar{
+				color:#2E9DE6;
+				position:absolute;
+				right:.1rem;;
+				top:.06rem;
+			}
+
+		}
+
+		.else-info{
+			margin-top: .2rem;
+
+			.ei-box{
+				display: none;
+			}
+			.ei-box.show{
+				display: block;
+			}
+		}
+
+		.btm-btn{
+
+			text-align: center;
+			margin: .2rem 0;
+			margin-bottom: .8rem;
+
+			button{
+				display: inline-block;
+				width:100%;
+				height: .34rem;
+				line-height: .34rem;
+				color:#fff;
+				background: #2E9DE6;
+				border-radius: 5px;
+				outline:none;
+				border:0;
+			}
+		}
+	}
+}

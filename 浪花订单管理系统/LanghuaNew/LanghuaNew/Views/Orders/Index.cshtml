@@ -1,0 +1,708 @@
+﻿@model IEnumerable<LanghuaNew.Data.Order>
+@using Newtonsoft.Json;
+@using System.Collections.Generic;
+
+@{
+    IEnumerable<LanghuaNew.Data.Supplier> s = ViewBag.Supplier;
+    IEnumerable<LanghuaNew.Data.OrderSourse> o = ViewBag.OrderSourse;
+    Dictionary<int, string> exportField = ViewBag.exportField;
+
+}
+
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+@section ZeroCopy{
+    @Scripts.Render("~/bundles/plugins/zeroCopy")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/orderlist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "订单列表";
+}
+@* 表格工具 *@
+@{
+    Dictionary<string, string> AllStates = ViewBag.stateAll;
+    var StateStr = JsonConvert.SerializeObject(AllStates);
+    Dictionary<string, string> stateLeft = ViewBag.stateLift;
+    Dictionary<string, string> stateRight = ViewBag.stateRight;
+}
+
+@Html.React("Copy", new
+{
+    debug = true
+})
+<div id="allState" class="hidden">@StateStr</div>
+<div class="hidden" id="searchoption" data-search='@ViewBag.search'></div>
+<div id="URL" class="hidden">@ViewBag.Url</div>
+<div class="tabletools">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>订单列表
+        </span>
+        <div class="leftkeys" style="">
+            <div id="testb">
+                <a href="javascript:" data-postkey="status" data-type="state" class="buttonradio" data-code="-1">全部</a>
+                @{
+                    Dictionary<string, string> colorgroup = new Dictionary<string, string>();
+                    colorgroup.Add("0", "#0000ff");
+                    colorgroup.Add("1", "#0099ff");
+                    colorgroup.Add("2", "#008000");
+                    colorgroup.Add("3", "#FF0000");
+                    colorgroup.Add("4", "#FF0000");
+                    colorgroup.Add("5", "#800080");
+                    colorgroup.Add("6", "#000000");
+                    colorgroup.Add("7", "#800080");
+                    colorgroup.Add("8", "#ff6600");
+                    colorgroup.Add("9", "#cc0000");
+                    colorgroup.Add("10", "#800080");
+                    colorgroup.Add("11", "#66666");
+                    colorgroup.Add("12", "#cc0000");
+                    colorgroup.Add("13", "#868686");
+                    colorgroup.Add("14", "#FF0000");
+                    colorgroup.Add("15", "#FF0000");
+                    foreach (var one in stateLeft)
+                    {
+                        string thiscolor = "";
+                        if (colorgroup.ContainsKey(one.Key.ToString().Split(',')[0]))
+                        {
+                            thiscolor = colorgroup[one.Key.ToString().Split(',')[0]];
+                        }
+                        <a href="javascript:" style="color:@thiscolor" data-postkey="status" data-type="state" class="buttonradio" data-code="@one.Key">@one.Value</a>
+                    }
+                }
+                <a href="javascript:" data-postkey="IsNeedCustomerService" data-type="label" class="buttonradio" data-code="true" style="background:#800080;color:white">要售后</a>
+                <a href="javascript:" data-postkey="IsPay" data-type="label" class="buttonradio" data-code="true" style="background:#FF6600;color:white">未付完</a>
+                <a href="javascript:" data-postkey="IsUrgent" data-type="label" class="buttonradio" data-code="true" style="background:#FF0000;color:white">紧急单</a>
+                <select data-postkey="status" data-type="select" class="form-control" style="width:100px;display:inline-block;vertical-align:top;padding:0 12px">
+                    <option value="-1">所有状态</option>
+                    @{
+                        foreach (var one in stateRight)
+                        {
+                            <option value="@one.Key">@one.Value</option>
+                        }
+                    }
+                </select>
+
+            </div>
+
+
+        </div>
+        <span class="rightbar">
+            <a href="javascript:;" id="reflashTable" class="btn btn-default btn-sm button70"><i class="fa fa-refresh"></i> 刷新 </a>
+            <a href="/Orders/Create" target="_blank" role="button" class="btn btn-sm btn-primary">新增订单</a>
+        </span>
+
+    </div>
+    <div id="ordersCirculation" style="min-height:40px;">
+        <span class="leftlabel font13">
+            对<span id="selectedNumber" class="number">0</span>个订单：
+        </span>
+        <div id="operations" class="leftkeys" style="display:inline-block">
+            @foreach (var operation in ViewBag.operations)
+            {
+                int code = operation.Key;
+                string color = "";
+                switch (code)
+                {
+                    case 0:
+                        color = "status-green";
+                        break;
+                    case 1:
+                        color = "status-red";
+                        break;
+                    case 5:
+                        color = "status-gray";
+                        break;
+                }
+                <a href="javascript:" class="@color actions btn btn-default btn-sm button65" data-next-code="@code">@operation.Value</a>
+            }
+        </div>
+        <span class="rightbar">
+            <!--搜索类型-->
+            <select id="FuzzySearchType" name="FuzzySearchType" class="form-control" style="width:90px;display:inline-block;padding:0 12px">
+                <option value="TBID">淘宝ID</option>
+                <option value="CustomerName">姓名</option>
+                <option value="OrderNo">订单号</option>
+                <option value="Remark">备注</option>
+                <option value="Tel">电话</option>
+                <option value="cnItemName">产品名</option>
+                <option value="All">全部</option>
+            </select>
+            <input placeholder="搜索：淘宝ID" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" style="padding:0px 10px;width:150px" />
+            <a href="javascript:;" id="fuzzySearch" class="rightbaritems  btn btn-default btn-sm button65"> 搜索 </a>
+            <a href="#advancedsearch" class="rightbaritems border-rounded btn btn-default btn-sm button65 advancedsearch" data-toggle="modal"> 高级搜索 </a>
+            <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+            <a id="toExportOrder" href="javascript:" data-target="#exportField" class="btn btn-default btn-sm button65">导出</a>
+            <div id="exportFieldtemp" class="hidden"></div>
+        </span>
+    </div>
+</div>
+
+@* 搜索条件 *@
+<div id="advancedviewer" class="searchCirc hidden">
+    <div class="title ">高级搜索：</div>
+    <div class="cirgroup">
+
+        @*<div class="one">
+                <div class="tip">xx</div>
+                <span class="pair">
+                    <div class="top">210313</div>
+                    <div class="bottom">30:ff</div>
+                </span>
+                <div class="delete">×</div>
+            </div>
+        *@
+
+    </div>
+    <a href="javascript:;" class="clear">
+        清空条件
+    </a>
+</div>
+
+@* 表格本身 *@
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove " id="orderList">
+    <thead>
+        <tr>
+            <th style="width: 30px">
+                <input type="checkbox" class="group-checkable">
+            </th>
+            <th class="OrderBy" id="OrderByOrderNo" data-propertyname="OrderNo" style="width:138px; cursor:pointer">
+                订单号
+                <span class="caret  "></span>
+            </th>
+            <th style="width:121px">淘宝ID </th>
+            <th style="width:106px">姓名</th>
+            <th style="width: 300px">预订项目</th>
+            <th style="width: 63px">人数</th>
+            <th class="OrderBy" id="OrderByStarDate" data-propertyname="TravelDate" style="width: 78px;cursor:pointer">
+                日期
+                <span class="caret status-gray"></span>
+            </th>
+            <th style="width: 76px">状态</th>
+            <th style="width: 156px">留言板</th>
+            <th id="tooltipscontainer" style="width: 112px">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd">
+            <td valign="top" colspan="10" class="dataTables_empty">正在加载列表......</td>
+        </tr>
+        @*<tr>
+                <td><input type="checkbox" class="checkboxes"></td>
+                <td> <div  class="bright">201604111126504234</div><div class="mini">xiangxiang</div> </td>
+                <td> <div>乐小笨</div><div class="mini">天猫</div> </td>
+                <td> <div>徐振婷</div><div class="mini">XU ZHEN TING</div> </td>
+                <td> <span>泰国</span><span class="bright">#001</span> </td>
+                <td>  2 / 0 / 0 </td>
+                <td> <div>2016-05-09</div><div class="mini">城内 - 城内</div></td>
+                <td ><div >已确认</div><div ><span class="spanlabel">要售后</span></div> </td>
+                <td class="">
+
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-6"><a href="javascript:" class="hrefInTable">修改</a></div>
+                        <div class="col-xs-6"><a href="javascript:" class="hrefInTable">邮箱</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6"><a href="javascript:" class="hrefInTable">备注</a></div>
+                        <div class="col-xs-6">
+                            <div class="dpdContainer down rightBased  ">
+                                <a href="#" class="dropdown-toggle hrefInTable" data-toggle="dropdown">
+                                    更多
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu " role="menu">
+                                    <li><a href="#">要售后</a></li>
+                                    <li><a href="#">未付完</a></li>
+                                    <li><a href="#">复制链接</a></li>
+                                    <li><a href="#">操作日志</a></li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </td>
+            </tr>
+            <tr class="selected-row">
+                <td><input type="checkbox" class="checkboxes"></td>
+                <td> <div  class="bright">201604111126504234</div><div class="mini">xiangxiang</div> </td>
+                <td> <div>乐小笨</div><div class="mini">天猫</div> </td>
+                <td> <div>徐振婷</div><div class="mini">XU ZHEN TING</div> </td>
+                <td> <span>泰国</span><span class="bright">#001</span> </td>
+                <td>  2 / 0 / 0 </td>
+                <td> <div>2016-05-09</div><div class="mini">城内 - 城内</div></td>
+                <td ><div class="stautus-sended-color">已确认</div><div ><span class="spanlabel after-sale-service-color">要售后</span></div> </td>
+                <td class="">
+
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-xs-6"><a href="javascript:" class="hrefInTable">修改</a></div>
+                        <div class="col-xs-6"><a href="javascript:" class="hrefInTable">邮箱</a></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6"><a href="javascript:" class="hrefInTable">备注</a></div>
+                        <div class="col-xs-6">
+                            <div class="dpdContainer down rightBased  ">
+                                <a href="#" class="dropdown-toggle hrefInTable" data-toggle="dropdown">
+                                    更多
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu " role="menu">
+                                    <li><a href="#">要售后</a></li>
+                                    <li><a href="#">未付完</a></li>
+                                    <li><a href="#">复制链接</a></li>
+                                    <li><a href="#">操作日志</a></li>
+                                </ul>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </td>
+            </tr>*@
+    </tbody>
+</table>
+
+
+
+@* 备注*@
+
+<div class="modal modal-largeSize modal-animate" id="Remarksearch" tabindex="-1" data-backdrop="static" role="dialog" data-width=500>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">留言（<span style="color:red">留言内容供应商可见</span>）</span>
+            </div>
+            <div class="modal-body">
+                <input id="RemarkOrderID" class="hidden" />
+                <textarea id="Remark" class="form-control " rows="5" style="width:460px;margin-right:0px; display:inline-block;max-width:460px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a id="saveRemark" style="" class="btn btn-primary btn-sm button65">保存</a>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+@* 导出设置 *@
+<div class="modal  modal-animate  " id="exportField" tabindex="-1" data-width=500 data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">导出字段设置</span>
+            </div>
+            <div class="modal-body">
+                @{
+                    var selected = "";
+                    foreach (var one in exportField)
+                    {
+                        selected = "";
+
+                        if (
+                           one.Key == 0 ||
+                           one.Key == 1 ||
+                           one.Key == 2 ||
+                           one.Key == 3 ||
+                           one.Key == 5 ||
+                           one.Key == 8 ||
+                           one.Key == 9 ||
+                           one.Key == 10 ||
+                           one.Key == 11 ||
+                           one.Key == 12 ||
+                           one.Key == 13 ||
+                           one.Key == 14 ||
+                           one.Key == 15 ||
+                           one.Key == 16 ||
+                           one.Key == 17 ||
+                           one.Key == 18 ||
+                           one.Key == 19 ||
+                           one.Key == 20 ||
+                           one.Key == 21
+                       )
+                        {
+                            selected = " checked ";
+
+
+                        }
+                        <div style="display:inline-block;width:110px;margin-bottom:10px;">
+                            <label class="checkbox-inline">
+                                <input class="oneField" type="checkbox" name="source" @selected value="@one.Key">@one.Value
+                            </label>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <button id="exportFieldSave" type="button" class="btn btn-default btn-sm btn-primary button70">导出</button>
+
+                <button type="button" class="btn btn-default btn-sm button70" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* 取消订单原因 *@
+<div class="modal  modal-animate  " id="reasonOrderCancel" data-backdrop="static" role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">取消原因</span>
+            </div>
+            <div class="modal-body">
+                <div id="typeReason">
+                    <div>
+                        <label class="form-lables"><input class="unitRight" name="typeReason" type="radio" value="2"><span class="typeText vertical-middle">客人原因</span></label>
+                    </div>
+                    <div>
+                        <label class="form-lables"><input class="unitRight" name="typeReason" type="radio" value="2"><span class="typeText vertical-middle">天气原因</span></label>
+                    </div>
+                    <div>
+                        <label class="form-lables"><input class="unitRight" name="typeReason" type="radio" value="2"><span class="typeText vertical-middle">船维修</span></label>
+                    </div>
+                    <div>
+                        <label class="form-lables"><input class="unitRight" name="typeReason" type="radio" value="2"><span class="typeText vertical-middle">人数不够（通常跟客人解释说船维修）</span></label>
+                    </div>
+                    <div>
+                        <label class="form-lables"><input class="unitRight" name="typeReason" type="radio" value="2"><span class="typeText vertical-middle">其他</span></label>
+                    </div>
+                </div>
+                <div style="margin:0px 5px">
+                    <textarea id="more" type="text" name="more" value=""  class="form-control"  style="max-width:100% !important"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelConfirm" type="button" class="btn btn-default btn-sm btn-primary button70">确定</button>
+                <span></span>
+                <button type="button" class="btn btn-default btn-sm button70" data-dismiss="modal">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* 高级搜索 *@
+
+<div class="modal modal-largeSize modal-animate" id="advancedsearch" tabindex="-1" data-backdrop="static"  data-width=700 role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">高级搜索</span>
+            </div>
+            <div id="advancedSearch" class="modal-body">
+                <style>
+                    #advancedSearch .form-inline {
+                        min-height: 50px;
+                    }
+
+                        #advancedSearch .form-inline .form-group {
+                            margin-right: 10px;
+                        }
+
+                    #advancedSearch label .input[type=checkbox] {
+                        padding-right: 10px;
+                    }
+                </style>
+                <form class="form-inline" role="form">
+
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="TravelDateBegin,TravelDateEnd">出行日期：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="TravelDateBegin,TravelDateEnd"><span class="vertical-middle">出行日期:</span>
+                    </label>
+                    <div class="form-group">
+                        <div id="launchdaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="TravelDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                            <div class="input-icon-right ">
+                                <input id="TravelDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkbox-inline">
+                        <input id="IsChangeTravelDate" class="secondary" type="checkbox" data-for="IsChangeTravelDate"><span class="vertical-middle">只查变更中的出行日期</span>
+                    </label>
+                </form>
+
+                <form class="form-inline" role="form">
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="ReturnDateBegin,ReturnDateEnd">返回日期：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="ReturnDateBegin,ReturnDateEnd"><span class="vertical-middle">返回日期:</span>
+                    </label>
+                    <div class="form-group">
+                        <div id="returndaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="ReturnDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                            <div class="input-icon-right ">
+                                <input id="ReturnDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--创单日期-->
+                <form class="form-inline" role="form">
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="OrderCreateDateBegin,OrderCreateDateEnd">订单创建日期：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="OrderCreateDateBegin,OrderCreateDateEnd"><span class="vertical-middle">订单创建日期:</span>
+                    </label>
+
+
+                    <div class="form-group">
+                        <div id="initdaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="OrderCreateDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+
+
+                            <div class="input-icon-right ">
+                                <input id="OrderCreateDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+
+
+                <!--创单发送-->
+                <form class="form-inline" role="form">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="OrderSendDateBegin,OrderSendDateEnd"><span class="vertical-middle">订单发送日期:</span>
+                    </label>
+
+                    <div class="form-group">
+                        <div id="ordersenddaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="OrderSendDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+
+
+                            <div class="input-icon-right ">
+                                <input id="OrderSendDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <form class="form-inline" role="form">
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="OrderSourseID">订单来源：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="OrderSourseID"><span class="vertical-middle">订单来源:</span>
+                    </label>
+                    <div class="form-group">
+
+                        <select id="OrderSourseID" class="input-sm  form-control input130 " name="">
+                            @{
+                                foreach (var one in o)
+                                {
+                                    <option value=@one.OrderSourseID text=@one.OrderSourseName>@one.OrderSourseName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="SupplierID">供   应   商：&nbsp;
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="SupplierID"><span class="vertical-middle">供   应   商:&nbsp</span>
+                    </label>
+                    <div class="form-group">
+                        <select id="SupplierID" class="input-sm input-small form-control input130" name="">
+                            @{
+                                foreach (var one in s)
+                                {
+                                    <option value=@one.SupplierID text=@one.SupplierName>@one.SupplierNo-@one.SupplierName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                </form>
+                <form class="form-inline" role="form">
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="status">订单状态：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="status"><span class="vertical-middle ">订单状态:</span>
+                    </label>
+                    <div class="form-group">
+                        <div style="display:inline-block;position:relative">
+                            <input id="status" readonly class="input-sm input-small form-control input130 " data-show="no" style="background:white"/>
+                                @*@{
+                                    foreach (var one in AllStates)
+                                    {
+                                        <option value="@one.Key">@one.Value</option>
+                                    }
+                                }*@
+                            <div id="stateMulti" style="display:none;position:absolute;bottom:30px;left:0px;background:white;height:300px;overflow-y:auto;width:100%;border:1px solid #799bd2;border-bottom:0px solid blue;z-index:2">
+                                
+                                @{
+                                    foreach (var one in AllStates)
+                                    {
+                                        <div style="width:100%" class="unitStateCtn">
+                                            <label class="form-lables unitStateCtnx">
+                                                <input class="unitState" name="typeReason" type="checkbox" value="@one.Key">
+                                                <span class="typeText vertical-middle">@one.Value</span>
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                                
+                            </div>
+                        </div>
+                       
+                    </div>
+
+                    @*<div class="checkbox">
+                            <label>
+                                <input type="checkbox" data-for="ItemName">预订项目：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="ItemName"><span class="vertical-middle">预订项目:</span>
+                    </label>
+                    <div class="form-group">
+                        <input id="ItemName" class="input-sm input-small form-control" type="text" />
+                        <input class="input-sm input-small form-control hidden" type="text" />
+                    </div>
+                </form>
+
+
+                <form class="form-inline" role="form">
+                    @*<div class="checkbox">
+                            <label>
+                                <input id="IsPay" type="checkbox" data-for="IsPay">未付完订单
+                            </label>
+                        </div>
+                        <div class="checkbox" style="margin-left:106px !important">
+                            <label>
+                                <input id="IsNeedCustomerService" type="checkbox" data-for="IsNeedCustomerService">要售后订单
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input id="IsPay" type="checkbox" data-for="IsPay" /><span class="vertical-middle">未付完订单</span>
+                    </label>
+                    <span style="width:131px;display:inline-block"></span>
+                    <label class="checkbox-inline">
+                        <input id="IsNeedCustomerService" type="checkbox" data-for="IsNeedCustomerService"><span class="vertical-middle">要售后订单</span>
+                    </label>
+                    <span style="width:38px;display:inline-block"></span>
+                    <label class="checkbox-inline">
+                        <input id="isUrgent" type="checkbox" data-for="isUrgent"><span class="vertical-middle">紧急订单</span>
+                    </label>
+                </form>
+                <form class="form-inline" role="form" data-for="isOneself">
+                    @*<div class="checkbox">
+                            <label>
+                                <input id="isOneself" type="checkbox" data-for="isOneself">只显示我本人的订单
+                            </label>
+                        </div>*@
+                    @*<label class="checkbox-inline">
+                            <input id="isOneself" type="checkbox" data-for="isOneself"><span class="vertical-middle">只显示我本人的订单</span>
+                        </label>*@
+
+                    <label class="checkbox-inline">
+                        <input id="" type="checkbox" data-for="CreateName"><span class="vertical-middle">创建人：</span>
+                    </label>
+                    <div class="form-group">
+                        <input id="CreateName" value="@ViewBag.CreateName" class="input-sm input-small form-control" type="text" />
+                    </div>
+                    <span style="width:79px;display:inline-block"></span>
+                    @*<div class="checkbox">
+                            <label>
+                                <input id="SupplierEnableOnline" type="checkbox" data-for="SupplierEnableOnline">供应商使用本系统：
+                            </label>
+                        </div>*@
+                    <label class="checkbox-inline">
+                        <input id="SupplierEnableOnline" type="checkbox" data-for="SupplierEnableOnline"><span class="vertical-middle">供应商使用本系统:</span>
+                    </label>
+
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="SupplierEnableOnline" value=true /><span style="vertical-align:middle">是</span>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="SupplierEnableOnline" value=false /><span style="vertical-align:middle">否</span>
+                        </label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <span style="float:left;line-height:30px">提示：以上勾选的条件是“并且”关系</span>
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" id="confirmadvancedsearch">搜索</a>
+
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

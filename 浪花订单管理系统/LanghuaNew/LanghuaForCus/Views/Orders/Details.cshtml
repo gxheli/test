@@ -1,0 +1,114 @@
+﻿@model LanghuaNew.Data.Order
+@{
+    Layout = "~/Views/Shared/Empty.cshtml";
+
+    ViewBag.FUNCTION = @Model.ServiceItemHistorys.SupplierCode +"-"+ @Model.CustomerName;
+    ViewBag.SECTION = @Model.Customers.CustomerTBCode + "-" + @Model.ServiceItemHistorys.cnItemName;
+
+}
+@section Html2Canvas {
+    @Scripts.Render("~/bundles/plugins/htmlToCanvas")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/details.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<input id="OrderID" class="hidden" value="@Model.OrderID"/>
+
+
+@{if (!string.IsNullOrEmpty(ViewBag.html))
+    {
+        <div id="detailmain" class=" ">
+            <div class="dd-text-title noprint">
+                <span id="picturetitle"  class="text text-hide-dot">@Model.ServiceItemHistorys.SupplierCode-@Model.CustomerName-@Model.Customers.CustomerTBCode-@Model.ServiceItemHistorys.cnItemName </span>
+                <span class="float-right visible-md-inline-block visible-lg-inline-block">
+                    <a href="#advancedsearch" class="btn btn-sm btn-default button65" data-toggle="modal">发邮件</a>
+                    <a id="print" href="javascript:;" class="btn btn-sm btn-default button65">打印</a>
+                    <a id="download" href="javascript:;" class="btn btn-sm btn-default button65 LINKDOWNLOAD">下载</a>
+                </span>
+            </div>
+
+            <div id="onebookingorder" class="bookingorder" data-serviceType="@Model.ServiceItemHistorys.ServiceTypeID" >
+                <div class="orderdetailtitle" style="text-align:center">
+                    <span class="icon"><img src="../../Content/img/dodotour_logo_cn_color_180_50.png" alt=""></span>
+                    <span class="word">预订单 Booking Sheet</span>
+                </div>
+                @Html.Raw(ViewBag.html)
+                <div class="QR-CODE">
+                    <div class="left">
+                        <img src="../../Content/img/QR_WeiX_Tmall.jpg" alt="">
+                        <div class="marktips">
+                            <div class="one-line">扫码好处多多</div>
+                            <div class="one-line">快速优惠预订</div>
+                            <div class="one-line">订单状态通知</div>
+                            <div class="one-line">确认单随身带</div>
+                        </div>
+                        <div class="line-vertical">
+                        </div>
+                    </div>
+                    <div class="right">
+                        产品服务信息：本产品由 @ViewBag.SupplierEnName 提供服务，本公司不是组团社，仅代游客进行预订，一切责任由提供产品的当地旅游经营者承担。
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="margin:30px auto;text-align:center">
+            订单未上传模板，请从产品表单维护页面上传模板后点击右上角更新模板按钮
+        </div>
+        
+    }
+}
+
+
+<div class="modal modal-animate" id="advancedsearch" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">发邮件</span>
+            </div>
+            <div class="modal-body" id="advancedSearch">
+                <div class="portlet-body form " style="display: block;">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="redspark">*</span>收件人：</label>
+                                <div class="col-md-8">
+                                    <input id="toMail" type="text" class="input input-sm   form-control">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="redspark">*</span>标题：</label>
+                                <div class="col-md-8">
+                                    <input id="title" type="text" class="input input-sm   form-control ">
+
+                                </div>
+                            </div>
+
+
+                            <input id="customerName" value="@Model.CustomerName" type="text" class="input hidden  ddinput  ">
+                            <input id="toMailHidden" value="@Model.Email" type="text" class="input hidden  ddinput  ">
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="picname" style="float:left;line-height:30px">附件：TH-叶紫-ailwyezi-皮皮岛南北五星一日游.jpg</span>
+                <span style="display:inline-block">
+                    <button type="button" class="btn btn-default btn-sm button70 btn-primary" id="confirmadvancedsearch">发送</button>
+                    <span></span>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </span>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

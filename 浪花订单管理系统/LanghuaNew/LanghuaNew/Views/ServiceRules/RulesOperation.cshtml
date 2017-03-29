@@ -1,0 +1,46 @@
+﻿@model IEnumerable<LanghuaNew.Data.ServiceRuleLog>
+@{
+    ViewBag.SECTION = "规则";
+    ViewBag.FUNCTION = "操作日志";
+    Layout = "~/Views/Shared/Dairy.cshtml";
+    ViewBag.name = "日志查看";
+}
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove   table-Dairy" >
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OperateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Operate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.OperateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Operate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remark)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

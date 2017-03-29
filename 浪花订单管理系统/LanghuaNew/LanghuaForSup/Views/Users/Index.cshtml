@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@{
+    ViewBag.SECTION = "子账户管理";
+    ViewBag.FUNCTIONC = "子账户列表";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+
+@section PageJS {
+    <script src="../../Scripts/pages/subAccountList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+
+<div class="tabletools" >
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>子帐号管理
+        </span>
+        <div class="leftkeys">
+
+        </div>
+        <span class="rightbar" >
+           
+            <a id="reflashTable" href="javascript:;" type="button" class="btn btn-default button70 btn-sm">
+                <i class="glyphicon glyphicon-refresh"></i>
+                刷新
+            </a>
+            <a href="/Users/Create"  type="button" class="btn btn-primary button86 btn-sm">
+                 新增
+            </a>
+        </span>
+    </div>
+    <div style="min-height:40px;">
+        <span class="leftlabel font13">
+            对<span id="selectedNumber" class="number">0</span>个订单：
+        </span>
+        <div id="operations" class="leftkeys" style="display:inline-block">
+            <a href="javascript:" class="status-green action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+            <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+            <a href="javascript:" class="status-dark action btn btn-sm btn-default button65" data-next-code="delete">删除</a>
+        </div>
+        <span class="rightbar" >
+            <select class="input-sm" id="status">
+                <option value="-1">状态</option>
+                <option value="1">启用</option>
+                <option value="2">禁用</option>
+            </select>
+            <input id="fuzzyString" type="text" placeholder="模糊搜索：用户名、昵称" style="width:200px;margin-right:0px;padding-left:5px;padding-right:0px;display:inline-block" class="form-control" />
+            <a href="javascript:;" id="fuzzySearch" type="button" class="btn btn-default button65 btn-sm">
+                搜索
+            </a>
+            
+        </span>
+    </div>
+
+</div>
+
+@* 表格本身 *@
+<table class="table ddtable table-striped" id="subAccountList">
+    <thead>
+        <tr>
+            <th style="width: 30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:170px;">用户名</th>
+            <th style="width:105px;">昵称</th>
+            <th style="width:104px;">角色</th>
+            <th style="width:180px;">创建时间</th>
+            <th style="width:154px;">最近登录时间</th>
+            <th style="width:117px">状态</th>
+            <th style="width: 121px">微信绑定</th>
+            <th style="width: 191px">操作</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">正在加载列表......</td></tr>
+    </tbody>
+</table>

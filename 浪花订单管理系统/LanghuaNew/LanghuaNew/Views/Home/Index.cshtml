@@ -1,0 +1,391 @@
+﻿@{
+    ViewBag.SECTION = "工作台";
+    ViewBag.FUNCTIONC = "工作台";
+
+}
+@section PageJS {
+    <script src="../../Scripts/pages/deskTop.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/notifiacation&link.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@*<a href="javascript:;" id="setMyData" data-toggle="modal" data-target="#personList" class="btn btn-default btn-sm "><i class="fa fa-gear"></i> </a>*@
+
+
+<div id="links"  style="margin:5px 10px;display:none">
+    <div class="group-title">
+        <span class="left">
+            <span class="big">常用链接</span>
+        </span>
+    </div>
+    <div id="linksContainer" style="margin-top:15px">
+       
+
+    </div>
+    
+</div>
+<div class="card-group">
+    <div class="group-title">
+        <span class="left">
+            <span class="big">我的订单</span>
+        </span>
+        <span class="right">
+            <a href="javascript:;" id="updateMyData" class="btn btn-default btn-sm button70"><i class="fa fa-refresh"></i> 刷新 </a>
+            <a href="javascript:;" id="setMyData" data-toggle="modal" data-target="#setMyDisplay" class="btn btn-default btn-sm "><i class="fa fa-gear"></i> </a>
+        </span>
+    </div>
+    <div class="group-body" id="myData">
+        <div class="row">
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"isOneself":"true","status":0,"statusNamae":"未填写","searchType":"advanced"}'>
+                    <div class="cardinfo" id="MyNotfilledCountCard">
+                        <div class="top" style="background:#00CCFF">
+                            <div class="title">未填写</div>
+                            <div class="number" id="MyNotfilledCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"isOneself":"true","status":1,"statusNamae":"待核对","searchType":"advanced"}'>
+                    <div class="cardinfo" id="MyFilledCountCard">
+                        <div class="top" style="background:#6699FF">
+                            <div class="title">待核对</div>
+                            <div class="number" id="MyFilledCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--未付完-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"isOneself":"true","IsPay":"true","searchType":"advanced"}'>
+                    <div class="cardinfo" id="MyNoPayCountCard">
+                        <div class="top" style="background:#FF9900">
+                            <div class="title">未付完</div>
+                            <div class="number" id="MyNoPayCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--已拒绝-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"isOneself":"true","status":8,"statusNamae":"已拒绝","searchType":"advanced"}'>
+                    <div class="cardinfo" id="MySencondFullCountCard">
+                        <div class="top" style="background:#FF9999">
+                            <div class="title">已拒绝</div>
+                            <div class="number" id="MySencondFullCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--今日订单数-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="MyTodayOrderCountCard">
+                    <a href='/Orders/Index?search={"isOneself":"true","OrderCreateDateBegin":"@DateTime.Now.ToString("yyyy-MM-dd")","OrderCreateDateEnd":"@DateTime.Now.ToString("yyyy-MM-dd")","searchType":"advanced"}'>
+                        <div class="top" style="background:#2E9DE6">
+                            <div class="title">今日订单数</div>
+                            <div class="number" id="MyTodayOrderCount"></div>
+                        </div>
+                    </a>
+                    <a href='/Orders/Index?search={"isOneself":"true","OrderCreateDateBegin":"@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")","OrderCreateDateEnd":"@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")","searchType":"advanced"}'>
+                        <div class="bottom">
+                            <span class="timetips ">昨日</span>
+                            <span class="numbertips" id="MyYesterdayOrderCount"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!--今日销售额-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="MyTodaySalesCard">
+                    <div class="top" style="background:#31D5D5">
+                        <div class="title">今日销售额(元)</div>
+                        <div class="number" id="MyTodaySales"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">本月</span>
+                        <span class="numbertips" id="MyThisMonthSales"></span>
+                    </div>
+                </div>
+            </div>
+            <!--今日利润-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="MyTodayProfitsCard">
+                    <div class="top" style="background:#56C5E4">
+                        <div class="title">今日利润(元)</div>
+                        <div class="number" id="MyTodayProfits"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">本月</span>
+                        <span class="numbertips" id="MyThisMonthProfits"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card-group">
+    <div class="group-title">
+        <span class="left">
+            <span class="big">整店数据</span>
+            <span id="updattime" class="tiny"></span>
+        </span>
+        <span class="right">
+            <a href="javascript:;" id="updateShopData" class="btn btn-default btn-sm button70"><i class="fa fa-refresh"></i> 刷新 </a>
+            <a href="javascript:;" id="setShopData" data-toggle="modal" data-target="#setShopDisplay" class="btn btn-default btn-sm "><i class="fa fa-gear"></i> </a>
+        </span>
+    </div>
+    <div class="group-body" id="shopData">
+        <div class="row">
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="TodayOrderCountCard">
+                    <a href='/Orders/Index?search={"OrderCreateDateBegin":"@DateTime.Now.ToString("yyyy-MM-dd")","OrderCreateDateEnd":"@DateTime.Now.ToString("yyyy-MM-dd")","searchType":"advanced"}'>
+                        <div class="top" style="background:#2E9DE6">
+                            <div class="title">今日订单数</div>
+                            <div class="number" id="TodayOrderCount"></div>
+                        </div>
+                    </a>
+                    <a href='/Orders/Index?search={"OrderCreateDateBegin":"@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")","OrderCreateDateEnd":"@DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd")","searchType":"advanced"}'>
+                        <div class="bottom">
+                            <span class="timetips ">昨日</span>
+                            <span class="numbertips" id="YesterdayOrderCount"></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!--待检查-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"status":"5,7,10","statusNamae":"待检查","searchType":"advanced"}'>
+                    <div class="cardinfo" id="OnCheckCountCard">
+                        <div class="top" style="background:#33CCFF">
+                            <div class="title">待检查</div>
+                            <div class="number" id="OnCheckCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--已核对-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"status":"2","statusNamae":"已核对","searchType":"advanced"}'>
+                    <div class="cardinfo" id="CheckCountCard">
+                        <div class="top" style="background:#0099CC">
+                            <div class="title">已核对</div>
+                            <div class="number" id="CheckCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--要售后-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <a href='/Orders/Index?search={"IsNeedCustomerService":"true","searchType":"state"}'>
+                    <div class="cardinfo" id="NeedServiceCountCard">
+                        <div class="top" style="background:#56C5E4">
+                            <div class="title">要售后</div>
+                            <div class="number" id="NeedServiceCount"></div>
+                        </div>
+                        <div class="bottom">
+                            <span class="timetips "></span>
+                            <span class="numbertips">查看订单</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <!--今日出行人数-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="TodayTravelNumCard">
+                    <div class="top" style="background:#6699FF">
+                        <div class="title">今日出行人数</div>
+                        <div class="number" id="TodayTravelNum"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">昨日</span>
+                        <span class="numbertips" id="YesterdayTravelNum"></span>
+                    </div>
+                </div>
+            </div>
+            <!--今日利润(元)-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="TodayProfitsCard">
+                    <div class="top" style="background:#56C5E4">
+                        <div class="title">今日利润(元)</div>
+                        <div class="number" id="TodayProfits"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">本月</span>
+                        <span class="numbertips" id="ThisMonthProfits"></span>
+                    </div>
+                </div>
+            </div>
+            <!--今日销售额(元)-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="TodaySalesCard">
+                    <div class="top" style="background:#31D5D5">
+                        <div class="title">今日销售额(元)</div>
+                        <div class="number" id="TodaySales"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">本月</span>
+                        <span class="numbertips" id="ThisMonthSales"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!--本月服务人数-->
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="ThisMonthTravelNumCard">
+                    <div class="top" style="background:#6699FF">
+                        <div class="title">本月服务人数</div>
+                        <div class="number" id="ThisMonthTravelNum"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">上月</span>
+                        <span class="numbertips" id="PreMonthTravelNum"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6    col-sm-6 col-xs-12">
+                <div class="cardinfo" id="WeixinBindCountCard">
+                    <div class="top" style="background:#44B549">
+                        <div class="title">微信绑定人数</div>
+                        <div class="number" id="WeixinBindCount"></div>
+                    </div>
+                    <div class="bottom">
+                        <span class="timetips ">绑定率</span>
+                        <span class="numbertips"><span id="WeixinBindRate"></span><span>%</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="setMyDisplay" class="modal  modal-animate" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">设置显示项目</span>
+            </div>
+            <div id="" class="modal-body">
+                <div class="bold">我的订单：</div>
+                <div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="MyNotfilledCount" type="checkbox" name="ServiceType" value="1 ">未填写</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="MyFilledCount" type="checkbox" name="ServiceType" value="1 ">待核对</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="MyNoPayCount" type="checkbox" name="ServiceType" value="1 ">未付完</label>
+                    </div>
+
+                </div>
+                <div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline "><input id="MySencondFullCount" type="checkbox" name="ServiceType" value="1 ">已拒绝</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="MyTodayOrderCount" type="checkbox" name="ServiceType" value="1 ">今日订单数</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="MyTodaySales" type="checkbox" name="ServiceType" value="1 ">今日销售额</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="MyTodayProfits" type="checkbox" name="ServiceType" value="1 ">今日利润</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" id="setMyDisplayComfirm">确定</a>
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--整店数据-->
+<div id="setShopDisplay" class="modal  modal-animate" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">设置显示项目</span>
+            </div>
+            <div class="modal-body">
+                <div class="bold">整店订单：</div>
+                <div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline "><input id="TodayOrderCount" type="checkbox" name="ServiceType" value="1 ">今日订单数</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="OnCheckCount" type="checkbox" name="ServiceType" value="1 ">待检查</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="CheckCount" type="checkbox" name="ServiceType" value="1 ">已核对</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline "><input id="NeedServiceCount" type="checkbox" name="ServiceType" value="1 ">要售后</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="TodayTravelNum" type="checkbox" name="ServiceType" value="1 ">今日出行人数</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="TodayProfits" type="checkbox" name="ServiceType" value="1 ">今日利润</label>
+                    </div>
+                </div>
+                <div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline "><input id="TodaySales" type="checkbox" name="ServiceType" value="1 ">今日销售额</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="ThisMonthTravelNum" type="checkbox" name="ServiceType" value="1 ">本月服务人数</label>
+                    </div>
+                    <div class="displayInlineBlock margin-top-10" style="width:25%">
+                        <label class="checkbox-inline"><input id="WeixinBindCount" type="checkbox" name="ServiceType" value="1 ">微信绑定人数</label>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" id="setShopDisplayComfirm">确定</a>
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

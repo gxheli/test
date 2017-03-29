@@ -1,0 +1,98 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/datatables/css")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/datatables/js")
+}
+
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/typeahead/css")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/typeahead/js")
+}
+
+@section PageJS{
+    <script src="@Url.Content("~/Scripts/pages/order_new/order_new.js")" type="text/javascript"></script>
+}
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-xs-6 title-left"><span class="border-left"></span>订单信息</div>
+        <div class="col-xs-6  button-right"><a class="btn btn-sm default">返回订单首页</a></div>
+    </div>
+</div>
+
+<div class="ddporlet portlet light  ">
+
+    <div class="portlet-body form " style="display: block;">
+        <form class="form-horizontal" role="form">
+            <div class="form-body">
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>订单来源：</label>
+                    <div class="col-md-10">
+                        <div class="input-group input-group-inline">
+                            <div class="icheck-inline">
+                                <label>
+                                    <input type="radio" name="source" class=" " "=" "> 天猫店
+                                </label>
+                                <label>
+                                    <input type="radio" name="source" class=" "> 淘宝店
+                                </label>
+                                <label>
+                                    <input type="radio" name="source" class=" " "=" "> 同行分销
+                                </label>
+
+                            </div>
+                        </div>
+
+                        <span class="help-inline">  </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span> 淘宝ID：</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control neworder-input-medium input-inline  ">
+                        <span class="help-inline help-line-vertical-bottom">如有多个，请每行一个单号</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span> 淘宝订单号：</label>
+                    <div class="col-md-10">
+                        <textarea onpropertychange="this.style.minHeight=this.scrollHeight + 'px'" oninput="this.style.minHeight=this.scrollHeight + 'px'" class="form-control neworder-input-medium input-inline  " rows="3" style="overflow: hidden; min-height: 69px;"></textarea>
+                        <span class="help-inline help-line-vertical-bottom">如有多个，请每行一个单号</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品：</label>
+                    <div class="col-md-10">
+                        <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input type="text" class="form-control neworder-input-medium input-inline   tt-hint" readonly="" autocomplete="off" spellcheck="false" tabindex="-1" dir="ltr" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input type="text" id="typeahead" class="form-control neworder-input-medium input-inline   tt-input" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: 'Microsoft Yahei', sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-xxx"></div></div></span>
+                        <span class="help-inline help-line-vertical-bottom">如有多个，请每行一个单号</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>供应商：</label>
+                    <div class="col-md-10">
+                        <select type="text" class="form-control neworder-input-small input-inline  ">
+                            <option value="">2344</option>
+                            <option value="">2344</option>
+                            <option value="">2344</option>
+                            <option value="">2344</option>
+                        </select>
+                        <span class="help-inline help-line-vertical-bottom">如有多个，请每行一个单号</span>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>

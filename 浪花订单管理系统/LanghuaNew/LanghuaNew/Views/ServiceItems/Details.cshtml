@@ -1,0 +1,185 @@
+﻿@model LanghuaNew.Data.ServiceItem
+
+@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "产品详情";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/Item.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left"><span class="border-left"></span>供应商</div>
+        <div class="col-md-6  button-right"><a href="~/ServiceItems/Index" class="btn btn-sm btn-default">返回产品首页</a></div>
+    </div>
+</div>
+<div class="ddporlet portlet light ">
+    <div class="portlet-body form " style="display: block;">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <table>
+                    <tr>
+                        <td>
+                            <span class="border-left">可选供应商：</span><br />
+                            <select id="supplierLeft" multiple="multiple" style="height:231px;width:260px" disabled="disabled">
+                                @foreach (LanghuaNew.Data.Supplier s in ViewBag.Supplier)
+                                {
+                                    var SupplierID = s.SupplierID;
+                                    var name = s.SupplierNo + "-" + s.SupplierName;
+                                    if (Model.ItemSuplier == null || Model.ItemSuplier.Where(u => u.SupplierID == SupplierID).FirstOrDefault() == null)
+                                    {
+                                        <option value="@SupplierID">@name</option>
+                                    }
+                                    else
+                                    {
+                                        if (Model.DefaultSupplierID == @SupplierID)
+                                        {
+                                            name += "(默认)";
+                                        }
+                                        <option value="@SupplierID" selected="selected">@name</option>
+                                    }
+                                }
+                            </select>
+                        </td>
+                        <td style="width:100px;" align="center">
+                            <a id="" class="ddbutton border-rounded" disabled="disabled">></a><br /><br />
+                            <a id="" class="ddbutton border-rounded" disabled="disabled"><</a>
+                        </td>
+                        <td>
+                            <span class="border-left">所属供应商：</span><br />
+                            <select id="supplierRight" multiple="multiple" style="height:231px;width:260px" disabled="disabled"></select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left"><span class="border-left"></span>产品基本信息</div>
+    </div>
+</div>
+<div class="ddporlet portlet light ">
+    <div class="portlet-body form " style="display: block;">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span class="redspark">*</span>目的地：</label>
+                        <div class="col-md-10">
+                            @Html.DropDownList("Countries", null, "请选择国家", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px",@disabled = "disabled" })
+                            @Html.DropDownList("Cities", null, "请选择目的地", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px",@disabled = "disabled" })
+                        </div>
+                    </div>
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品类型：</label>
+                    <div class="col-md-10">
+                        <div class="input-group input-group-inline">
+                            <div id="ServiceType" class="icheck-inline">
+                                @foreach (LanghuaNew.Data.ServiceType s in ViewBag.ServiceType)
+                                {
+                                    if (Model.ServiceTypeID == s.ServiceTypeID)
+                                    {
+                                        <label><input class="ServiceType" type="radio" name="ServiceType" value="@s.ServiceTypeID" checked="checked" disabled="disabled"/>@s.ServiceTypeName</label>
+                                    }
+                                    else
+                                    {
+                                        <label><input class="ServiceType" type="radio" name="ServiceType" value="@s.ServiceTypeID" disabled="disabled" />@s.ServiceTypeName</label>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品编码：</label>
+                    <div class="col-md-10">
+                        <input id="ServiceCode" type="text" class="form-control neworder-input-medium input-inline" style="width:280px" value="@Model.ServiceCode" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品中文名：</label>
+                    <div class="col-md-10">
+                        <input id="cnItemName" type="text" class="form-control neworder-input-medium input-inline" style="width:400px" value="@Model.cnItemName" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品英文名：</label>
+                    <div class="col-md-10">
+                        <input id="enItemName" type="text" class="form-control neworder-input-medium input-inline" style="width:400px" value="@Model.enItemName" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">行程公司：</label>
+                    <div class="col-md-10">
+                        <input id="TravelCompany" type="text" class="form-control neworder-input-medium input-inline" style="width:280px" value="@Model.TravelCompany" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group" style="display:none" id="divFixedDays">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>行程天数：</label>
+                    <div class="col-md-10">
+                        @{
+                            var days = Model.FixedDays.ToString() == "0" ? "" : Model.FixedDays.ToString();
+                        }
+                        <input id="FixedDays" type="text" class="form-control neworder-input-medium input-inline" style="width:80px" value="@days" disabled="disabled">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>保险天数：</label>
+                    <div class="col-md-10">
+                        <input id="InsuranceDays" type="text" class="form-control neworder-input-medium input-inline" style="width:80px" value="@Model.InsuranceDays" disabled="disabled">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left"><span class="border-left"></span>产品附加项目</div>
+    </div>
+</div>
+<div class="ddporlet portlet light ">
+    <div class="portlet-body form " style="display: block;">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <table class="table ddtable table-striped  table-checkable " id="tbExtraService">
+                    <thead>
+                        <tr>
+                            <th style="width:200px;">产品中文名</th>
+                            <th style="width:200px;">产品英文名</th>
+                            <th style="width:100px;">单位</th>
+                            <th style="width:100px;">最小值</th>
+                            <th style="width:100px;">最大值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            if (Model.ExtraServices != null)
+                            {
+                                foreach (var item in Model.ExtraServices)
+                                {
+                                    <tr class='itemRow'>
+                                        <td class='serviceName'>@item.ServiceName</td>
+                                        <td class='serviceEnName'>@item.ServiceEnName</td>
+                                        <td class='serviceUnit'>@item.ServiceUnit</td>
+                                        <td class='minNum'>@item.MinNum</td>
+                                        <td class='maxNum'>@item.MaxNum</td>
+                                    </tr>
+                                }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

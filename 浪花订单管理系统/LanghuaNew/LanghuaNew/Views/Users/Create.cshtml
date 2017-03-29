@@ -1,0 +1,137 @@
+﻿@model LanghuaNew.Models.UserViewModel
+@using MvcCheckBoxList.Model;
+@{
+    ViewBag.SECTION = "用户";
+    ViewBag.FUNCTION = "新增用户";
+}
+
+<div class="ddtitle">
+    <div class="title-left">
+        <span class="border-left"></span>用户设置
+    </div>
+    <div class="button-right">
+        <a href="~/Users/Index" class="btn btn-sm btn-default button70">返回用户首页</a>
+    </div>
+</div>
+
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        <form action="/Users/Create" method="post" class="form-horizontal" onsubmit="return validate_form(this)">
+            @Html.AntiForgeryToken()
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.UserName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.NickName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NickName, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.NickName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.PassWord)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PassWord, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })
+                        <span>密码必须6-12位数字、字母和特殊字符组合</span>
+                    </div>
+                </div>
+                <div class="form-group" id="checkbox">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.UserRole)：</label>
+                    <div class="col-md-10">
+                        @*@{
+                            var htmlListInfo = new HtmlListInfo(HtmlTag.table, 3, null, TextLayout.Default, TemplateIsUsed.No);
+                            @Html.CheckBoxListFor(model => model.UserRole,
+                                                   model => model.AllRole,
+                                                   x => x.RoleID,
+                                                   x => x.RoleName,
+                                                   model => model.UserRole,
+                                                   htmlListInfo)
+                        }*@
+                        <div style="padding-top:7px">
+                             @foreach (var one in Model.AllRole)
+                             {
+                                 var check = "";
+                                 if (Model.UserRole != null)
+                                 {
+                                     foreach (var item in Model.UserRole)
+                                     {
+                                         if (item.RoleID == one.RoleID)
+                                         {
+                                             check = "checked";
+                                         }
+                                     }
+                                 }
+                                 <div>
+                                     <label class="form-lables" title="@one.RoleRemark">
+                                         <input type="checkbox" @check name="UserRole" value="@one.RoleID" />
+                                         <span class="vertical-middle">@one.RoleName</span>
+                                     </label>
+                                 </div>
+                             }
+                         </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="保存" class="btn btn-primary button70" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function validate_checkbox(field) {
+        for (var i = 0; i < field.length; ++i) {
+            if (field[i].checked == true) return true;
+        }
+        $("#checkbox").warning("请选择");
+        return false;
+    }
+    function validate_password(field) {
+        with (field) {
+            var reg = /^[\w.@@~]{6,12}$/
+            console.log(value.length)
+            if (value.length > 5 && length < 13)
+                return true;
+            $(field).warning("密码必须6-12位数");
+            return false;
+        }
+    }
+    function validate(field, show) {
+        with (field) {
+            if (!value) {
+                $(field).warning(show);
+                return false;
+            }
+            return true;
+        }
+    }
+    function validate_form(thisform) {
+        with (thisform) {
+            var bl = true;
+            if (validate(UserName, "请填写") == false)
+                bl = false;
+            if (validate(NickName, "请填写") == false)
+                bl = false;
+            if (validate(PassWord, "请填写") == false)
+                bl = false;
+            if (validate_checkbox(UserRole) == false)
+                bl = false;
+            if (validate_password(PassWord) == false)
+                bl = false;
+            if (bl) {
+                $("#btnSave").attr('disabled', true);
+            }
+            return bl
+        }
+    }
+</script>

@@ -1,0 +1,349 @@
+﻿@model LanghuaNew.Data.Order
+@{
+    string title = Model.ServiceItemHistorys.SupplierCode
+        + "-" + Model.CustomerName
+        + "-" + Model.Customers.CustomerTBCode
+        + "-" + Model.ServiceItemHistorys.cnItemName
+        + Model.ServiceItemHistorys.ServiceCode
+        + (Model.ServiceItemHistorys.TravelDate < DateTimeOffset.Parse("1901-01-01") ? "" : "-" + Model.ServiceItemHistorys.TravelDate.ToString("yyyyMMdd"));
+    if (Model.isUrgent)
+    {
+        title = "Urgent紧急！" + title;
+    }
+}
+@{
+    Layout = "~/Views/Shared/Empty.cshtml";
+    ViewBag.SECTION = "";
+    ViewBag.FUNCTION = title;
+}
+@section Html2Canvas {
+    @Scripts.Render("~/bundles/plugins/htmlToCanvas")
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section PageJS {
+    <script src="../../Scripts/pages/detail.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/canvas2image.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div id="orderState" class="hidden">@Model.state</div>
+@Html.HiddenFor(model => model.OrderID)
+
+
+<div class="dd-text-title noprint">
+    <span id="picturetitle" class="text">@title</span>
+    <div class="float-right">
+        <div id="operations" class="leftkeys" style="display:inline-block">
+            @{
+                var statetip = "";
+                var temp = LanghuaNew.Data.EnumHelper.GetEnumDescription(Model.state).ToString().Split('|');
+                if (temp.Length > 1)
+                {
+                    statetip = temp[0];
+                }
+                else if (temp.Length == 1)
+                {
+                    statetip = temp[0];
+                }
+                Dictionary<int, string> colorgroup = new Dictionary<int, string>();
+                colorgroup.Add(0, "#0000ff");
+                colorgroup.Add(1, "#0099ff");
+                colorgroup.Add(2, "#008000");
+                colorgroup.Add(3, "#FF0000");
+                colorgroup.Add(4, "#FF0000");
+                colorgroup.Add(5, "#800080");
+                colorgroup.Add(6, "#000000");
+                colorgroup.Add(7, "#800080");
+                colorgroup.Add(8, "#ff6600");
+                colorgroup.Add(9, "#cc0000");
+                colorgroup.Add(10, "#800080");
+                colorgroup.Add(11, "#66666");
+                colorgroup.Add(12, "#cc0000");
+                colorgroup.Add(13, "#868686");
+                colorgroup.Add(14, "#FF0000");
+                colorgroup.Add(15, "#FF0000");
+
+                var colorMatch = colorgroup[(int)Model.state];
+
+            }
+            <span class="line-height30">订单状态：<span style="color:@colorMatch">@statetip</span></span>
+            @if (ViewBag.EnableOnline != null && !ViewBag.EnableOnline && (Model.state == LanghuaNew.Data.OrderState.Send || Model.state == LanghuaNew.Data.OrderState.RequestChange || Model.state == LanghuaNew.Data.OrderState.RequestCancel))
+            {
+                <a href="javascript:" class="actions btn btn-default btn-sm button65" data-next-code="6">接单</a>
+            }
+            <a href="javascript:" class="status-red actions btn btn-default btn-sm button65" data-next-code="1">发送</a>
+            <a href="javascript:" class="actions btn btn-default btn-sm button65" data-next-code="2">确认</a>
+            <a href="javascript:" class="actions btn btn-default btn-sm button65" data-next-code="3">取消</a>
+            <a href="javascript:" class="actions btn btn-default btn-sm button65" data-next-code="4">拒绝</a>
+        </div>
+        <span class="verticalborder"></span>
+        <a href="#advancedsearch" class="btn btn-sm btn-default button65" data-toggle="modal">发邮件</a>
+        @*<a id="print" href="javascript:;" class="btn btn-sm btn-default button65">打印</a>*@
+        <a id="print2" href="javascript:;" class="btn btn-sm btn-default button65">打印</a>
+        <div class="btn-group">
+            <button class="btn btn-default btn-sm button65 dropdown-toggle" type="button" data-toggle="dropdown">
+                下载 <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu  button-menu-thin" role="menu">
+                <li>
+                    <a id="download" href="javascript:;" class="LINKDOWNLOAD">PNG图片</a>
+                </li>
+                <li>
+                    <a id="downloadPDF" href="javascript:;" class="LINKDOWNLOAD">PDF文件</a>
+                </li>
+                <li>
+                    <a id="downloadWord" href="javascript:;" class="LINKDOWNLOAD">Word文件</a>
+                </li>
+            </ul>
+        </div>
+        <a id="updateTemp" href="javascript:;" class="btn btn-sm btn-default button65">更新模板</a>
+    </div>
+</div>
+
+<!--startprint-->
+
+<div id="detailmain" class="detailmain">
+    <div id="onebookingorder" class="bookingorder" data-serviceType="@Model.ServiceItemHistorys.ServiceTypeID" data-supplierenname="@ViewBag.SupplierEnName" style="max-width:1000px">
+        <div class="orderdetailtitle">
+            <span class="icon"><img src="../../Content/img/dodotour_logo_cn_color_180_50.png" alt=""></span>
+            <span class="word">预订单 Booking Sheet</span>
+        </div>
+        <div class="orderdetailtips">
+
+            @*<span style="color:red">重要提醒</span>：
+                <span>
+                    如有司机接人的行程，请您按最早的接人时间在酒店大堂等司机，司机到达酒店后只等待5分钟，如果由于您的迟到没有赶上当天行程，船公司会按NoShow算，不退款的哦！
+                </span>*@
+        </div>
+        <div class="staus-tips">
+            @if ((Model.state == LanghuaNew.Data.OrderState.RequestCancel) || (Model.state == LanghuaNew.Data.OrderState.CancelReceive))
+            {
+                <div class="bookorder-status-tips-big bookorder-status-tips-warning bookorder-status-tips">
+                    请求取消PLEASE CANCEL THIS BOOKIING
+                </div>
+            }
+            @*@if (Model.state == LanghuaNew.Data.OrderState.SencondCancel)
+                {
+                    <div class="bookorder-status-mark">
+                        <img src="../../Content/img/order-canceled.png">
+                    </div>
+                }*@
+        </div>
+        @Html.Raw(ViewBag.html)
+        <div class="QR-CODE">
+            <div class="left">
+                <img src="../../Content/img/QR_WeiX_Tmall.jpg" alt="">
+                <div class="marktips">
+                    <div class="one-line">扫码好处多多</div>
+                    <div class="one-line">快速优惠预订</div>
+                    <div class="one-line">订单状态通知</div>
+                    <div class="one-line">确认单随身带</div>
+                </div>
+                <div class="line-vertical">
+                </div>
+            </div>
+            <div class="right">
+                产品服务信息：本产品由 @ViewBag.SupplierEnName 提供服务，本公司不是组团社，仅代游客进行预订，一切责任由提供产品的当地旅游经营者承担。
+            </div>
+        </div>
+    </div>
+    <div id="postmail" class="noprint postmail">
+        <div class="panel panel-default">
+            <div class="panel-body form " style="display: block;">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">团号：</label>
+                            <div class="col-md-8">
+                                <input id="GroupNo" type="text" class="input  input-sm ddinput" value="@Model.ServiceItemHistorys.GroupNo" style="width:190px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">接人时间：</label>
+                            <div class="col-md-8">
+                                <input id="ReceiveManTime" type="text" class="input  input-sm ddinput" value="@Model.ServiceItemHistorys.ReceiveManTime" style="width:190px">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">附加费成本：</label>
+                            <div class="col-md-8">
+                                <input id="TrafficSurcharge" type="text" class="input  input-sm ddinput" value="@Model.ServiceItemHistorys.TrafficSurcharge" style="width:106px">
+                                <select id="CurrencyID" type="text" class="input  input-sm ddinput" style="width:80px" value=@Model.ServiceItemHistorys.TrafficCurrencyID>
+                                    @foreach (LanghuaNew.Data.Currency one in ViewBag.Currency)
+                                    {
+                                        if (Model.ServiceItemHistorys.TrafficCurrencyID == one.CurrencyID)
+                                        {
+                                            <option value="@one.CurrencyID" selected="selected">@one.CurrencyName</option>
+
+                                        }
+                                        else
+                                        {
+                                            <option value="@one.CurrencyID">@one.CurrencyName</option>
+                                        }
+                                    }
+
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">留言（<span class="red">供应商可见</span>)：</label>
+                            <div class="col-md-8">
+                                <textarea id="Remark" class="input  input-sm ddinput" rows=3 style="width:190px">@Model.Remark</textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-8">
+                                <a id="reviseGT" class="btn btn-sm btn-default button70">
+                                    保存修改
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+
+            <div class="panel-body form " style="display: block;">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">订单成本：</label>
+                            <div class="col-md-8">
+                                <input id="totalcost" type="text" class="input  input-sm ddinput" style="width:106px" value=@Model.ServiceItemHistorys.TotalCost>
+                                @*<select type="text" class="input  input-sm ddinput" style="width:80px" disabled  value=@Model.ServiceItemHistorys.CurrencyID>
+                                        @foreach (LanghuaNew.Data.Currency one in @ViewBag.Currency)
+                                        {
+                                            if (Model.ServiceItemHistorys.CurrencyID == one.CurrencyID)
+                                            {
+                                                <option value="@one.CurrencyID" selected="selected">@one.CurrencyName</option>
+
+                                            }
+                                            else
+                                            {
+                                            <option value="@one.CurrencyID">@one.CurrencyName</option>
+                                            }
+                                        }
+                                    </select>*@
+                                <span>@Model.ServiceItemHistorys.CurrencyName</span>
+                                <div>
+                                    <span class="help-inline ">不包含交通附加费</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-8">
+                                <a id="reiveseCost" class="btn btn-sm btn-default button70">
+                                    保存
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        <div>
+            <table class="table table-dairy-mini">
+                <thead>
+                    <tr>
+                        <th style="border:0px"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderHistorys.OrderByDescending(s => s.OrderHistoryID))
+                    {
+                        var strOldState = LanghuaNew.Data.EnumHelper.GetEnumDescription(item.State).Substring(0, LanghuaNew.Data.EnumHelper.GetEnumDescription(item.State).IndexOf("|"));
+
+                        <tr>
+                            <td>
+                                <div class="head">
+                                    <div class="left"> @item.OperTime.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                                    <div class="right">@Html.DisplayFor(modelItem => item.OperUserNickName)</div>
+                                </div>
+                                <div class="body">
+                                    <div class="state">
+                                        订单状态：@strOldState
+                                    </div>
+                                    <div class="remark"> @Html.Raw(item.Remark)</div>
+                                </div>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<!--endprint-->
+<div class="modal modal-animate" id="advancedsearch" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">发邮件</span>
+            </div>
+            <div class="modal-body" id="advancedSearch">
+                <div class="portlet-body form " style="display: block;">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="redspark">*</span>收件人：</label>
+                                <div class="col-md-8">
+                                    <input id="toMail" type="text" class="input input-sm   form-control">
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label"><span class="redspark">*</span>标题：</label>
+                                <div class="col-md-8">
+                                    <input id="title" type="text" class="input input-sm   form-control ">
+
+                                </div>
+                            </div>
+
+
+                            <input id="customerName" value="@Model.CustomerName" type="text" class="input hidden  ddinput  ">
+                            <input id="toMailHidden" value="@Model.Email" type="text" class="input hidden  ddinput  ">
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span id="picname" style="float:left;line-height:30px">附件：TH-叶紫-ailwyezi-皮皮岛南北五星一日游.jpg</span>
+                <span style="display:inline-block">
+                    <button type="button" class="btn btn-default btn-sm button70 btn-primary" id="confirmadvancedsearch">发送</button>
+                    <span></span>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+

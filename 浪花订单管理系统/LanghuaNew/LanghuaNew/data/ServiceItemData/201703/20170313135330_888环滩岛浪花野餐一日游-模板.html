@@ -1,0 +1,146 @@
+﻿<style>
+	table.template > thead > tr > th,
+	table.template > tbody > tr > th,
+	table.template > tfoot > tr > th,
+	table.template > thead > tr > td,
+	table.template > tbody > tr > td,
+	table.template > tfoot > tr > td {
+		border: 1px solid #dddddd;
+	}
+	table.template > thead > tr > th,
+	table.template > thead > tr > td {
+		border-bottom-width: 2px;
+	}
+
+	table.template{
+		table-layout: fixed;
+		font-size:9px;
+		border: 1px solid #dddddd;
+        font-family: "Microsoft YaHei", Tahoma
+        line-height: 1.42857143;
+        color: #000000;
+        clear: both;
+        max-width: none !important;
+		
+        border-collapse: collapse !important;
+	}
+	table.template td{
+		word-break:break-all;
+		padding-left:1px;
+		padding-right:1px;
+		word-wrap:break-word
+		
+	}
+	table.template .align-left{
+		text-align:left;
+	}
+	table.template .align-center{
+		text-align:center;
+	}
+
+	table.template .align-right{
+		text-align:right;
+	}
+	table.template .font9{
+		font-size:9pt;
+	}
+	table.template .font12{
+		font-size:12pt;
+
+	}
+	table.template .font14{
+		font-size:14pt;
+
+	}
+	table.template .bold{
+		font-weight:bold;
+	}
+	
+	.divcss1{color:#F00}
+
+
+
+</style>
+<TABLE class="template">
+		<COLGROUP>
+			<COL  width=115>
+			<COL  width=155>
+			<COL  width=115>
+			<COL  width=155>
+		</COLGROUP>
+		<TBODY>
+        <TR class="tip" height=54>
+				<TD class="align-center" colSpan=4>
+                  <font class="bold font14">  #cnProductName#</font>
+                 
+          </TD>
+		  </TR>
+			<TR  height=37>
+				<TD class="align-right font9 bold"  ><strong>TO：</strong></TD>
+				<TD  class="align-left font9">#TripCompany#</TD>
+				<TD  class="align-right font9 bold">Voucher No. <BR>团号<SPAN >&nbsp;</SPAN></TD>
+				<TD  class="align-center font12 bold">#VoucherNo#</TD>
+			</TR>
+			<TR  height=37>
+				<TD colspan="2" class=" align-right font12 bold divcss1 "><SPAN>Pickup Time
+			    当地接人时间&nbsp;&nbsp;</span></TD>
+				<TD colspan="2"  class="align-left font12 bold divcss1"> &nbsp;&nbsp;#PickupTime#</TD>
+			</TR>
+			<TR height=37>
+				<TD class="align-right font9 bold"  >Guest Name<BR>客人姓名</TD>
+				<TD class="align-center font14 bold" colSpan=3>#cnName#/#enName#</TD>
+			</TR>
+			<TR  height=37>
+				<TD class="align-right font9 bold">Guest Tel<BR>客人电话</TD>
+				<TD  class="align-center font14 bold" colspan="3">#Tel#, #BakTel#</TD>
+			</TR>
+			<TR  height=37>
+				<TD class="align-right font9 bold">Wechat<BR>客人微信</TD>
+				<TD class="align-center font9" >#Wechat#</TD>
+				<TD class="align-right font9 bold">Taobao ID<BR>淘宝ID<SPAN>&nbsp;</SPAN></TD>
+				<TD class="align-center font9" >#TBID#</TD>
+			</TR>
+			<TR  height=90>
+				<TD class="align-right font9 bold" >Booking Package<BR>预订项目</TD>
+				<TD class="align-left font9" colSpan=3>
+				  #cnProductName##ProductCode#<BR>
+			  #cnAttachedItem#</TD>
+			</TR>
+			<TR  height=37>
+				<TD class="align-right font9 bold">Service Date<BR>出发日期</TD>
+				<TD class="align-center font9 " >#ServiceDate#</TD>
+				<TD class="align-right font9 bold">Back Date<BR>返回日期</TD>
+				<TD class="align-center font9 ">#BackDate#</TD>
+			</TR>
+			<TR height=37>
+				<TD class="align-right font9 bold">No. Pax<BR>人数</TD>
+				<TD class="align-center font9 blod" colSpan=3>Adult 成人：#Adult#　Child 儿童：#Child#　Infant 婴儿：#Infant#</TD>
+			</TR>
+			<TR height=37>
+				<TD class="align-right font9 bold">Pickup Hotel<BR>接人酒店</TD>
+				<TD class="align-center font9 blod" colSpan="3">#PickupHotelArea#-#PickupHotelName#(#PickupHotelTel#)</TD>
+			</TR>
+			<TR height=37>
+				<TD class="align-right font9 bold">Return Hotel<BR>返回酒店</TD>
+				<TD class="align-center font9 blod" colSpan=3>#ReturnHotelArea#-#ReturnHotelName#(#ReturnHotelTel#)</TD>
+			</TR>
+			<TR height=50>
+				<TD class="align-right font9 bold">Member List<BR>游客名单</TD>
+				<TD class="align-left font9 " colSpan=3 >#MemberList#</TD>
+			</TR>
+			
+			<TR class="tip" height=46>
+				<TD colSpan=4><p><FONT class="bold font9">温馨提示：</FONT><FONT class="font9"><br />
+		       接人时行程公司会根据酒店位置顺序进行接送，司机晚到5-15分钟是正常情况，请在酒店大堂耐心等候！如超过15分钟司机未到，请拨打确认单底部的中文客服电话！请谅解！</FONT></p></TD>
+			</TR>
+            <TR class="tip" height=54>
+				<TD class="align-center" colSpan=4>
+                    <font class="font12 ">
+                    Contact（中文客服）：#SupplyTel#  </font>
+                    <font class=""><BR>
+                  国内客服：18124569281晴晴，18124516440萍萍</font>
+          </TD>
+		  </TR>
+			
+		</TBODY>
+</TABLE>

@@ -1,0 +1,110 @@
+﻿@model LanghuaNew.Data.AlipayTransfer
+
+@{
+    ViewBag.SECTION = "客户";
+    ViewBag.FUNCTION = "新增转账";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/alipaytransfer.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>转账记录</div>
+    <div class="button-right"><a href="~/AlipayTransfers/Index" class="btn btn-sm btn-default">返回转账首页</a></div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body form " style="display: block;">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>客户来源：</label>
+                    <div class="col-md-10">
+                        <span id="OrderSourse">
+                            @{
+                                var i = 0;
+
+                                foreach (LanghuaNew.Data.OrderSourse s in ViewBag.OrderSourse)
+                                {
+                                    if (i == 0 || s.OrderSourseID == ViewBag.OrderSourseID)
+                                    {
+                                        <label class="radio-inline"><input checked class="OrderSourse" type="radio" name="OrderSourse" value="@s.OrderSourseID" /><span class="vertical-middle">@s.OrderSourseName</span></label>
+                                    }
+                                    else
+                                    {
+                                        <label class="radio-inline"><input class="OrderSourse" type="radio" name="OrderSourse" value="@s.OrderSourseID" /><span class="vertical-middle">@s.OrderSourseName</span></label>
+
+                                    }
+                                    i++;
+                                }
+                            }
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>淘宝ID：</label>
+                    <div class="col-md-10">
+                        <input id="TBID" type="text" class="form-control input-inline" style="width:200px" value="@ViewBag.TBID">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>系统订单号：</label>
+                    <div class="col-md-10">
+                        <label class="radio-inline">
+                            <input checked class="CheckOrderNo" type="radio" name="CheckOrderNo" value="1" />
+                            <span class="vertical-middle">&nbsp;</span>
+                        </label>
+                        <input id="OrderNo" type="text" class="form-control input-inline" style="width:174px" value="@ViewBag.OrderNo">
+                        <label class="radio-inline">
+                            <input class="CheckOrderNo" type="radio" name="CheckOrderNo" value="2" />
+                            <span class="vertical-middle">静默销售（无系统订单）</span>
+                         </label>
+                     </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>收款账号：</label>
+                    <div class="col-md-10">
+                        <input id="ReceiveAddress" type="text" class="form-control input-inline" style="width:200px">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">收款人姓名：</label>
+                    <div class="col-md-10">
+                        <input id="ReceiveName" type="text" class="form-control input-inline" style="width:200px">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>转账类型：</label>
+                    <div class="col-md-10">
+                        <select id="TransferTypeValue" class="input input-sm input-small">
+                            <option selected value="-1">请选择</option>
+                            @foreach (LanghuaNew.Data.TransferType item in Enum.GetValues(typeof(LanghuaNew.Data.TransferType)))
+                            {
+                                var value = (int)item;
+                                <option value="@value">@LanghuaNew.Data.EnumHelper.GetEnumDescription(item)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>转账金额：</label>
+                    <div class="col-md-10">
+                        <input id="TransferNum" type="text" class="form-control input-inline" style="width:110px">元
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>转账原因：</label>
+                    <div class="col-md-10">
+                        <textarea id="Remark" class="form-control input-inline" rows="5" style="width:290px"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <a id="btnSave" class="btn btn-sm btn-primary button70">保存</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

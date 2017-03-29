@@ -1,0 +1,301 @@
+﻿/*
+    modal 
+*/
+.modal-content{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.35) !important;
+    border-radius:0px !important;
+    max-height:100%;
+}
+.modal-title{
+    font-size:15px;
+}
+/*input icon*/
+.ddDatePicker{
+    display:inline-table;
+    vertical-align:middle;
+    margin-right:5px;
+}
+
+/*
+    panel
+*/
+
+.panel-default > .panel-heading {
+    border-color: #e4e4e4;
+    margin:0px 5px;
+}
+.panel-default > .panel-heading:after {
+      clear: both;
+      content:"";
+      display:table;
+}
+.panel-default > .panel-heading:before {
+      clear: both;
+      content:"";
+      display:table;
+}
+
+/*
+    form
+*/
+
+
+.panel.panel-default  .panel-heading span.big {
+    font-size:20px;
+}
+label{
+    font-weight:normal;
+}
+/*去掉阴影*/
+.form-control{
+    -webkit-box-shadow: none;
+    box-shadow: none ;
+   
+}
+input.form-control{
+     -webkit-appearance: none;
+}
+.form-control:focus{
+    -webkit-box-shadow: none;
+    box-shadow: none 
+}
+/*input-group*/
+.input-group button.default{
+    background:#dddddd;    
+   
+}
+.input-group button.default:focus{
+    outline: -webkit-focus-ring-color auto 5px;
+    outline-color:yellow;
+    outline-style: auto;
+    outline-width: 5px; 
+}
+
+.input-inline /*新增属性*/{
+    display:inline-block;
+    position:relative;
+    margin-right:15px;
+    vertical-align:middle
+}
+.input-group-inline /*新增属性*/{
+    display:inline-table;
+    position:relative;
+    margin-right:15px;
+    vertical-align:middle
+}
+
+.help-inline /*新增属性*/{
+    display:inline-block ;
+    margin-top: 3px;
+    margin-bottom: 2px;
+    height:24px;
+    line-height: 24px;
+    vertical-align: bottom;
+}
+.help-inline.tips /*新增属性*/{
+   background:#FF3300;
+   border:1px solid #FF3300;
+   padding:0px 5px ;
+   color:white;
+   line-height:22px;
+   vertical-align:middle;
+
+   
+}
+
+.help-inline.tips:before /*新增属性*/{
+   content: "\f00d";
+   color:#FC924C;
+   padding-right: 5px;
+   color:white;
+
+   display: inline-block;
+   font: normal normal normal 13px/1 FontAwesome;
+   font-size: inherit;
+   text-rendering: auto;
+   -webkit-font-smoothing: antialiased;
+   
+}
+
+.help-inline.tips.yellow /*新增属性*/{
+   background:#FFF7DC;
+   border:1px solid #F4E19F;
+   padding:0px 5px ;
+   
+}
+.help-inline.tips.yellow:before /*新增属性*/{
+   content: "\f06a";
+   color:#FC924C;
+   padding-right: 5px;
+
+   display: inline-block;
+   font: normal normal normal 13px/1 FontAwesome;
+   font-size: inherit;
+   text-rendering: auto;
+   -webkit-font-smoothing: antialiased;
+   
+}
+
+ 
+
+
+.input-medium{
+    width:240px;
+}
+
+
+/*navbar 导航栏样式覆盖 */
+/* open 是选中的颜色*/
+@media (min-width: 1011px){
+      #LHDDHeader .navbar-brand {
+       width:236px;
+       
+    }
+    #LHDDHeader #LHDDNavLeft.navbar-nav > li > a {
+       width:136px;
+       text-align:center;
+       color:white;
+       font-size:16px;
+       font-weight:bold;
+       /*border-left:1px solid #797979;*/
+    }
+     #LHDDHeader #LHDDNavLeft.navbar-nav > li > a:hover{
+         background:#0066CC;
+     }
+   
+    #LHDDHeader #LHDDNavLeft.navbar-nav > li:first-child > a {
+        
+    }
+
+    #LHDDHeader #LHDDNavLeft.navbar-nav > li.dropdown .dropdown-menu  {
+      top:100%;
+      left:auto;
+      right:-1px;
+      border:1px solid #797979;
+      border-radius:0px;
+      padding-bottom:0px;
+      padding-top:0px;
+      -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.175); 
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.175); 
+    }
+
+    #LHDDHeader #LHDDNavLeft.navbar-nav > li.dropdown .dropdown-menu li a {
+       height:35px;
+       text-align:center;
+       color:white;
+       font-size:16px;
+       background:#2D2D2D;
+       border-bottom:1px solid #797979;
+       width:158px;
+       margin:0px;
+       line-height:28px;
+    }
+    #LHDDHeader #LHDDNavLeft.navbar-nav > li.dropdown .dropdown-menu li a:hover{
+       background:#0066CC;
+    }
+
+     #LHDDHeader #LhDDNAVRight.navbar-nav > li.dropdown .dropdown-menu li a:hover{
+       background:#0066CC;
+    }
+  
+
+
+    
+
+
+
+    #LHDDHeader #LhDDNAVRight.navbar-nav {
+        margin-right:0px;
+        font-size:13px;
+        
+    }
+
+
+     #LHDDHeader #LhDDNAVRight.navbar-nav .fa{
+         font-size:18px;
+    }
+    
+     #LHDDHeader #LhDDNAVRight.navbar-nav > li > a{
+         max-height:40px;
+    }
+    #LHDDHeader #LhDDNAVRight.navbar-nav > li > a:hover{
+         background:#0066CC;
+    }
+    #LHDDHeader #LhDDNAVRight.navbar-nav > li.dropdown .dropdown-menu  {
+        background:#2D2D2D;
+        width:136px;
+        min-width:136px;
+        padding-bottom:0px;
+        padding-top:0px;
+        border-radius:0px;
+        font-size:13px;
+        -webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.175); 
+        box-shadow: 0 0px 0px rgba(0, 0, 0, 0.175);
+    }
+    #LhDDNAVRight.nav.navbar-nav > li.dropdown .dropdown-menu li a{
+       height:35px;
+       text-align:left;
+       color:white;
+       background:#2D2D2D;
+       border-bottom:1px solid #797979;
+       width:136px;
+       line-height:28px;
+    }
+     #LhDDNAVRight.nav.navbar-nav > li.dropdown .dropdown-menu li:last-child a{
+          border-bottom:0px solid #797979;
+     }
+     #LhDDNAVRight.nav.navbar-nav > li.dropdown .dropdown-menu li a:hover{
+       background:#0066CC;
+    }
+    
+    
+
+}
+
+@media(max-width:1011px){
+    .navbar-inverse .navbar-nav > .active > a,
+    .navbar-inverse .navbar-nav > .active > a:hover,
+    .navbar-inverse .navbar-nav > .active > a:focus {
+        color: #0066cc;
+        background-color:inherit;
+    }
+    .navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+        color: #0066cc;
+        background-color: inherit;
+    }
+}
+
+@media (min-width: 1050px){
+    .navbar {
+        border-radius: 0px;
+    }
+}
+
+
+/*表格按钮分页*/
+.dataTables_length{
+    display:inline-block;
+    
+}
+.dataTables_paginate.paging_bootstrap_Langhua{
+    display:inline-block;
+    
+}
+.LanghuaPaginator{
+    text-align:center;
+}
+@media (min-width: 992px){
+    .LanghuaPaginator{
+        text-align:right;
+    }
+}
+
+input[type="radio"] {
+    height:15px;
+    width:15px;
+}
+
+/*readonly*/
+input[readonly].readOnlyDatePicker{
+    background:white;
+}

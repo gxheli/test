@@ -1,0 +1,126 @@
+﻿@model LanghuaNew.Data.Order
+@{
+    ViewBag.Title = "Home Page";
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/personPicker.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/super.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+   
+}
+
+@{
+    ViewBag.SECTION = "透明人";
+    if (Model != null)
+    {
+        ViewBag.FUNCTION = Model.Customers.CustomerTBCode + "-订单修改";
+        <span class="hidden" id="OrderID">@Model.OrderID</span>
+    }
+    else
+    {
+        ViewBag.FUNCTION = "订单修改";
+
+    }
+}
+<div class="ddtitle ">
+    <div class="title-left">
+        <span class="border-left"></span>订单选择
+    </div>
+</div>
+<div class="panel panel-default light ">
+    <div class="panel-body">
+        <form action="/Orders/Edit" class="form-horizontal" method="post">
+            <div class="form-body">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">订单号：</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control input-inline" name="OrderNo" value="@ViewBag.OrderNo" />
+                        <button type="submit" class="btn btn-primary button70 btn-sm">加载</button>
+                        <span class="help-inline">@ViewBag.Message</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (Model != null)
+{
+    <span id="customerid" class="hidden">@Model.CustomerID</span>
+    Dictionary<int, string> AllStates = ViewBag.stateAll;
+    <div id="OrderID" class="hidden">@Model.OrderID</div>
+
+    <div class="ddtitle ">
+        <div class="title-left">
+            <span class="border-left"></span>1. 更改订单状态
+        </div>
+    </div>
+    <div class="panel panel-default light ">
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div class="form-body ">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">当前状态：</label>
+                        <div class="col-md-10">
+                            <p class="form-control-static" id="statePresentation">
+                                @LanghuaNew.Data.EnumHelper.GetEnumDescription(Model.state).Substring(0, LanghuaNew.Data.EnumHelper.GetEnumDescription(Model.state).IndexOf("|"))
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">更改为：</label>
+                        <div class="col-md-10">
+                            <select class="form-control input-inline" id="allState">
+                                <option value="-1">全部状态</option>
+                                @foreach (var one in AllStates)
+                                {
+                                    <option value="@one.Key">@one.Value</option>
+                                }
+                            </select>
+                            <button id="changeState" type="button" class="btn btn-primary button70 btn-sm">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="ddtitle ">
+        <div class="title-left">
+            <span class="border-left"></span>2. 更改表单信息
+        </div>
+    </div>
+    Dictionary<string, bool> buttons = new Dictionary<string, bool>();
+    buttons.Add("extraEdit", true);
+    buttons.Add("personNumEdit", true);
+
+    @Html.React("Orders", new
+    {
+        initdata = Model,
+        UIType = "edit",
+        isForCusClient = false,
+        state = "editable",
+        unlimited = true,
+        buttons = buttons
+    });
+    <div class="text-center"><a id="nowsave" class="btn btn-sm btn-primary buttton70"> 提交保存</a></div> 
+    
+}
+
+
+
+
+
+
+
+
+

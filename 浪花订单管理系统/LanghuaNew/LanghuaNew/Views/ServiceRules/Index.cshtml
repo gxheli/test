@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.SECTION = "规则设置-产品";
+    ViewBag.FUNCTION = "产品规则";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/rulelist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="hidden" id="searchoption" data-search='@ViewBag.search'>
+</div>
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>规则管理
+            </span>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm" ><i  class="glyphicon glyphicon-refresh"></i>刷新</button>
+                <a href="~/ServiceRules/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增规则</a>
+            </span>
+
+            <!--<div style="width:80px;height:30px;background:purple;display:inline-block;float:right"></div>-->
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个产品：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="status-green action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+                <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+                <a href="javascript:" class="status-dark action btn btn-sm btn-default button65" data-next-code="delete">删除</a>
+            </div>
+            <span class="rightbar">
+                <select id="status" class="input input-sm input-xsmall">
+                    <option value="0">状态</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+                <input placeholder="模糊搜索：产品名称、编码" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut"/>
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ddtable" id="orderList">
+    <thead>
+        <tr>
+            <th style="width: 30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:360px">适用产品 </th>
+            <th class="OrderBy" data-propertyname="StartTime" style="width:150px">出行范围 <span class="caret status-gray"></span></th>
+            <th style="width:360px">规则内容</th>
+            <th style="width: 80px">状态</th>
+            <th style="width: 200px">备注</th>
+            <th style="width: 150px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div class="modal modal-largeSize modal-animate" id="Remarksearch" tabindex="-1" data-backdrop="static" role="dialog" data-width=500>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">备注</span>
+            </div>
+            <div class="modal-body">
+                <input id="RemarkOrderID" class="hidden" />
+                <textarea id="Remark" class="form-control " rows="5" style="width:460px;margin-right:0px; display:inline-block;max-width:460px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a id="saveRemark" style="" class="btn btn-primary btn-sm button65">保存</a>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

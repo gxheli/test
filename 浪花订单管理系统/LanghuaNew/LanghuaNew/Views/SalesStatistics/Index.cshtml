@@ -1,0 +1,147 @@
+﻿@model IEnumerable<LanghuaNew.Data.SalesStatistic>
+@{ ViewBag.SECTION = "业绩统计"; ViewBag.FUNCTION = "业绩统计"; }
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/salesStatistics.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>业绩统计
+            <div style="vertical-align:top;display:inline-block;margin-left:30px">
+                <div class="btn-group">
+                    <a type="button" href="/SalesStatistics/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                        小任务
+                    </a>
+                    <a type="button" href="/SalesStatistics/StatisticsOrderPrice" class="btn button86 btn-sm btn-default" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                        利润
+                    </a>
+                </div>
+            </div>
+        </span>
+        @if (ViewBag.isSave != null && ViewBag.isSave)
+        {
+            <span class="rightbar">
+                <a data-toggle="modal" data-target="#saleStatistics-set" data class="fixbuttonnew btn btn-sm btn-primary">设置统计产品</a>
+            </span>
+        }
+    </div>
+    <div style="min-height:40px;">
+        <div class="rightbar">
+
+            <div id="daterange" style="display:inline-block">
+                <span style="line-height:30px">订单创建日期： &nbsp;</span>
+                <div class="input-icon-right ">
+                    <input id="BeginDate" class="form-control input-sm input-small" />
+                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                </div>
+                <span class="help-inline">至</span>
+                <div class="input-icon-right ">
+                    <input id="EndDate" class="form-control input-sm input-small" />
+                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                </div>
+            </div>
+            <select id="SalesStatisticID" data-type="select" class="input input-sm ">
+                <option value="0">请选择统计产品</option>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <option value="@item.SalesStatisticID">(@item.supplier.SupplierNo)@item.serviceItem.cnItemName@item.serviceItem.ServiceCode</option>
+                    }
+                }
+            </select>
+            <a id="search" href="javascript:;" data-loading-text="<i class='fa fa-refresh fa-spin'></i>" class="btn btn-sm btn-default button65">统计</a>
+        </div>
+    </div>
+</div>
+
+<table id="saleStatistics" class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove">
+    <thead>
+        <tr role="row">
+            <th style="width: 50px" rowspan="1" colspan="1">排序</th>
+            <th id="tooltipscontainer" style="width: 188px" class="sorting_disabled" rowspan="1" colspan="1">统计用户</th>
+            <th id="tooltipscontainer" style="width: 349px" class="sorting_disabled" rowspan="1" colspan="1">开始日期</th>
+            <th id="tooltipscontainer" style="width: 318px" class="sorting_disabled" rowspan="1" colspan="1">结束日期</th>
+            <th id="tooltipscontainer" style="width: 82px" class="sorting_disabled" rowspan="1" colspan="1">成人</th>
+            <th id="tooltipscontainer" style="width: 82px" class="sorting_disabled" rowspan="1" colspan="1">儿童</th>
+            <th id="tooltipscontainer" style="width: 104px" class="sorting_disabled" rowspan="1" colspan="1">数量</th>
+        </tr>
+    </thead>
+</table>
+<div class="modal modal-animate modal-largeSize" id="saleStatistics-set" tabindex="-1" data-backdrop="static" role="dialog" data-width="500" data-hight=470>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">设置统计产品</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>产品：</label>
+                            <div class="col-md-9">
+                                <span class="caption-subject  ">
+                                    <input id="ItemID" style="vertical-align:middle; width:270px" placeholder="输入产品编码、名称查询" class="form-control input-inline " />
+                                    <span class="help-inline"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>供应商：</label>
+                            <div class="col-md-9">
+                                <select id="SupplierID" class="input input-sm form-control input-inline" style="width:auto;max-width:270px"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"></label>
+                            <div class="col-md-9">
+                                <a id="addItems" style="" class="btn btn-primary btn-sm button65">添加</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">统计产品：</label>
+                            <div class="col-md-9">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-left:30px;position:relative;">
+                        <select id="itemlist" size="8" multiple style="height:180px;width:360px;max-width:360px;">
+                            @foreach (var item in Model)
+                            {
+                                <option data-supplierid="@item.SupplierID" data-serviceitemid="@item.ServiceItemID" value="@item.SalesStatisticID">(@item.supplier.SupplierNo)@item.serviceItem.cnItemName@item.serviceItem.ServiceCode</option>
+                            }
+                        </select>
+                        <div style="width:50px;right:0px;position:relative;display:inline-block;top:0px;vertical-align:top">
+                            <a id="btnDel" style="" class="btn btn-default btn-sm button50">删除</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSave" style="" class="btn btn-primary btn-sm button65">保存</a>
+                <span></span>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

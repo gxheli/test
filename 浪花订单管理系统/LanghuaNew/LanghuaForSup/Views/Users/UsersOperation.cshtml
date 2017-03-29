@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.SECTION = "用户设置";
+    ViewBag.FUNCTION = "操作日志";
+    Layout = "~/Views/Shared/Dairy.cshtml";
+    ViewBag.name = "日志查看";
+}
+
+@section PageJS{
+    <script src="../../Scripts/pages/UsersOpertionList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<input class="hidden" value="@ViewBag.id" id="userid"/>
+<table class="table ddtable table-striped  table-checkable " id="orderList">
+    <thead>
+        <tr>
+            <th style="width:200px">时间</th>
+            <th style="width:150px">操作人</th>
+            <th style="width:150px">操作</th>
+            <th style="width:300px">备注</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+

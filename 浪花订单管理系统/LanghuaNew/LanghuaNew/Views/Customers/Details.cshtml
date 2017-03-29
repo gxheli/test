@@ -1,0 +1,170 @@
+﻿@model LanghuaNew.Data.Customer
+
+@{
+    ViewBag.SECTION = "客户";
+    ViewBag.FUNCTION = "客户详情";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/customer.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>基本资料</div>
+    <div class="button-right"><a href="~/Customers/Index" class="btn btn-sm btn-default button70">返回客户首页</a></div>
+</div>
+<input type="hidden" id="CustomerID" value="@Model.CustomerID" />
+@Html.HiddenFor(model => model.Tel)
+@Html.HiddenFor(model => model.Email)
+@Html.HiddenFor(model => model.CustomerName)
+@Html.HiddenFor(model => model.CustomerEnname)
+@Html.HiddenFor(model => model.BakTel)
+@Html.HiddenFor(model => model.Wechat)
+<div class="panel-default panel">
+    
+    <div class="panel-body ">
+        <div class="row">
+             <div class="col-md-4">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-6 control-label">淘宝ID：</label>
+                        <div class="col-md-6">
+                            <input id="newCustomerTBCode" class="form-control input-sm input-inline" style="max-width:200px" value="@Model.CustomerTBCode" type="text" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-6 control-label">联系电话：</label>
+                        <div class="col-md-6">
+                            <input id="newTel" class="form-control input-sm input-inline"style="max-width:200px"  value="@Model.Tel" type="text" readonly />
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-md-6 control-label">Email地址：</label>
+                        <div class="col-md-6">
+                            <input id="newEmail" class="form-control input-sm input-inline" style="max-width:200px" value="@Model.Email" type="text" readonly />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">姓名：</label>
+                        <div class="col-md-9">
+                            <input placeholder="中文" id="newCustomerName" class="form-control input-sm input-inline" style="max-width:91px" value="@Model.CustomerName" type="text" readonly />
+                            <input placeholder="拼音" id="newCustomerEnname" class="form-control input-sm input-inline" style="max-width:90px" value="@Model.CustomerEnname" type="text" readonly />
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label class="col-md-3 control-label">备用联系电话：</label>
+                        <div class="col-md-9">
+                            <input id="newBakTel" class="form-control input-sm input-inline" style="max-width:200px"  value="@Model.BakTel" type="text" readonly />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">登记微信号：</label>
+                        <div class="col-md-9">
+                            <input id="newWechat" class="form-control input-sm input-inline " style="max-width:200px" value="@Model.Wechat" type="text" readonly />
+                            <a id="btnUpdate" class="btn btn-sm btn-primary button70 input-inline">修改</a>
+                            <a id="btnUpdateSave" class="btn btn-sm btn-primary button70 input-inline hidden">保存</a>
+                            <a id="btnCancal" class="hidden" style="line-height:30px;display:inline-block;height:30px;vertical-align:bottom">取消</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-8 col-md-offset-4">
+                          
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3">
+                 <div class="QRcontainer">
+                    <img src="@ViewBag.ImageUrl" alt="等待二维码" />
+                    @if (string.IsNullOrEmpty(Model.OpenID))
+                    {
+                        <div class="text">未绑定微信</div>
+                    }
+                    else
+                    {
+                        <div class="text">@ViewBag.NickName</div>
+                        <div class="text">已绑定微信 <a href="javascript:;" id="weixin">解绑</a></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>客户跟进记录</div>
+</div>
+
+<div class="panel-default panel">
+    <div class="panel-body form">
+        <form class="form-horizontal">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>跟进方式：</label>
+                    <div class="col-md-10">
+                        <select id="BackType" class="form-control input input-sm input-small input-inline" style="max-width:100px">
+                            <option selected value="">请选择</option>
+                            @foreach (LanghuaNew.Data.BackType item in Enum.GetValues(typeof(LanghuaNew.Data.BackType)))
+                            {
+                                <option value="@item">@LanghuaNew.Data.EnumHelper.GetEnumDescription(item)</option>
+                            }
+                        </select>
+                        <label class="checkbox-inline"><input id="isBack" type="checkbox" checked="@Model.IsBack" />状态更新为已回访</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>情况记录：</label>
+                    <div class="col-md-10">
+                        <a class="btn btn-sm btn-default button70 sendmessage">电话未通</a>
+                        <a class="btn btn-sm btn-default button70 sendmessage">无人接听</a>
+                        <a class="btn btn-sm btn-default button70 sendmessage">回访满意</a>
+                        <a class="btn btn-sm btn-default button70 sendmessage">已好评</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <textarea id="Remark" class="form-control input-inline" rows="5" style="max-width:600px"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <a id="btnSave" class="btn btn-sm btn-primary button70">保存</a>
+                    </div>
+                </div>
+                @if (Model.CustomerBacks != null)
+                {
+                    <table class="table-lh table-lh-bordered-white  table-lh-bordered-edge-remove ">
+                        <thead>
+                            <tr>
+                                <th style="width:12%">跟进方式</th>
+                                <th style="width:15%">记录时间</th>
+                                <th style="width:60%">情况记录</th>
+                                <th style="width:13%">跟进人</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.CustomerBacks.OrderByDescending(s => s.CustomerBackID))
+                            {
+                                <tr>
+                                    <td>@LanghuaNew.Data.EnumHelper.GetEnumDescription(item.CustomerBackType)</td>
+                                    <td>@item.CreateData.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                    <td>@item.Remark</td>
+                                    <td>@item.OperateUserNickName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+

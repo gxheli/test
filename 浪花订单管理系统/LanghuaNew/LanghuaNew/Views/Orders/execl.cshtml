@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "导出";
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/WeixinMessages.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        @using (Html.BeginForm())
+        {
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-2 control-label">供应商：</label>
+                    <div class="col-md-10">
+                        <select id="SupplierID" name="SupplierID" class="input-sm input-small form-control input130">
+                            <option value="-1">请选择</option>
+                            @{
+                                foreach (var one in ViewBag.Supplier)
+                                {
+                                    <option value=@one.SupplierID text=@one.SupplierName>@one.SupplierNo-@one.SupplierName</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">开始时间：</label>
+                    <div class="col-md-10">
+                        <input name="start" type="text" class="form-control input-sm input-inline startTime" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">结束时间：</label>
+                    <div class="col-md-10">
+                        <input name="end" type="text" class="form-control input-sm input-inline endTime" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <input id="type" name="type" type="hidden"/>
+                        <input id="exportproducts" type="button" value="用车团表" class="btn btn-primary button70 input-inline" onclick="car()" />
+                        <input id="exportFieldSave" type="button" value="行程团表" class="btn btn-primary button70 input-inline" onclick="travel()"/>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    function car() {
+        if ($('#SupplierID').val() == -1) {
+            $('#SupplierID').warning('请选择');
+        }
+        else {
+            $('#type').val('car')
+            $("form").submit();
+        }
+    }
+    function travel() {
+        if ($('#SupplierID').val() == -1) {
+            $('#SupplierID').warning('请选择');
+        }
+        else {
+            $('#type').val('travel')
+            $("form").submit();
+        }
+    }
+</script>

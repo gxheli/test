@@ -1,0 +1,479 @@
+﻿@model LanghuaNew.Data.Order
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+
+@section PageJS {
+    <script src="../../Scripts/pages/orderedit.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/tmallSearch.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/orderRechange.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/orderClone.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/personPicker.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = Model.Customers.CustomerTBCode + "-订单修改";
+}
+@*联系人基本信息 *@
+<div id="OrderID" class="hidden">@Model.OrderID</div>
+<div class="ddtitle ">
+    <div class="title-left">
+        <span class="border-left"></span>联系人基本资料
+    </div>
+    <div class="button-right">
+        <a href="/Orders/Index" class="btn btn-sm btn-default">返回订单首页</a>
+    </div>
+</div>
+
+<div class="hidden" id="customerid">@Model.CustomerID</div>
+@*<div class="panel panel-default">
+        <div class="panel-body form " style="display: block;">
+                <form class="form-horizontal" role="form">
+                    <disv class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">淘宝ID：</label>
+                            <div class="col-md-10">
+                                <p id="CustomerTBCode" class="form-control-static">@Model.Customers.CustomerTBCode  </p>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>姓名（中文）：</label>
+                            <div class="col-md-10">
+                                <input id="CustomerName" type="text" class="form-control input-inline input-medium" value="@Model.CustomerName" placeholder="中文姓名" />
+                                <span class="help-inline">  </span>
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>姓名（拼音）：</label>
+                            <div class="col-md-10">
+                                <input id="CustomerEnname" type="text" class="form-control input-inline input-medium" value="@Model.CustomerEnname" placeholder="姓名（拼音）" />
+                                <span class="help-inline">请与护照上的姓名拼音保持一致. </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>联系电话：</label>
+                            <div class="col-md-10">
+                                <input id="Tel" type="text" class="form-control input-inline input-medium" value="@Model.Tel" placeholder="" />
+                                <span class="help-inline">最好是到国外也能接听的电话</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label">备用联系电话：</label>
+                            <div class="col-md-10">
+                                <input id="BakTel" type="text" class="form-control input-inline input-medium" value="@Model.BakTel" placeholder="" />
+                                <span class="help-inline"> 尽量填写国外当地号码，以便及时联系 </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span> Email地址：</label>
+                            <div class="col-md-10">
+                                <input id="Email" type="text" class="form-control input-inline input-medium" value="@Model.Email" placeholder="" />
+                                <span class="help-inline"> 常用邮箱，用来接收确认单或预订信息变更通知 </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span> 微信号：</label>
+                            <div class="col-md-10">
+                                <input id="Wechat" type="text" class="form-control input-inline input-medium" value="@Model.Wechat" placeholder="" />
+                                <span class="help-inline"> 不是昵称，在“微信-我”界面中，您头像的旁边可以找到 </span>
+                            </div>
+                        </div>
+                    </disv>
+                </form>
+
+            </div>
+
+
+
+    </div>*@
+@{
+    Dictionary<string, bool> basebuttons = new Dictionary<string, bool>();
+    basebuttons.Add("copyToClipboard", true);
+}
+@Html.React("BaseInfo", new
+{
+    baseinfo = Model,
+    code = Model.Customers.CustomerTBCode,
+    editFlag = Model.ServiceItemHistorys.ElementsValue == null ? false : true,
+    buttons = basebuttons
+})
+
+
+
+@* 预约产品区域 *@
+<div class="ddtitle ">
+    <div class="title-left">
+        <span class="border-left"></span>项目预约信息
+    </div>
+</div>
+@*
+    UIType：edit,reChange,later display
+*@
+@{
+    var state = "editable";
+    var orderstate = false;
+    if (Model.state < LanghuaNew.Data.OrderState.SendReceive)
+    {
+        state = "editable";
+    }
+    else
+    {
+        if (!(Model.state == LanghuaNew.Data.OrderState.Invalid || Model.state == LanghuaNew.Data.OrderState.SencondCancel))
+        {
+            state = "rechangeable";
+        }
+
+    }
+}
+@{
+    Dictionary<string, bool> buttons = new Dictionary<string, bool>();
+    buttons.Add("extraEdit", true);
+    buttons.Add("personNumEdit", true);
+    buttons.Add("clone", true);
+    buttons.Add("copyToClipboard", true);
+}
+
+@Html.React("Orders", new
+{
+    initdata = Model,
+    UIType = "edit",
+    state = state,
+    isForCusClient = false,
+    unlimited = false,
+    buttons = buttons
+})
+
+
+<div class="" style="text-align:center">
+    @{
+        if (Model.state < LanghuaNew.Data.OrderState.SendReceive)
+        {
+            <a id="nowsave" class="btn btn-sm btn-primary buttton70"> 提交保存</a>
+        }
+        else
+        {
+            if (Model.state == LanghuaNew.Data.OrderState.Invalid)
+            {
+                <div>订单已作废。</div>
+            }
+            else if (Model.state == LanghuaNew.Data.OrderState.SencondCancel)
+            {
+                <div>订单已取消。</div>
+            }
+            else
+            {
+                var OneOrder = JsonConvert.SerializeObject(Model);
+                <span id="ThisOrder" class="hidden">@OneOrder</span>
+                <div>订单无法直接修改，请发起请求变更进行信息修改。</div>
+                <hr />
+                <a id="reChange" class="btn btn-sm btn-primary button70" data-target="#reChangeModel" data-toggle="modal"> 请求变更</a>
+            }
+        }
+    }
+</div>
+
+
+
+
+@* 请求变更 *@
+<div class="modal modal-giantSize modal-animate" id="reChangeModel" tabindex="-1" data-backdrop="static" data-height="425" data-width=1000 role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">请求变更</span>
+            </div>
+            <div id="advancedSearch" class="modal-body">
+                <div style="margin:5px 0px">
+                    <div style="margin-top:10px;float:left;margin-right:5px">
+                        <div style="float:left"></div>
+                        <span style="color:red;"> 新增</span> 收入淘宝订单号：
+                    </div>
+                    <div id="tmallOrders">
+                        <div id="orderNolist" class="orderNolist" style="min-height:38px;width:268px;margin-right:0px;display:inline-block;position:relative">
+                            <div id="tips" style="position:absolute;top:0px;bottom:0px;left:0px;right:0px;color:#999999;line-height:38px;text-align:center">订单收入金额增加时请选择新的淘宝订单</div>
+                        </div>
+                        <a id="addTmallData" data-toggle="modal" href="#orderPre" style="position:absolute;margin-left: 5px;margin-top:10px">选择淘宝订单</a>
+                    </div>
+                </div>
+                <div style="height:340px;overflow-y:auto">
+                    @{
+                        Dictionary<string, bool> buttonsR = new Dictionary<string, bool>();
+                        if (state == "rechangeable")
+                        {
+                    @Html.React("Orders", new
+                       {
+                           initdata = Model,
+                           UIType = "reChange",
+                           state = state,
+                           buttons = buttonsR
+                       })
+                        }
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-primary" id="confirmRechange">保存修改</a>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* 换产品（克隆单） *@
+@{
+    var hasEdit = string.IsNullOrEmpty(Model.ServiceItemHistorys.ElementsValue) ? "no" : "yes";
+}
+<div id="order-clone-modal" class="modal modal-largeSize modal-animate" tabindex="-1" data-backdrop="static" data-height="370" data-width=1000 role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">换产品</span>
+
+
+            </div>
+            <div class="modal-body">
+                <div id="chooseCloningItem">
+                    <div style="height:1px" class="margin-bottom-10 margin-top-10"></div>
+                    <form class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">原产品：</label>
+                                <div class="col-md-10">
+                                    <p id="CustomerTBCode" class="form-control-static">（@Model.ServiceItemHistorys.SupplierCode）@Model.ServiceItemHistorys.cnItemName@Model.ServiceItemHistorys.ServiceCode  </p>
+                                    <div id="itemServiceType" class="hidden">@Model.ServiceItemHistorys.ServiceTypeID</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"><span class="redspark">*</span>要换为：</label>
+                                <div class="col-md-10">
+                                    <input id="serviceItem-new" placeholder="输入产品编码、名称查询" type="text" class="form-control input-inline " style="min-width:300px" />
+                                    <span id="errorTips" class="help-inline tips hidden margin-left-10">不同类型产品不能更换</span>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"><span class="redspark">*</span>供应商：</label>
+                                <div class="col-md-10">
+                                    <select id="supplier-new" class="form-control input-inline input165"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">
+                                    <span style="color:red;"> 新增</span> 收入淘宝订单号：
+                                </label>
+                                <div class="col-md-10">
+                                    <div id="tmallOrders">
+                                        <div id="orderNolist" class="orderNolist" style="min-height:38px;width:268px;margin-right:0px;display:inline-block;position:relative">
+                                            <div id="tips" style="position:absolute;top:0px;bottom:0px;left:0px;right:0px;color:#999999;line-height:38px;text-align:center">订单收入金额增加时请选择新的淘宝订单</div>
+                                        </div>
+                                        <a id="addTmallData" data-toggle="modal" href="#orderPre" style="position:absolute;margin-left: 5px;margin-top:10px">选择淘宝订单</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div id="tips-fixed" style="position:absolute;bottom:0px;left:80px;right:0px;margin-bottom:20px">
+                        不同类型产品不能更换
+                    </div>
+                </div>
+                <div id="mapcloningForm" style="display:none">
+                    <table id="mappingTable" class="table  reChangeTable table-bordered  ">
+                        <thead>
+                            <tr>
+                                <th id="clonedItemName">（@Model.ServiceItemHistorys.SupplierCode）@Model.ServiceItemHistorys.cnItemName@Model.ServiceItemHistorys.ServiceCode  </th>
+                                <th id="cloningItemName"></th>
+                            </tr>
+                        </thead>
+                        <tbody data-edit=@hasEdit>
+                            @{
+                                JObject elements = JObject.Parse(Model.ServiceItemHistorys.Elements);
+                                JObject value = new JObject();
+                                if (hasEdit == "yes")
+                                {
+                                    if (String.IsNullOrEmpty(Model.ServiceItemHistorys.ChangeValue))
+                                    {
+                                        value = JObject.Parse(Model.ServiceItemHistorys.ElementsValue);
+
+                                    }
+                                    else
+                                    {
+                                        value = JObject.Parse(Model.ServiceItemHistorys.ChangeValue);
+                                    }
+
+
+                                }
+
+
+                                var elementList = elements.SelectToken("$..elementList");
+                                foreach (JProperty one in elementList)
+                                {
+                                    <tr>
+                                        <td data-increaseid="@one.Name"
+                                            data-type='@one.SelectToken("$..type")'
+                                            data-elements='@JsonConvert.SerializeObject(one.SelectToken("$..elements"))'
+                                            data-elementsvalue='@JsonConvert.SerializeObject(value.SelectToken("$.."+one.Name))'>
+                                            @one.SelectToken("$..text")
+                                        </td>
+                                        <td class="map"></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-default " style="float:left;display:none;" id="preStep">上一步</a>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-primary" style="display:none;" id="clickToClone">复制为新单</a>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-primary" id="clicktoMapFORM">下一步</a>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="clientOrderLoading" class="modal-scrollable" style="z-index: 1060;background:rgba(255,255,255,0.5)!important;">
+    <div class="modal in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="text-align: center; background: rgb(45, 45, 45); height: 60px !important; padding: 10px 0px !important; top: 50% !important; display: block; width: 500px; margin-left: -250px; margin-top: -20px;" aria-hidden="false">
+        <div style="display:inline-block;width:40px;height:40px;position:relative;vertical-align:middle">
+            <div class="progress-langhua medium circles" style="display: block;">
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+            </div>
+        </div>
+        <span style="display:inline-block;padding-left:20px;line-height:40px;height:40px;vertical-align:middle;font-weight:bold;color:white">正 在 准 备 呈 现 …… </span>
+    </div>
+</div>
+<div id="orderPre" class="modal  modal-animate modal-size-x4" tabindex="-1" data-backdrop="static" role="dialog" data-max-height="540" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title"><span style="line-height:30px">查询天猫订单：</span></span>
+                <input class="form-control input-inline input200" type="text" id="TBIDX" value="" />
+                <a id="checkTBListR" class="btn btn-sm btn-primary button70">
+                    查询天猫订单
+                </a>
+            </div>
+            <div class="modal-body" style="padding-left:10px;padding-right:10px">
+                <div style="border-bottom:1px solid #CCCCCC;line-height:30px;height:35px">
+                    <label class="form-lables">
+                        <input id="haveNotOrderedOnly" type="checkbox" name="name" value="" />
+                        <span>只显示没链接的订单</span>
+                    </label>
+                    <label class="form-lables">
+                        <input id="enableOnly" type="checkbox" name="name" value="" />
+                        <span>不显示已关闭订单</span>
+                    </label>
+                    <a href="javascript:;" id="flashOrderPre" style="float:right" class="btn btn-default btn-sm button70"><i class="fa fa-refresh"></i> 刷新 </a>
+                </div>
+
+                <table class="table-preorder-outer" id="order-pre-list-pretend">
+                    <colgroup>
+                        <col width="36" />
+                        <col width="350" />
+                        <col width="220" />
+                        <col width="90" />
+                        <col width="130" />
+                        <col width="105" />
+                        <col width="133" />
+                        <col width="85" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>
+                                <input id="selectAllOrdersPre" type="checkbox" name="name" value="" />
+                            </th>
+                            <th>
+                                宝贝信息
+                            </th>
+                            <th>
+                                商家编码
+                            </th>
+                            <th class="text-right">
+                                单价*数量
+                            </th>
+                            <th>
+                                状态
+                            </th>
+
+                            <th>
+                                优惠
+                            </th>
+                            <th>
+                                实付
+                            </th>
+                            <th>
+                                交易状态
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table-preorder-outer" id="order-pre-list">
+                    <colgroup>
+                        <col width="1149" />
+                    </colgroup>
+                    <thead style="display:none">
+                        <tr>
+                            <th>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="margin-right-10">
+                    已选择
+                    <span id="selecteNum">0</span>
+                    个订单
+                </span>
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" id="setOrders">添加</a>&nbsp;
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    setTimeout(function () {
+        var orderloadingtips = document.getElementById("order-loading-tips");
+        if (orderloadingtips) {
+            orderloadingtips.innerText = "网络似乎不给力，亲，刷新下？";
+
+        }
+    }, 15000)
+</script>

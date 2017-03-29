@@ -1,0 +1,88 @@
+<table border="0" cellpadding="0" cellspacing="0" width="896" style="border-collapse:
+ collapse;table-layout:fixed;width:674pt">
+ <colgroup><col class="xl65" width="174" style="mso-width-source:userset;mso-width-alt:5568;
+ width:131pt">
+ <col class="xl65" width="274" style="mso-width-source:userset;mso-width-alt:8768;
+ width:206pt">
+ <col class="xl65" width="174" style="mso-width-source:userset;mso-width-alt:5568;
+ width:131pt">
+ <col class="xl65" width="274" style="mso-width-source:userset;mso-width-alt:8768;
+ width:206pt">
+ </colgroup><tbody><tr height="37" style="mso-height-source:userset;height:27.75pt">
+  <td height="37" class="xl66" width="174" style="height:27.75pt;width:131pt">Booking
+  No. <br>
+    团号<span style="mso-spacerun:yes">&nbsp;</span></td>
+  <td colspan="3" class="xl83" width="722" style="width:543pt">JY-1209-123</td>
+ </tr>
+ <tr height="136" style="mso-height-source:userset;height:102.0pt">
+  <td height="136" class="xl66" width="174" style="height:102.0pt;width:131pt">Guest
+  Name<br>
+    客人姓名</td>
+  <td colspan="3" class="xl85" width="722" style="width:543pt"><font class="font12">章子怡</font><font class="font13"><br>
+    </font><font class="font14">ZHANG ZI YI</font></td>
+ </tr>
+ <tr height="37" style="mso-height-source:userset;height:27.75pt">
+  <td height="37" class="xl66" width="174" style="height:27.75pt;width:131pt">Guest
+  Tel<br>
+    客人电话</td>
+  <td colspan="3" class="xl71" width="722" style="width:543pt">13952022845,
+  13770334637</td>
+ </tr>
+ <tr height="37" style="mso-height-source:userset;height:27.75pt">
+  <td height="37" class="xl66" width="174" style="height:27.75pt;width:131pt">Wechat<br>
+    客人微信</td>
+  <td class="xl67" width="274" style="width:206pt">ailwyezi</td>
+  <td class="xl66" width="174" style="width:131pt">Taobao ID<br>
+    淘宝ID<span style="mso-spacerun:yes">&nbsp;</span></td>
+  <td class="xl72">ailwyezi</td>
+ </tr>
+ <tr height="58" style="mso-height-source:userset;height:43.5pt">
+  <td height="58" class="xl68" width="174" style="height:43.5pt;width:131pt">Service
+  Item<br>
+    预订项目</td>
+  <td colspan="2" class="xl71" width="448" style="width:337pt">IN CAR<br>
+    普吉小车接机</td>
+  <td class="xl76" width="274" style="width:206pt">1辆车</td>
+ </tr>
+ <tr height="39" style="mso-height-source:userset;height:29.25pt">
+  <td height="39" class="xl68" width="174" style="height:29.25pt;width:131pt">Flight
+  No.<br>
+    航班号</td>
+  <td class="xl71" width="274" style="width:206pt">TG608</td>
+  <td class="xl66" width="174" style="width:131pt">Departure Time<br>
+    起飞时间</td>
+  <td class="xl77">2016/05/05 11:00</td>
+ </tr>
+ <tr height="37" style="mso-height-source:userset;height:27.75pt">
+  <td height="37" class="xl66" width="174" style="height:27.75pt;width:131pt">No.
+  Pax<br>
+    人数</td>
+  <td class="xl72">Adult 成人2　Child 儿童0　Infant 婴儿0</td>
+  <td class="xl66" width="174" style="width:131pt">Arrival Time<br>
+    到达时间</td>
+  <td class="xl77">2016/05/05 14:30</td>
+ </tr>
+ <tr height="37" style="mso-height-source:userset;height:27.75pt">
+  <td height="37" class="xl66" width="174" style="height:27.75pt;width:131pt">Hotel<br>
+    酒店</td>
+  <td colspan="3" class="xl72">Kata-Katathani Phuket Beach Resort(66-763301246)</td>
+ </tr>
+ <tr height="46" style="mso-height-source:userset;height:34.5pt">
+  <td colspan="4" height="46" class="xl73" width="896" style="height:34.5pt;width:674pt"><font class="font8">温馨提示：</font><font class="font7">航班延误或在海关耽误请一定在第一时间电话通知
+  阿金，切记要在原定到达普吉机场前3小时通知哦。
+  出了机场最后一道门之后，往左手边有一个蓝色的TMB银行，它对面就是浪花朵朵的接机牌啦，亲们找到牌子就可以找到朵朵家24小时驻机场工作人员，工作人员会给亲安排车子的哈！</font></td>
+ </tr>
+ <tr height="54" style="mso-height-source:userset;height:40.5pt">
+  <td colspan="4" height="54" class="xl67" width="896" style="height:40.5pt;width:674pt"><font class="font11">After office（中文客服）：阿金
+  0935761311，国内电话卡在国内拨0066935761311，泰国电话卡直拨。 </font><font class="font7"><br>
+    国内客服：18124569281晴晴，18124516440萍萍</font></td>
+ </tr>
+ <!--[if supportMisalignedColumns]-->
+ <tr height="0" style="display:none">
+  <td width="174" style="width:131pt"></td>
+  <td width="274" style="width:206pt"></td>
+  <td width="174" style="width:131pt"></td>
+  <td width="274" style="width:206pt"></td>
+ </tr>
+ <!--[endif]-->
+</tbody></table>

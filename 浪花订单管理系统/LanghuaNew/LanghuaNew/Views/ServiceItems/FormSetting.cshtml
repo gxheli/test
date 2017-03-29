@@ -1,0 +1,153 @@
+﻿@model LanghuaNew.Data.ServiceItem
+@using Newtonsoft.Json;
+@using System.Collections.Generic;
+@using Commond;
+
+@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "产品表单配置";
+}
+
+<div id="savedFormSetting" class="hidden">@Model.ElementContent</div>
+@section jqueryUIJS {
+    @Scripts.Render("~/bundles/plugins/jqueryUIJs")
+}
+@section jqueryUICSS {
+    @Styles.Render("~/Content/plugins/jqueryUICss")
+}
+
+@section TimepickerJS {
+    @Scripts.Render("~/bundles/plugins/timePickerJs")
+}
+@section TimepickerCSS {
+    @Styles.Render("~/Content/plugins/timePickerCss")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/formSetting.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+
+@{
+    IEnumerable<LanghuaNew.Data.Country> countries = ViewBag.Country;
+    var countryStr = JsonConvert.SerializeObject(countries);
+}
+@{
+    IEnumerable<LanghuaNew.Data.FormField> FormField = ViewBag.FormField;
+    var FormFieldStr = JsonConvert.SerializeObject(FormField);
+}
+<div id="allCountries" class="hidden">@countryStr</div>
+<div id="FormField" class="hidden">@FormFieldStr</div>
+<div id="ItemID" class="hidden">@Model.ServiceItemID</div>
+<div id="ItemType" class="hidden">@Model.ServiceTypeID</div>
+@{
+    var isFixedDays = 0;
+    if (Model.FixedDays > 0)
+    {
+        isFixedDays = 1;
+    }
+    <div id="isFixedDays" class="hidden">@isFixedDays</div>
+}
+<div class="ddtitle ">
+        <div class="title-left"><span class="border-left">
+            </span>产品表单配置：<span id="itemname">@Model.cnItemName</span>
+          
+        </div>
+        <div class="  button-right"><a href="~/ServiceItems/Index" class="btn btn-sm btn-default">返回产品首页</a><a  target="_blank" style="font-weight:normal;margin-right:30px" href="~/ServiceItems/FormField">系统字段代号查看</a></div>
+</div>
+
+
+<div id="ServiceItemTemplteID" class="hidden">@Model.ServiceItemTemplteID</div>
+
+@{ 
+    var dowmloadurl = "javascript:;";
+    var dowmname = "未上传";
+    if (Model.ServiceItemTemplteID>0)
+    {
+        dowmloadurl = "/ServiceItems/DownFile?ServiceItemTemplteID="+ Model.ServiceItemTemplteID+ "&fileName="+ HttpHelper.UrlEncode(Model.cnItemName)+"-模板.html";
+        dowmname = Model.cnItemName+"-模板.html";
+
+    }
+}
+
+<div class="panel panel-default" id="1118" data-reactid="2">
+    <div class="panel-heading" data-reactid="3">
+            <span  >
+               从产品克隆:
+            </span>
+
+            <span>
+                <input id="ServiceItems" style="vertical-align:middle;width:190px" placeholder="输入产品编码、名称查询" class=" form-control input-sm input-inline " />
+                <a id="toCopy" style="vertical-align:middle" id="copy" class="btn btn-sm btn-default button70">克隆</a>
+            </span>
+            <span id="selectedItem" data-cloneltemid="" class="hidden">
+            </span>
+            <span id="selectedTips" class="hidden" style="font-size:12px;color:#333">
+                已选中:
+                <span id="which" class="which" style="font-size:12px;font-weight:bold">
+                    双方都是非法
+                </span>
+            </span>
+            <span id="responsetext" class="tips" style="font-size:12px;color:#FC924C;padding-left:5px;display:inline-block">
+                
+            </span>
+
+
+            <span id="warningError" class="tips hidden" style="font-size:12px;color:#333">
+                请选择产品
+            </span>
+
+        <span style="float:right;line-height:30px;" data-reactid="21">
+            <span>确认单模板：</span>
+            <a class="LINKDOWNLOAD" href="@dowmloadurl" ><span id="progress">&nbsp;@dowmname&nbsp;</span></a>
+            <a id="upfile"   class="btn btn-sm btn-default " >上传模板</a>
+            <form id="fileform"> <input id="getfile" class="hidden" type="file" /></form>
+        </span>
+    </div>
+    <div class="panel-body " >
+        <div class="row">
+            <div class="col-lg-2">
+                <div id="basicComponentList" class="simpleNest">
+                    
+
+
+                </div>
+            </div>
+            <div class="col-lg-10">
+
+                <div class="formScheduleWrapper">
+                    <div id="formSchedule" class="formSchedule">
+                        <div class="title">表单字段布局</div>
+
+                        
+
+                    </div>
+                    <hr />
+                    <p>
+                        <a id="confirmSaveFormSetting" href="javascript:;" class="btn btn-sm btn-primary button70">保存，去设置价格</a>
+                    </p>
+                   
+
+                </div>
+               
+                <div id="formEditWrapper">
+
+                </div>
+               
+            </div>
+           
+        </div>
+        
+      
+        
+    </div>
+</div>
+
+
+
+

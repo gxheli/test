@@ -1,0 +1,79 @@
+﻿@section ZeroCopy{
+    @Scripts.Render("~/bundles/plugins/zeroCopy")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/ordercreated.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "订单列表";
+}
+
+
+
+<div class="orderCreatedResult">
+    <div class="tips">
+        <span class="icon"><i class="fa fa-check-circle-o"></i></span>
+        <span class="tipword">辛苦了，链接已生成！</span>
+    </div>
+
+    <div class="cal">
+        <form id="formSave" action="/Orders/OrderFinishPost" method="post">
+
+            <div class="onerow">
+                <div class="row">
+                    <div class="col-xs-5 text-right">总成本：</div>
+                    <div class="col-xs-7 text-left">
+                        <input id="cost" name="totalCost" type="text" class="in input-sm input-small " old="@ViewBag.totalCost" value="@ViewBag.totalCost" /><span class="yuan">元</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="onerow">
+                <div class="row">
+                    <div class="col-xs-5 text-right">总金额：</div>
+                    <div class="col-xs-7 text-left">
+                        <input id="recieve" name="TotalReceive" type="text" class="in input-sm input-small " old="@ViewBag.Payment" value="@ViewBag.Payment" /><span class="yuan">元</span>
+                        <input name="TBOrderID" value="@ViewBag.TBOrderID" class="hidden" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="onerow">
+            <div class="row">
+                <div class="col-xs-5 text-right">利润额：</div>
+                <div class="col-xs-7 text-left">
+                    <span id="benefit" class="result"></span>
+                </div>
+            </div>
+        </div>
+        <div class="onerow">
+            <div class="row">
+                <div class="col-xs-5 text-right">利润率：</div>
+                <div class="col-xs-7 text-left">
+                    <span id="benefitrate" class="result"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="keepinfo">
+        <div class="tip">请复制以下内容发送给 <span class="tbid">@ViewBag.TBID</span></div>
+        <div class="content">
+            <div id="URL" class="url">@ViewBag.Url</div>
+            <div id="forcopy" class="word"></div>
+        </div>
+    </div>
+    <div style="text-align:center">
+        <a id="save" class="btn btn-sm btn-primary button120  ">
+            保存并返回
+        </a>
+        <a id="copy" class="btn btn-sm btn-default button70">
+            复制
+        </a>
+    </div>
+  
+    
+</div>
+@*<p>@ViewBag.TBOrderID</p>
+<p>@ViewBag.totalCost</p>
+<p>@ViewBag.TBID</p>*@

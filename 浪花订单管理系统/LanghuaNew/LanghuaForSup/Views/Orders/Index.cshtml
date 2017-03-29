@@ -1,0 +1,446 @@
+﻿@model IEnumerable<LanghuaNew.Data.Order>
+@using Newtonsoft.Json;
+@using System.Collections.Generic;
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTIONC = "订单列表";
+}
+@{
+    Dictionary<string, string> AllStates = ViewBag.stateAll;
+    var StateStr = JsonConvert.SerializeObject(AllStates);
+    Dictionary<int, string> exportField = ViewBag.exportField;
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+@section ZeroCopy{
+    @Scripts.Render("~/bundles/plugins/zeroCopy")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/orderList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div id="allState" class="hidden">@StateStr</div>
+<div class="hidden" id="searchoption" data-search='@ViewBag.search'></div>
+<div class="tabletools">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>订单列表
+        </span>
+        <div class="leftkeys" style="">
+            <div id="allstate">
+                <a href="javascript:" data-postkey="status" data-type="state" class="buttonradio" data-code="-1">全部</a>
+              
+                @{
+                    Dictionary<string, string> stateLeft = ViewBag.stateLift;
+                    Dictionary<string, string> stateRight = ViewBag.stateRight;
+                    Dictionary<string, string> colorgroup = new Dictionary<string, string>();
+                    colorgroup.Add("3", "#0000ff");
+                    colorgroup.Add("4", "#ff0000");
+                    colorgroup.Add("14", "#ff0000");
+                    colorgroup.Add("15", "#ff0000");
+                    colorgroup.Add("9", "#cc0000");
+                    colorgroup.Add("12", "#cc0000");
+                    colorgroup.Add("5", "#000000");
+                    colorgroup.Add("6", "#000000");
+                    colorgroup.Add("10", "#666666");
+                    colorgroup.Add("11", "#666666");
+                    colorgroup.Add("7", "#ff6600");
+                    colorgroup.Add("8", "#ff6600");
+                    foreach (var one in stateLeft)
+                    {
+                        string thiscolor = "";
+                        if (colorgroup.ContainsKey(one.Key.ToString().Split(',')[0]))
+                        {
+                            thiscolor = colorgroup[one.Key.ToString().Split(',')[0]];
+                        }
+                        <a href="javascript:" style="color:@thiscolor" data-postkey="status" data-type="state" class="buttonradio" data-code="@one.Key">@one.Value</a>
+                    }
+                }
+                <a href="javascript:" data-postkey="IsUrgent" data-type="label" class="buttonradio" data-code="true" style="background:#FF0000;color:white">紧急单</a>
+
+                <select data-postkey="status" data-type="select" class="input input-sm input-small ">
+                    <option value="-1">所有状态</option>
+                    @{
+                        foreach (var one in stateRight)
+                        {
+                            <option value="@one.Key">@one.Value</option>
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <span class="rightbar">
+            <button id="reflashTable" type="button" class="btn btn-default btn-sm button65"><i class="glyphicon glyphicon-refresh"></i>刷新</button>
+        </span>
+
+    </div>
+    <div id="ordersCirculation" style="min-height:40px;">
+        <span class="leftlabel font13">
+            对<span id="selectedNumber" class="number">0</span>个订单：
+        </span>
+        <div id="operations" class="leftkeys" style="display:inline-block">
+            @foreach (var operation in ViewBag.operations)
+            {
+                int code = operation.Key;
+                string color = "";
+                switch (code)
+                {
+                    case 6:
+                        color = "status-green";
+                        break;
+
+                    default:
+                        color = "status-black";
+                        break;
+                }
+                <a href="javascript:" class="@color actions btn btn-default btn-sm button65" data-next-code="@code">@operation.Value</a>
+            }
+        </div>
+        <span class="rightbar">
+
+            <input placeholder="模糊搜索：姓名、电话、订单号、团号" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" style="padding:0px 10px;border-radius:0px" />
+            <a href="javascript:;" id="fuzzySearch" class="rightbaritems  btn btn-default btn-sm button65"> 搜索 </a>
+            <a href="#advancedsearch" class="rightbaritems border-rounded btn btn-default btn-sm button65 advancedsearch" data-toggle="modal"> 高级搜索 </a>
+            <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+            <a id="toExportOrder" href="javascript:" data-target="#exportField" class="btn btn-default btn-sm button65">导出</a>
+            <div id="exportFieldtemp" class="hidden"></div>
+        </span>
+    </div>
+</div>
+
+<div id="advancedviewer" class="searchCirc hidden">
+    <div class="title ">高级搜索：</div>
+    <div class="cirgroup">
+       
+    </div>
+    <a href="javascript:;" class="clear">
+        清空条件
+    </a>
+</div>
+
+@* 表格本身 *@
+
+<table class="table ddtable table-striped" id="orderList">
+    <thead>
+        <tr>
+            <th style="width: 30px"><input type="checkbox" class="group-checkable"></th>
+            <th class="OrderBy" id="OrderByOrderNo" data-propertyname="OrderNo" style="width:158px; cursor:pointer">订单号 <span class="caret  "></span></th>
+            <th style="width:110px">姓名</th>
+            <th style="width: 275px">预订项目</th>
+            <th style="width: 78px">人数</th>
+            <th class="OrderBy" id="OrderByStarDate" data-propertyname="TravelDate" style="width: 108px;cursor:pointer">日期<span class="caret status-gray"></span></th>
+            <th style="width: 94px">状态</th>
+            <th class="OrderBy" id="OrderByGroupNo" data-propertyname="GroupNo" style="width: 111px;cursor:pointer">团号<span class="caret status-gray"></span></th>
+            <th style="width: 143px">留言</th>
+            <th id="tooltipscontainer" style="width: 66px">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="odd"><td valign="top" colspan="10" class="dataTables_empty">正在加载列表......</td></tr>
+    </tbody>
+</table>
+
+@* 备注*@
+
+<div class="modal modal-largeSize modal-animate" id="Remarksearch" tabindex="-1" data-backdrop="static" role="dialog" data-width=500>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">留言（<span style="color:red">留言内容浪花朵朵可见</span>）</span>
+            </div>
+            <div class="modal-body">
+                <input id="RemarkOrderID" class="hidden" />
+                <textarea id="Remark" class="form-control " rows="5" style="width:460px;margin-right:0px; display:inline-block;max-width:460px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a id="saveRemark" style="" class="btn btn-primary btn-sm button65">保存</a>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* 高级搜索 *@
+
+
+<div class="modal modal-largeSize modal-animate" id="advancedsearch" tabindex="-1" data-backdrop="static" data-width=700 role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">高级搜索</span>
+            </div>
+            <div id="advancedSearch" class="modal-body">
+                <style>
+                    #advancedSearch .form-inline {
+                        min-height: 50px;
+                    }
+
+                        #advancedSearch .form-inline .form-group {
+                            margin-right: 10px;
+                        }
+
+                    #advancedSearch label .input[type=checkbox] {
+                        padding-right: 10px;
+                    }
+                </style>
+                <form class="form-inline" role="form">
+                    
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#TravelDateBegin,#TravelDateEnd"><span class="vertical-middle">出行日期：</span>
+                    </label>
+                    <div class="form-group">
+                        <div id="launchdaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="TravelDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                            <div class="input-icon-right ">
+                                <input id="TravelDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <label class="checkbox-inline">
+                        <input id="IsChangeTravelDate" class="secondary" type="checkbox" data-for="#IsChangeTravelDate"><span class="vertical-middle">只查变更中的出行日期</span>
+                    </label>
+                </form>
+
+                <form class="form-inline" role="form">
+                    
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#ReturnDateBegin,#ReturnDateEnd"><span class="vertical-middle">返回日期：</span>
+                    </label>
+                    <div class="form-group">
+                        <div id="returndaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="ReturnDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                            <div class="input-icon-right ">
+                                <input id="ReturnDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--创单日期-->
+                @*<form class="form-inline" role="form">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#OrderCreateDateBegin,#OrderCreateDateEnd"><span class="vertical-middle">订单创建日期：</span>
+                        
+                    </label>
+
+
+                    <div class="form-group">
+                        <div id="initdaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="OrderCreateDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+
+
+                            <div class="input-icon-right ">
+                                <input id="OrderCreateDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>*@
+                <!--操作日期-->
+                @*<form class="form-inline" role="form">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#OrderOperDateBegin,#OrderOperDateEnd"><span class="vertical-middle">订单操作日期：</span>
+
+                    </label>
+                    <div class="form-group">
+                        <div id="initdaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="OrderOperDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+
+
+                            <div class="input-icon-right ">
+                                <input id="OrderOperDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>*@
+
+                <!--下单日期-->
+                <form class="form-inline" role="form">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#OrderSendDateBegin,#OrderSendDateEnd"><span class="vertical-middle">下单日期：</span>
+                    </label>
+                    <div class="form-group">
+                        <div id="ordersenddaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                            <div class="input-icon-right ">
+                                <input id="OrderSendDateBegin" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                            <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+
+
+                            <div class="input-icon-right ">
+                                <input id="OrderSendDateEnd" class="form-control input-sm input-small">
+                                <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+                <form class="form-inline" role="form">
+                    <label  class="checkbox-inline" >
+                        <input type="checkbox" data-for="#status"><span class="vertical-middle">订单状态：</span>
+                    </label>
+                    <div class="form-group">
+                        <div style="display:inline-block;position:relative">
+                            <input id="status" readonly style="min-width:140px !important;background:white" class="input-sm form-control "data-show="no"/>
+                                @*@{
+                                foreach (var one in AllStates)
+                                {
+                                <option value="@one.Key">@one.Value</option>
+                                }
+                                }*@
+                            <div id="stateMulti" style="display:none;position:absolute;bottom:30px;left:0px;background:white;overflow-y:auto;width:100%;border:1px solid #799bd2;border-bottom:0px solid blue;z-index:2">
+
+                                @{
+                                    foreach (var one in AllStates)
+                                    {
+                                    <div style="width:100%" class="unitStateCtn">
+                                        <label class="form-lables unitStateCtnx">
+                                            <input class="unitState" name="typeReason" type="checkbox" value="@one.Key">
+                                            <span class="typeText vertical-middle">@one.Value</span>
+                                        </label>
+                                    </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#ItemName">预订项目：
+                    </label>
+                    
+                    <div class="form-group">
+                        <input id="ItemName" style="min-width:140px !important;" class="input-sm  form-control" type="text" />
+                        <input  class="input-sm input-small form-control hidden" type="text" />
+                    </div>
+                </form>
+
+
+                @* 订单类型 *@
+
+                <form class="form-inline" role="form">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" data-for="#ServiceTypeID"><span class="vertical-middle">订单类型：</span>
+                    </label>
+                    <div class="form-group">
+                        <select id="ServiceTypeID" style="min-width:140px !important;" class="input-sm form-control ">
+                           @foreach (LanghuaNew.Data.ServiceType s in ViewBag.type)
+                           {
+                            <option value="@s.ServiceTypeID">@s.ServiceTypeName</option>
+                           }
+                        </select>
+                    </div>
+                    <label class="checkbox-inline">
+                        <input id="isUrgent" name=true type="checkbox" data-for="#isUrgent">紧急订单
+                    </label>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" id="confirmadvancedsearch">搜索</a>
+
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@* 导出设置 *@
+<div class="modal  modal-animate  " id="exportField" tabindex="-1" data-width=500 data-backdrop="static" role="dialog" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">导出字段设置</span>
+            </div>
+            <div class="modal-body">
+                @{
+                    var selected = "";
+                    foreach (var one in exportField)
+                    {
+                        selected = "";
+
+                        if (
+                           one.Key == 0 ||
+                           one.Key == 1 ||
+                           one.Key == 2 ||
+                           one.Key == 3 ||
+                           one.Key == 5 ||
+                           one.Key == 8 ||
+                           one.Key == 9 ||
+                           one.Key == 10 ||
+                           one.Key == 11 ||
+                           one.Key == 12 ||
+                           one.Key == 13 ||
+                           one.Key == 14 ||
+                           one.Key == 15 ||
+                           one.Key == 16 ||
+                           one.Key == 17 ||
+                           one.Key == 18 ||
+                           one.Key == 19 ||
+                           one.Key == 20 ||
+                           one.Key == 21
+                       )
+                        {
+                            selected = " checked ";
+
+
+                        }
+                        <div style="display:inline-block;width:110px;margin-bottom:10px;">
+                            <label class="checkbox-inline">
+                                <input class="oneField" type="checkbox" name="source" @selected value="@one.Key">@one.Value
+                            </label>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer">
+                <button id="exportFieldSave" type="button" class="btn btn-default btn-sm btn-primary button70">导出</button>
+
+                <button type="button" class="btn btn-default btn-sm button70" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

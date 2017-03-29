@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.SECTION = "发货";
+    ViewBag.FUNCTION = "查漏发货";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/CheckDelivery.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section ZeroCopy{
+    @Scripts.Render("~/bundles/plugins/zeroCopy")
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+<div class="tabletools" style="min-height:40px">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>发货
+            </span>
+            <div class="leftkeys" style="">
+                <div id="SendState">
+                    <a href="javascript:;" class="buttonradio" data-code="0">全部</a>
+                    <a href="javascript:;" class="buttonradio" data-code="1">漏发货</a>
+                    <a href="javascript:;" class="buttonradio" data-code="2">无订单</a>
+                    <a href="javascript:;" class="buttonradio" data-code="3">静默</a>
+                </div>
+            </div>
+            <div class="btn-group" style="margin-left:200px">
+                <a type="button" href="~/TBOrderStates/Index" class="btn button86 btn-sm btn-default" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                    发货
+                </a>
+                <a type="button" href="~/TBOrderStates/CheckDelivery" class="btn button86 btn-sm btn-primary actas" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                    查漏发货
+                </a>
+            </div>
+            <form class="rightbar displayInlineBlock" action="/TBOrderStates/CheckDelivery" method="post" enctype="multipart/form-data">
+                <span id="panel"></span>
+                <input id="files" name="files" type="file" class="hidden" />
+                <a href="javascript:;" class="fixbuttonnew btn btn-sm btn-primary button70" id="upfile">导入订单</a>
+            </form>
+        </div>
+    </div>
+</div>
+@ViewBag.error
+@{
+    IEnumerable<Entity.CheckDeliveryModel> dt = ViewBag.dt;
+
+    <table id="DeliveryList" class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove table-Dairy">
+        <colgroup>
+            <col width="267" />
+            <col width="247" />
+            <col width="555" />
+            <col width="109" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>导入的淘宝ID</th>
+                <th>导入订单编号</th>
+                <th>导入订单状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        @if (dt != null && dt.Count() > 0)
+        {
+            string classname = "";
+            string color = "";
+            <tbody>
+                @foreach (var item in dt)
+                {
+                    if (item.state == "静默")
+                    {
+                        classname = "quite";
+                        color = "";
+                    }
+                    else if (item.state == "无订单")
+                    {
+                        classname = "noorder";
+                        color = "#9900ff";
+                    }
+                    else if (item.state == "漏发货")
+                    {
+                        classname = "nodelivery";
+                        color = "red";
+                    }
+                    else
+                    {
+                    }
+                    <tr class="@classname">
+                        <td>
+                            <a target='_blank' href='/Orders/Index?search={"FuzzySearch":"@item.TBID","searchType":"fuzzy"}'>@item.TBID</a>
+                        </td>
+                        <td>@Html.Raw(item.OrderNo.Trim().Replace(" ", "<br/>"))</td>
+                        <td style="color:@color">@item.state</td>
+                        <td>
+                            <a class='hrefInTable-inline copy' href='javascript:;' id='copy' data-tbid='@item.TBID'>复制ID</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+        else
+        {
+            @ViewBag.success
+            <tbody></tbody>
+        }
+    </table>
+}

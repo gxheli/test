@@ -1,0 +1,221 @@
+﻿
+
+
+
+
+
+
+
+.input-inline /*新增属性*/{
+    display:inline-block;
+    position:relative;
+    margin-right:15px;
+    vertical-align:middle
+}
+.childCenter {
+    text-align:center;
+}
+
+
+  .input-icon{
+      display:inline-block;
+      position:relative;
+      
+  }
+  .input-icon:focus .inputicon{
+      color:#333;
+  }
+  .input-icon .inputicon{
+      position:absolute;
+      top:5px;
+      color:#A9A9A9;
+      left:0px;
+      height:20px;
+      display:inline-block;
+      line-height:22px;
+      width:34px;
+      border-right:1px solid #A9A9A9;
+      text-align:center;
+      
+
+  }
+
+  .input-icon input{
+     padding-left:40px;
+     border:1px solid #A9A9A9;
+     border-radius:2px;
+  }
+
+ 
+body{
+    background:white;
+}
+input.form-control, button.btn{
+    width:235px;
+}
+
+
+
+.loginTitle{
+    max-width:1024px;
+    min-height:50px;
+    margin:auto;
+    margin-bottom:15px;
+
+
+    text-align:center;
+
+
+}
+.loginTitle .languageSwitch{
+    display:inline-block;
+    float:right;
+    width:134px;
+
+
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-right:0px;
+}
+.loginTitle .logo{
+    height:50px;
+
+
+    padding-right:0px;
+    display:inline-block;
+    
+}
+
+.loginTitle .title{
+    display:inline-block;
+    height:50px;
+    vertical-align:middle;
+    line-height:50px;
+    text-align:center;
+
+
+    font-size:25px;
+
+
+}
+.backgroundF2{
+    background-color: #f2f2f2;
+
+}
+
+.loginBody{
+    max-width:1024px;
+    height:400px;
+    margin:auto;
+    background-image:url("../Content/img/login.png");
+    text-align:center;
+} 
+
+.loginBody .Action{
+    display:inline-block;
+    min-height:310px;
+    background:white;
+    padding-top:30px;
+    border:1px solid #797979;
+    border-top:2px solid #006699;
+
+    width:270px;
+    float:none;
+    text-align:center;
+    margin-top:40px;
+    margin-right:0px;
+   
+
+}
+
+.loginBody .Action .form-group{
+    margin-bottom:20px;
+}
+
+.loginBody .Action .form-actions{
+    margin-top:40px;
+}
+
+.occupy{
+    height:0px;
+}
+
+
+/*自适应部分开始*/
+
+
+
+@media (min-width: 768px) {
+    .occupy{
+        height:100px;
+    }
+	.loginTitle{
+        text-align:left;
+	}
+    .loginTitle .logo{
+       padding-right:30px;
+	}
+    .loginTitle .title{
+       font-size:30px;
+	}
+    .loginTitle .languageSwitch {
+        margin-top:20px;
+        margin-bottom:0px;
+        margin-right:45px;
+    }
+    
+    .loginBody .Action{
+        width:286px;
+        float:right;
+        margin-top:40px;
+        margin-right:40px;
+        
+    }
+}
+
+
+/*提示信息的修补*/
+.text-danger ul{
+    padding-left:0px;
+}
+.text-danger ul li{
+    list-style-type:none;
+    text-align:left;
+    display:block;
+
+}
+.text-danger ul li:before{
+   content: "\f057";
+    color: red;
+    font: normal normal normal 13px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    display:inline;
+    margin-right:5px;
+
+}
+ .text-danger {
+    display:block;
+    text-align:left !important;
+    padding-left:25px;
+    line-height:20px;
+    margin-bottom:5px;
+    margin-top:0px;
+
+   
+    
+
+}
+  .field-validation-error:before{
+    content: "\f057";
+    color: red;
+    font: normal normal normal 13px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    display:inline;
+    margin-right:5px;
+
+  }
+ 

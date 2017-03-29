@@ -1,0 +1,59 @@
+﻿@model LanghuaNew.Data.SupplierUser
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+}
+
+
+
+<div class="occupy">@I18n.Resources.Login</div>
+<div class="row">
+    <div class="loginTitle">
+        <img class="logo " src="../../Content/img/dodotour_logo_cn_color_180_50.png" alt="浪花朵朵" />
+        <span class="title logo visible-lg-inline visible-md-inline visible-sm-inline visible-xs-block">浪花朵朵订单管理系统</span>
+        <select class="languageSwitch form-control input-sm input-inline"><option>中文</option></select>
+    </div>
+</div>
+@Html.Raw(I18n.LangHelper.GetTableHeaderByKeyAndCcsClassArray(new string[]{ "Login", "Login" },new string[]{ null,null},"zh-CN"))
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="backgroundF2">
+            <div class="loginBody">
+                
+
+                <div class="position col-md-push-6 col-md-6">
+                    <div class="Action childCenter">
+                        <div>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</div>
+                        <div>@Html.ValidationMessageFor(model => model.SupplierUserName, "", new { @class = "text-danger " })</div>
+                        <div>@Html.ValidationMessageFor(model => model.PassWord, "", new { @class = "text-danger" })</div>
+                        <div class="form-body">
+                            <div class="form-group " style="">
+                                <div class="input-icon ">
+                                    <i class="inputicon glyphicon glyphicon-user" style=""></i>
+                                    @Html.TextBoxFor(model => model.SupplierUserName, new { @class = "input form-control", placeholder = "用户名" })
+                                </div>
+                            </div>
+                            <div class="form-group childCenter" style="">
+                                <div class="input-icon ">
+                                    <i class="inputicon fa fa-lock" style=""></i>
+                                    @Html.PasswordFor(model => model.PassWord, new { @class = "input form-control", Type = "password", placeholder = "密码" })
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn btn-primary  uppercase">登录</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}
+
+

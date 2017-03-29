@@ -1,0 +1,89 @@
+﻿@model LanghuaNew.Data.Role
+@{
+    ViewBag.SECTION = "角色管理";
+    ViewBag.FUNCTION = "修改角色";
+}
+@section PageJS{
+    <script src="../../Scripts/pages/rolesCreateEdit.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@Html.HiddenFor(model => model.RoleID)
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>角色设置</div>
+    <div class="button-right"><a href="/Roles/Index" class="btn btn-sm btn-default button65">返回</a></div>
+
+</div>
+<div class="panel-default panel">
+    <div class="panel-body form">
+        <form class="form-horizontal">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>角色名称：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.RoleName, new { htmlAttributes = new { @class = "form-control input-inline" } })
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">角色描述：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.RoleRemark, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>权限选择：</label>
+                    <div class="col-md-10">
+                        <table id="rights" class="table-lh table-lh-bordered-default">
+                            <thead>
+                                <tr>
+                                    <th width="150">模块</th>
+                                    <th width="850">功能</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    IEnumerable<LanghuaNew.Data.MenuRight> MenuRights = ViewBag.MenuRights;
+                                    foreach (LanghuaNew.Data.Modular modular in Enum.GetValues(typeof(LanghuaNew.Data.Modular)))
+                                    {
+                                        <tr>
+                                            <td style="text-align:right;padding:5px !important">
+                                                <label class="form-lables">
+                                                    <span class="vertical-middle">@LanghuaNew.Data.EnumHelper.GetEnumDescription(modular)</span>
+                                                    <input class="groupRight" type="checkbox" />
+                                                </label>
+
+                                            </td>
+                                            <td>
+                                                @foreach (LanghuaNew.Data.MenuRight menuRight in MenuRights.Where(s => s.modular == modular))
+                                                {
+                                                    if (Model.MenuRights != null && Model.MenuRights.Any(s => s.MenuRightID == menuRight.MenuRightID))
+                                                    {
+                                                        <div style="float:left;display:inline-block;width:25%;text-align:left">
+                                                            <label class="form-lables"><input checked class="unitRight" type="checkbox" value="@menuRight.MenuRightID"><span class="vertical-middle">@menuRight.MenuRightName</span></label>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div style="float:left;display:inline-block;width:25%;text-align:left">
+                                                            <label class="form-lables"><input class="unitRight" type="checkbox" value="@menuRight.MenuRightID"><span class="vertical-middle">@menuRight.MenuRightName</span></label>
+                                                        </div>
+                                                    }
+                                                    
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"></label>
+                    <div class="col-md-10">
+                        <a id="roleSave" class="btn btn-sm btn-primary button70 input-inline">保存</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

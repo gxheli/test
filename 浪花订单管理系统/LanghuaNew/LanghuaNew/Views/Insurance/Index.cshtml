@@ -1,0 +1,167 @@
+﻿@model IEnumerable<LanghuaNew.Data.ServiceItemHistory>
+@{
+    ViewBag.SECTION = "保险";
+    ViewBag.FUNCTION = "保险列表";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/insuranceList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>保险列表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="State">
+                </div>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="#insurance" class="fixbuttonnew btn btn-sm btn-primary button65" data-toggle="modal">保险名单</a>
+            </span>
+        </div>
+        <div style="min-height:40px;line-height:30px">
+            <span class="rightbar">
+                <span style="line-height: 30px;" class="margin-right-10">
+                    保险开始日期：<span id="insuranceStart"></span>&nbsp;&nbsp;&nbsp;&nbsp;保险天数：<span id="travelDays"></span><span>天</span>&nbsp;&nbsp;&nbsp;&nbsp;产品：<span id="serviceName"></span>&nbsp;&nbsp;&nbsp;&nbsp;保单编号：<span id="insuranceCode">全部符合条件的产品</span>
+                </span>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px" class="margin-right-10"></span>
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove" id="insuranceList">
+    <colgroup>
+        <col width="189">
+        <col width="119">
+        <col width="187">
+        <col width="342">
+        <col width="217">
+        <col width="124">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>淘宝ID</th>
+            <th>姓名</th>
+            <th>证件类型</th>
+            <th>证件号码</th>
+            <th>出生日期</th>
+            <th>性别</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="modal modal-largeSize modal-animate" id="insurance" tabindex="-1" data-backdrop="static" role="dialog" data-width=650 data-height="320">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">保险名单</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" >
+                            <div class="form-group">
+                                <div class="col-md-3 lineHeight30"><span style="margin-left:5px">保险开始日期：</span></div>
+                                <div class="col-md-9">
+                                    <div id="dateStart" class="input-group date-picker input-daterange" style="width:290px">
+                                        <div class="input-icon-right ">
+                                            <input id="insuranceStartDate" class="form-control input-sm input-small" style="width:140px" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")">
+                                            <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <div class="col-md-3 lineHeight30" ><span style="margin-left:5px">保险天数：</span></div>
+                                    <div class="col-md-9">
+                                        <div id="insuranceDayCount" style="width:290px">
+                                            <div class="input-icon-right ">
+                                                <select id="travelDs" class="form-control input input-sm input-small input-inline" style="max-width:140px">
+                                                    @if (ViewBag.InsuranceDayList != null)
+                                                    {
+                                                        foreach (var s in ViewBag.InsuranceDayList)
+                                                        {
+                                                            <option value="@s">@s@("天")</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="1">1天</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <div class="col-md-3 lineHeight30" for="allProductRadio">
+                                    <label class="form-lables">
+                                        <input type="radio" name="productsRadios" id="allProductRadio"  value="all" checked="checked"><span class="vertical-middle">全部符合条件的产品</span>
+                                    </label> 
+                                </div>
+                                <div class="col-md-9" for="allProductRadio">
+                                    <span class="caption-subject  " for="allProductRadio">
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 lineHeight30" for="singleProductRadio">
+                                    <label class="form-lables">
+                                        <input type="radio" name="productsRadios" id="singleProductRadio"  value="single"><span class="vertical-middle">单个产品：</span>
+                                    </label> 
+                                </div>
+                                <div class="col-md-9" for="singleProductRadio">
+                                    <span class="caption-subject  " for="singleProductRadio">
+                                        <input for="singleProductRadio" id="ServiceItems" style="vertical-align:middle;width:200px" placeholder="输入产品编码、名称查询" class="form-control input-sm input-inline " />
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-3 lineHeight30" for="contouryProductRadio">
+                                    <label class="form-lables">
+                                        <input type="radio" name="productsRadios" id="contouryProductRadio"  value="country"><span class="vertical-middle">按国家：</span>
+                                    </label> 
+                                </div>
+                                <div class="col-md-9" for="contouryProductRadio">
+                                    <select for="contouryProductRadio" id="Country" class="form-control input input-sm input-small input-inline" style="max-width:140px">
+                                        <option value="-1">国家</option>
+                                        @foreach (var item in ViewBag.Countries)
+                                        {
+                                            <option value="@item.CountryID">@item.CountryName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSelect" style="" class="btn btn-primary btn-sm button65">筛选</a>
+                <span></span>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

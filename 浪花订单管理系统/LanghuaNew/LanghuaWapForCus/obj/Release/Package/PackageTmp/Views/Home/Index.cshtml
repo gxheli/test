@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<input type="button" onclick="Login()" />
+
+<input type="button" onclick="GetUserInfo()" />
+<script type="text/javascript" language="javascript">
+    function Login() {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: 'Users/Login?UserName=1&PassWord=1',
+            success: function (data) {
+
+            }
+        });
+    }
+    function GetUserInfo() {
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            url: 'Users/GetUserInfo',
+            success: function (data) {
+
+            }
+        });
+    }
+</script>

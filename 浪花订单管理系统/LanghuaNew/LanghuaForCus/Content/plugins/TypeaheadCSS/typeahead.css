@@ -1,0 +1,91 @@
+.twitter-typeahead {
+  /*width: 100%;*/
+  display: inline-table !important;
+  vertical-align:middle;
+}
+
+.twitter-typeahead .form-control {
+  /*margin: 0 !important;*/
+}
+.twitter-typeahead .input-sm {
+  box-sizing:border-box;
+  height:30px;
+}
+.tt-hint,
+.tt-input {
+  /*width: 100%;*/
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.tt-suggestion.tt-selectable strong{
+    font-weight:normal;
+    color:#FF0000;
+}
+
+
+
+.tt-hint[disabled] {
+  background-color: #fff !important;
+}
+
+
+.tt-menu {
+  min-width: 160px;
+  margin-top: 2px;
+  padding: 5px 0;
+  background-color: #fff;
+  border: 1px solid #797979;
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+  width: 100%;
+  overflow-y: auto;
+  max-height: 250px;
+
+  
+}
+.tt-menu-top{
+    top:auto !important;
+  bottom:100% !important;
+}
+
+.tt-menu h3 {
+  margin: 5px 0;
+  padding: 6px 12px;
+  font-size: 18px;
+  font-weight: 700; 
+  border-bottom: 1px solid #eee;
+}
+
+.modal-open .tt-menu {
+  z-index: 10055 !important;
+}
+
+.tt-suggestion {
+    padding: 6px 16px;
+    font-size: 14px;
+    line-height: 16px;
+    border-top:1px solid rgba(0,0,0,0);
+    border-bottom:1px solid rgba(0,0,0,0);
+}
+
+.tt-suggestion:hover {
+    cursor: pointer;
+    background: #00FFFF;
+    border-top:1px solid #797979;
+    border-bottom:1px solid #797979;
+}
+.tt-cursor{
+    background: #00FFFF;
+    border-top:1px solid #797979;
+    border-bottom:1px solid #797979;
+  
+}
+.tt-suggestion p {
+  margin: 0;
+}
+.empty-message{
+    padding-left:5px;
+}

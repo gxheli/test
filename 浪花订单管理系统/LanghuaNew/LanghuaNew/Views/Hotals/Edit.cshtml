@@ -1,0 +1,62 @@
+﻿@model LanghuaNew.Data.Hotal
+@{
+    ViewBag.SECTION = "基础数据";
+    ViewBag.FUNCTION = "修改酒店";
+}
+@section PageJS{
+    <script src="../../Scripts/pages/hotal.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>酒店设置</div>
+    <div class="button-right"><a href="~/Hotals/Index" class="btn btn-sm btn-default button70">返回</a></div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-body form " style="display: block;">
+        <form action="/Hotals/Edit" method="post" class="form-horizontal">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.HotalID)
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>国家区域：</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("CountryID", null, "请选择", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px;" })
+                        @Html.DropDownList("CityID", null, "请选择", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px;" })
+                        @Html.DropDownList("AreaID", null, "请选择", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px;" })
+
+                        @Html.ValidationMessageFor(model => model.AreaID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.HotalName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.HotalName, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        <span>只写酒店英文名称</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.HotalPhone)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.HotalPhone, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.HotalAddress)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.HotalAddress, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        <span>酒店英文地址，不需要国家、邮编</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="保存" class="btn btn-primary button70" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

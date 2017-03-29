@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>添加常用游客</title>
+	<link rel="stylesheet" href="mdater/zepto.mdatetimer.css">
+	<link rel="stylesheet" href="css/font-awesome.css">
+	<style type="text/css">
+		*{margin:0;padding:0;}
+		html,body,#app{height: 100%;width:100%;font-size: .14rem;}
+		.page-addVisitor{ display: block; }
+		.page-addVisitor .tips-msg{ color:#000; height: .5rem;line-height: .5rem; padding:0 .2rem; font-size: .16rem; border-bottom: 1px solid #666; }
+		.page-addVisitor .form-item{ margin:.05rem .2rem; }
+		.page-addVisitor .form-item label{display: inline-block;width:100%;height: .24rem;line-height: .24rem;}
+		.page-addVisitor .form-item input[type=text]{display: inline-block;width:100%;height: .28rem;line-height: .28rem;font-size: .14rem; text-indent: .1rem; }
+		.page-addVisitor .btm-btn{  text-align: center;margin: .2rem; margin-bottom: .1rem; }
+		.page-addVisitor .btm-btn button{display: inline-block;width:100%;height: .34rem;line-height: .34rem;color:#fff;background: #2E9DE6;border-radius: 5px;outline:none;border:0;}
+		.page-addVisitor .btm-tips{ text-align: center; }
+		.page-success{ display: none; }
+		.page-success .icon-success{ text-align: center; margin:.3rem auto; margin-bottom: .15rem; }
+		.page-success .icon-success i{ font-size: 1rem; color:#2E9DE6; }
+		.page-success .tips-title{ text-align: center; font-size: .18rem;  }
+		.page-success .tips-tips{ text-align: center; font-size: .14rem;  }
+		.page-success .changyong{ margin:.2rem; }
+		.page-success .changyong span{ color:#999; }
+		.page-success .list-user{ margin:.1rem .2rem; }
+		.page-success .list-user .user-item{ border:1px solid #999; height: .4rem;line-height: .4rem; border-bottom: 0; overflow: hidden;}
+		.page-success .list-user .user-item .user-name{ float: left; padding-left: .1rem; }
+		.page-success .list-user .user-item .user-status{ float: right; padding-right: .1rem; color:#999;}
+		.page-success .list-user .user-item:last-child{ border-bottom: 1px solid #999; }
+		.page-success .btm-btn{  text-align: center;margin: .2rem; margin-bottom: .1rem; }
+		.page-success .btm-btn button{display: inline-block;width:100%;height: .34rem;line-height: .34rem;color:#fff;background: #2E9DE6;border-radius: 5px;outline:none;border:0;}
+	</style>
+</head>
+<body>
+	<div class="page-addVisitor">
+ 		<div class="add-form">
+ 			<div class="tips-msg"><span>您好友</span>的常用游客</div>
+ 			<div class="form-item">
+ 				<label>中文姓名:</label>
+ 				<input type="text" name="TravellerName"/>
+ 			</div>
+ 			<div class="form-item">
+ 				<label>姓名拼音:</label>
+ 				<input type="text"  name="TravellerEnname"/>
+ 			</div>
+ 			<div class="form-item">
+ 				<label>护照号码:</label>
+ 				<input type="text"  name="PassportNo"/>
+ 			</div>
+ 			<div class="form-item">
+ 				<label>生日:</label>
+ 				<input type="text" name="Birthday" readonly="readonly" id="in"/>
+ 			</div>
+ 			<div class="form-item">
+ 				<label>性别:</label>
+ 				<input type="text" value="男" readyOnly name="TravellerSex" onClick='changeSex()'/>
+ 			</div>
+ 		</div>
+ 		<div class="btm-btn">
+ 			<button class="submit">提交给朋友</button>
+ 		</div>
+ 		<div class="btm-tips">提交后，您的信息会出现在您朋友的常用游客中</div>
+	</div>
+	<div class="page-success">
+		<div class="icon-success"><i class="fa fa-check-circle"></i></div>
+		<div class="tips-title">提交成功!</div>
+		<div class="tips-tips">可以联系您的朋友查收</div>
+		<div class="changyong">常用游客<span>(最多添加10位游客信息)</span></div>
+		<div class="list-user">
+			<div class="user-item">
+				<span class="user-name">张三</span>
+				<span class="user-status">已提交</span>
+			</div>
+			<div class="user-item">
+				<span class="user-name">张三</span>
+				<span class="user-status">已提交</span>
+			</div>
+		</div>
+		<div class="btm-btn">
+ 			<button class="add">继续添加</button>
+ 		</div>
+	</div>
+</body>
+</html>
+<!--<script src="mdater/zepto.min.js"></script>-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js"></script>
+<script src="mdater/zepto.mdatetimer.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=640){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 360) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+
+$(function(){
+
+	var EncryptCustomerID = getQueryString('EncryptCustomerID'),
+		CustomerName = getQueryString('CustomerName');
+
+	if( CustomerName ){
+		$('.tips-msg span').text( unescape( CustomerName.replace(/@/g,'%') ) );
+	}
+
+	var years = [];
+	for(var i = 1970;i<2020;i++){
+		years.push( i );
+	}
+
+	$('#in').mdatetimer({ 
+        mode : 1, //时间选择器模式 
+        format : 2, //时间格式化方式 
+        years : years, //年份数组 
+        nowbtn : true //是否显示现在按钮 
+	});	
+
+	$('button.submit').click( function(){
+
+		var TravellerName = $('[name=TravellerName]').val(),
+			TravellerEnname = $('[name=TravellerEnname]').val(),
+			PassportNo = $('[name=PassportNo]').val(),
+			Birthday = $('[name=Birthday]').val();
+
+		if( !TravellerName ){
+			alert('请填写中文姓名');
+			return;
+		}
+		if( !TravellerEnname ){
+			alert('请填写英文姓名');
+			return;
+		}
+		if( !TravellerName ){
+			alert('请填写护照号码');
+			return;
+		}
+		if( !TravellerName ){
+			alert('请填写生日');
+			return;
+		}
+
+		$.ajax({
+			url:'/Users/ExtandAddTraveller',
+			type:'post',
+			dataType:'json',
+			data:{
+				EncryptCustomerID:EncryptCustomerID,
+				TravellerName:$('[name=TravellerName]').val(),
+				TravellerEnname:$('[name=TravellerEnname]').val(),
+				PassportNo:$('[name=PassportNo]').val(),
+				Birthday:$('[name=Birthday]').val(),
+				TravellerSex:$('[name=TravellerSex]').val() === '男' ? 0 : 1,
+			},
+			success:function( data ){
+
+				if( data.ErrorCode === 200 ){
+					//debugger;
+					var userlist = sessionStorage.getItem('userlist') || '';
+					var newList = userlist.split(',');
+					newList.push( TravellerName );
+					sessionStorage.setItem( 'userlist',newList.join(',') );
+
+					$('.page-success').show();
+					$('.page-addVisitor').hide();
+
+					var html = '';
+					$.each( newList,function(index,item ){
+						html += '<div class="user-item"><span class="user-name">'+ item +'</span><span class="user-status">已提交</span></div>'
+					});
+					$('.list-user').html( html );
+
+					if( newList.length > 0 ){
+						$('button.add').hide();
+					}
+
+				}else{
+					alert( data.ErrorMessage );
+				}
+			}
+		})
+	});
+
+	$('button.add').click( function(){
+		
+		$('.page-success').hide();
+		$('.page-addVisitor').show();
+
+		$('[name=TravellerName]').val(''),
+		$('[name=TravellerEnname]').val(''),
+		$('[name=PassportNo]').val(''),
+		$('[name=Birthday]').val('');
+
+	});
+});
+
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = decodeURIComponent( window.location.search.substr(1) ).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
+function changeSex(){
+	var sex = $('[name=TravellerSex]');
+
+	if( sex.val() === '男' ){
+		sex.val( '女' );
+	}else{
+		sex.val( '男' );
+	}
+}
+</script>

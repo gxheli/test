@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "全部订单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="finshed-tips" class="text-center font32 bold "><img src="../../Content/img/OK.png" alt="Alternate Text" />&nbsp; 谢谢，订单填写完成！</div>
+<div class="text-center font20 margin-bottom-10">请联系旺旺客服核对资料</div>
+<div class="margin-bottom-10 displayInlineBlock"> </div>
+<div class="margin-bottom-10 displayInlineBlock"> </div>
+
+<div class="text-center "><a href="/Orders/Index" class="btn btn-sm btn-default button120">返回订单首页</a></div>
+<div class="margin-bottom-10"></div>
+<div class="margin-bottom-10"></div>
+
+<div class="text-center">
+    @if (!string.IsNullOrEmpty(ViewBag.ImageUrl))
+    {
+        <div class="QR-container" style="height:250px;width:250px">
+            <div class="img">
+                <img src="@ViewBag.ImageUrl" alt="">
+            </div>
+            <div class="bold font16"> 微信扫码关注，绑定帐号后</div>
+            <div class="bold font16"> 随时跟踪订单，查看确认单</div>
+        </div>
+
+    }
+   
+
+</div>
+

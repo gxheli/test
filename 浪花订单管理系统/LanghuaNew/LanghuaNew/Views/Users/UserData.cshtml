@@ -1,0 +1,97 @@
+﻿@model LanghuaNew.Data.User
+
+@{
+    ViewBag.SECTION = "用户";
+    ViewBag.FUNCTION = "个人资料";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/UserData.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>个人资料</div>
+</div>
+
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        @*<form action="/Users/UserData" method="post" class="form-horizontal" onsubmit="return validate_form(this)">*@
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.UserID)
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.UserName)：</label>
+                    <p class="col-md-10 form-control-static">@Model.UserName</p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.NickName)：</label>
+                    <p class="col-md-10 form-control-static">@Model.NickName</p>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>旧密码：</label>
+                    <div class="col-md-10">
+                        <input id="PassWord" name="PassWord" class="form-control input-sm input-inline" type="password" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>新密码：</label>
+                    <div class="col-md-10">
+                        <input id="newPassWord" name="PassWord" class="form-control input-sm input-inline" type="password" />
+                        <span>密码必须6-12位数字、字母和特殊字符组合</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>确认密码：</label>
+                    <div class="col-md-10">
+                        <input id="newPassWord2" class="form-control input-sm input-inline" type="password" />
+                        <span>再次输入密码</span>
+                    </div>
+                </div>
+                <div class="form-group" id="checkbox">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.UserRole)：</label>
+                    <p class="col-md-10 form-control-static">
+                        @{
+                            var role = "";
+                            Model.UserRole.ForEach(t => role += t.RoleName + ",");
+                            role = role.Length > 0 ? role.Substring(0, role.Length - 1) : "";
+                        }
+                        @role
+                    </p>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a href="javascript:;" type="button" class="btn btn-primary button70" id="btnSave">保存</a>
+                    </div>
+                </div>
+            </div>
+        @*</form>*@
+    </div>
+</div>
+@*<script type="text/javascript">
+    function validate(field) {
+        with (field) {
+            if (!value) {
+                $(field).warning("请填写");
+                return false;
+            }
+            if (value.length > 5 && length < 13)
+                return true;
+            $(field).warning("密码必须6-12位数");
+            return false;
+        }
+    }
+    function validate_form(thisform) {
+        with (thisform) {
+            var bl = true;
+            if (validate(PassWord) == false) {
+                bl = false;
+            }
+            if (bl && jQuery('#Spassword').val() != jQuery('#PassWord').val()) {
+                jQuery('#Spassword').warning('两次输入密码不一致')
+                bl = false;
+            }
+            if (bl) {
+                $("#btnSave").attr('disabled', true);
+            }
+            return bl
+        }
+    }
+</script>*@

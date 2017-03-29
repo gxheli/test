@@ -1,0 +1,12 @@
+﻿{
+    "_comment": "1.该字段为注释,可以删除,json文件不支持注释;2.timeStart,timeEnd,content是必填项,其他的是非必填项,时间请按照格式填写,至少精确到分;3.enable表示消息功能的启用，true/false,true defaultly;4.消息列表显示长度,正整数,1 defaultly;5.timesClosedToDisapper, 彻底关掉的最小点击次数,正整数,1 defaultly;",
+    "enable": true,
+    "displayLength": 1,
+    "list": [{
+            "timeStart": "2016-08-07T01:45",
+            "timeEnd": "2016-11-16T12:31",
+            "content": "今晚（2017-11-20晚）<span style='color:red;font-size:20px;font-weight:bold;'>12</span>点钟升级系统，服务暂停5分钟，请提前做好准备并通知客人，请知悉！1",
+            "timesClosedToDisapper": 2
+        }
+    ]
+}

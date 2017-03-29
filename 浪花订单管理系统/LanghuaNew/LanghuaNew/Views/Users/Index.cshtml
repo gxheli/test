@@ -1,0 +1,158 @@
+﻿@*@model IEnumerable<LanghuaNew.Data.User>
+@using PagedList
+@using PagedList.Mvc*@
+@{
+    ViewBag.SECTION = "用户";
+    ViewBag.FUNCTION = "用户管理";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/UsersList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>用户管理
+            </span>
+            <div class="btn-group">
+                <a type="button" href="~/Users/Index" class="btn button86 btn-sm  btn-primary actas" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                    用户管理
+                </a>
+                <a type="button" href="~/Roles/Index" class="btn button86 btn-sm btn-default " style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                    角色管理
+                </a>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="~/Users/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个选项：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="status-green action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+                <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+                <a href="javascript:" class="status-dark action btn btn-sm btn-default button65" data-next-code="delete">删除</a>
+            </div>
+            <span class="rightbar">
+                <select id="status" class="input input-sm input-xsmall">
+                    <option value="0">状态</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+                <input placeholder="模糊搜索：用户名、昵称" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ddtable" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:150px">用户名 </th>
+            <th style="width:120px">昵称 </th>
+            <th style="width:120px">角色</th>
+            <th style="width:180px">创建时间</th>
+            <th style="width:180px">最近登录时间</th>
+            <th style="width:80px">状态</th>
+            <th style="width:150px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<h2>用户管理</h2>
+
+<p>
+    @Html.ActionLink("新增", "Create")
+</p>
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
+{
+    <p>
+        @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="搜索" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NickName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NickName)
+        </td>
+        <td>
+            @Html.ActionLink("修改", "Edit", new { id=item.UserID }) |
+           @Ajax.ActionLink("重置密码", "ResetPassWord", new { id = item.UserID }, new AjaxOptions { HttpMethod = "post", InsertionMode = InsertionMode.Replace, OnSuccess = "Show" })|
+           @Html.ActionLink("删除", "Delete", new { id=item.UserID })
+        </td>
+    </tr>
+}
+</table>
+@Html.PagedListPager((IPagedList)Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+        function Show(data) {
+            alert(data);
+        }
+</script>*@

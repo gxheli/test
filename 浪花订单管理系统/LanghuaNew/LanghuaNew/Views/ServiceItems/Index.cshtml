@@ -1,0 +1,258 @@
+﻿@model IEnumerable<LanghuaNew.Data.ServiceItem>
+@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "产品列表";
+}
+
+
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/ItemList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+
+
+
+
+
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>产品列表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="ServiceType">
+                    <a href="javascript:" class="buttonradio" data-code="0">全部</a>
+                    @foreach (LanghuaNew.Data.ServiceType s in ViewBag.ServiceType)
+                    {
+                        <a href="javascript:" class="buttonradio" data-code="@s.ServiceTypeID">@s.ServiceTypeName</a>
+                    }
+                </div>
+            </div>
+            <div style="vertical-align:top;display:inline-block;margin-left:30px">
+                <div class="btn-group">
+                    <a type="button" href="/ServiceItems/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                        产品列表
+                    </a>
+                    <a type="button" href="/ServiceItems/ItemPrices" class="btn button86 btn-sm btn-default"  style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;" >
+                        价格列表
+                    </a>
+                </div>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm" ><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a data-toggle="modal" href="#guestStatistics" class="btn btn-sm btn-default button65">人数统计</a>
+                <a href="~/ServiceItems/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增产品</a>
+            </span>
+
+            <!--<div style="width:80px;height:30px;background:purple;display:inline-block;float:right"></div>-->
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个产品：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="status-green  action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+                <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+                @*<a href="javascript:" class="status-dark action ddbutton border-rounded" data-next-code="delete">删除</a>*@
+            </div>
+            <span class="rightbar">
+                <select id="status" class="input input-sm input-xsmall">
+                    <option value="0">状态</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+                <select id="supplier" class="input input-sm input-small">
+                    <option  selected value="0">供应商</option>
+                    @foreach (LanghuaNew.Data.Supplier s in ViewBag.Supplier)
+                    {
+                        <option value="@s.SupplierID">@s.SupplierNo-@s.SupplierName</option>
+                    }
+                </select>
+                <input placeholder="模糊搜索：产品名称、编码" style="padding:0px 10px" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut"/>
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+                @*<button type="button" class="btn btn-default btn-sm" disabled=""><span class="glyphicon glyphicon-import"></span> </button>
+                <button type="button" class="btn btn-default btn-sm" disabled=""><span class="glyphicon glyphicon-cog"></span> </button>*@
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove" id="orderList">
+    <thead>
+        <tr>
+            <th style="width: 30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:59px">编码 </th>
+            <th style="width:248px">中文名 </th>
+            <th style="width:218px">英文名</th>
+            <th style="width:60px">目的地</th>
+            <th style="width: 62px">类型</th>
+            <th style="width: 55px">状态</th>
+            <th style="width: 75px">默认供应商</th>
+            <th style="width: 63px">保险天数</th>
+            <th style="width: 70px">价格</th>
+            <th style="width: 70px">表单</th>
+            <th style="width: 166px">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="11">正在加载产品列表. . . . . .</td>
+        </tr>
+    </tbody>
+</table>
+
+@*查询统计 *@
+<div class="modal modal-animate modal-size-x2" id="guestStatistics" tabindex="-1" data-height="320" data-backdrop="static" style="overflow:hidden !important">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">人数统计</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>产品搜索：</label>
+                            <div class="col-md-9">
+                                <input id="itemlistx" class="form-control input-inline" style="width:300px;max-width:301px;"  placeholder="模糊搜索：产品名称、编码" />
+                                    
+                              
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><span class="redspark">*</span>出行日期：</label>
+                            <div class="col-md-10">
+                                <div id="rangeDate" style="display:inline-block">
+                                    <div class="input-icon-right ">
+                                        <input id="BeginDate" class="form-control dateX" style="width:140px">
+                                        <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                    <span class="help-inline">至</span>
+                                    <div class="input-icon-right ">
+                                        <input id="EndDate" class="form-control dateX" style="width:140px">
+                                        <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                                <a id="getStatistics" class="btn btn-primary btn-sm button86 vertical-bottom">统计</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div style="max-height:200px;overflow-y:auto">
+                    <table id="statisticsSellControlResult" class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ">
+                        <colgroup>
+                            <col width="75" />
+                            <col width="268" />
+                            <col width="118" />
+                            <col width="59" />
+                            <col width="64" />
+                            <col width="60" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>
+                                    编码
+                                </th>
+                                <th>
+                                    产品
+                                </th>
+                                <th>
+                                    供应商
+                                </th>
+                                <th>
+                                    成人
+                                </th>
+                                <th>
+                                    儿童
+                                </th>
+                                <th>
+                                    婴儿
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                                <td>4</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div id="simpleStatistics" style="float:left;">
+                    <div style="margin-left:-5px" >
+                        <label class="form-lables"><input class="unitRight personnum" type="checkbox" value="3"><span id="adult" class="vertical-middle"></span></label>&nbsp;&nbsp;
+                        <label class="form-lables"><input class="unitRight personnum" type="checkbox" value="3"><span id="child" class="vertical-middle"></span></label>&nbsp;&nbsp;
+                        <label class="form-lables"><input class="unitRight personnum" type="checkbox" value="3"><span id="inf" class="vertical-middle"></span></label>
+                    </div>
+                    <div style="float:left;font-size:15px;font-weight:bold">
+                        <span>合计：</span><span id="personSum"></span>，<span id="odersSum"></span>
+                    </div>
+                </div>
+                <a class="btn btn-default btn-sm button65" data-dismiss="modal">确定</a>
+            </div>
+        </div>
+    </div>
+</div>

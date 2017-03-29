@@ -1,0 +1,10 @@
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\Entity.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\Entity.pdb
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\LanghuaNew.Data.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\EntityFramework.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\LanghuaNew.Data.pdb
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\EntityFramework.xml
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\bin\Debug\zh-Hans\EntityFramework.resources.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\obj\Debug\Entity.csprojResolveAssemblyReference.cache
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\obj\Debug\Entity.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\Entity\obj\Debug\Entity.pdb

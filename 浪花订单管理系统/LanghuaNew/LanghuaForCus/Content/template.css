@@ -1,0 +1,17 @@
+table.template{
+     table-layout: fixed;
+}
+table.template td{
+    word-break:break-all;
+}
+table.template .align-left{
+    text-align:left;
+}
+
+table.template .align-center{
+    text-align:center;
+}
+
+table.template .align-right{
+    text-align:right;
+}

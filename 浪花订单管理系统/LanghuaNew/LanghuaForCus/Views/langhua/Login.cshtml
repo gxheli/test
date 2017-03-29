@@ -1,0 +1,122 @@
+﻿
+
+@model LanghuaNew.Data.Customer
+@using Newtonsoft.Json;
+@using Commond;
+
+@{
+    ViewBag.Title = "client";
+    Layout = "~/Views/Shared/_BaseLayout.cshtml";
+
+}
+<div class="occupy"></div>
+<div class="row">
+    <div class="loginTitle">
+        <img class="logo " src="../../Content/img/dodotour_logo_cn_color_180_50.png" alt="浪花朵朵" />
+        <span class="title logo visible-lg-inline visible-md-inline visible-sm-inline visible-xs-block">浪花朵朵旅行预约系统</span>
+        <select class="languageSwitch form-control input-sm input-inline"><option>中文</option></select>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="backgroundF2">
+            <div class="loginBody">
+                <div class="position col-md-push-6 col-md-6">
+                    <div class="Action childCenter">
+                        @{
+                            if (AgentHelper.GetIEVersionByUserAgent(HttpContext.Current.Request.UserAgent) > 8)
+                            {
+                                <div>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</div>
+                                <div>@Html.ValidationMessageFor(model => model.CustomerTBCode, "", new { @class = "text-danger " })</div>
+                                <div>@Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })</div>
+                                <div class="form-body">
+                                    <div id="cookieAble">
+                                        <div class="form-group " style="">
+                                            <div class="input-icon ">
+                                                <i class="inputicon glyphicon glyphicon-user" style=""></i>
+                                                @Html.TextBoxFor(model => model.CustomerTBCode, new { @class = "input form-control", placeholder = "淘宝ID" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group childCenter" style="">
+                                            <div class="input-icon ">
+                                                <i class="inputicon fa fa-lock" style=""></i>
+                                                @Html.PasswordFor(model => model.Password, new { @class = "input form-control", Type = "password", placeholder = "默认密码为联系电话" })
+                                            </div>
+                                        </div>
+                                        @if (ViewBag.Counter > 3)
+                                        {
+                                            <div class="Captcha">
+                                                <div class="Captcha-input">
+                                                    <input id="input-captcha" class="form-control" type="text" name="Code" value="@ViewBag.Code" placeholder="验证码" />
+                                                    <i class="fa fa-check hidden"></i>
+                                                    <i class="fa fa-times hidden"></i>
+
+                                                </div>
+                                                <div class="inline updateCaptcha"><img class="" id="valiCode"  alt="生成中..." /></div>
+                                                <div  class="inline updateCaptcha" >
+                                                    <a class="" href="javascript:void(0)">
+                                                        <i class="fa fa-repeat"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="form-actions">
+                                            <button type="submit" class="btn btn btn-primary  uppercase">登录</button>
+                                        </div>
+                                        <div class="margin-top-10" style="color:#A9A9A9">
+                                            忘记密码？请联系旺旺客服重置密码
+                                        </div>
+                                    </div>
+                                    <div id="cookieUnable" style="display:none">
+                                        <div class="text-danger validation-summary-errors">
+                                            <ul>
+                                                <li>您的Cookies已经被禁用,使用本系统需要开启Cookies,请您开启Cookies</li>
+                                            </ul>
+                                        </div>
+                                        <div class="font16 margin-top-10" style="color:#333333">微信扫码绑定订单到手机</div>
+                                        <div class="text-center">
+                                            <img style="width:120px" src="../../Content/img/QR-PUBLIC-WECHAT.jpg" alt="" class="displayInlineBlock">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    <div class="font16 text-left bold" style="color:red;width:250px;display:inline-block">对不起，您的浏览器暂不支持。</div>
+                                    <div class="text-left" style="width:250px;display:inline-block">
+                                        推荐您使用最新版的
+                                        <a href="http://rj.baidu.com/soft/detail/14744.html">谷歌Chrome浏览器</a> 、
+                                        <a href="http://browser.qq.com/"> QQ浏览器</a>（极速模式）、
+                                        <a href="http://se.360.cn/"> 360浏览器</a>（极速模式）、
+                                        <a href="http://ie.sogou.com/">搜狗浏览器</a>（高速模式）。
+                                    </div>
+                                    <div class="margin-top-10" style="color:#A9A9A9;margin-top:100px;">
+                                        忘记密码？请联系旺旺客服重置密码
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                            }
+<script>
+
+    function checkCookie() {
+        var cookieEnabled = navigator.cookieEnabled;
+        var cookieAble = document.getElementById("cookieAble");
+        var cookieUnable = document.getElementById("cookieUnable");
+        if (cookieEnabled === false) {
+            cookieUnable.style.display = "block";
+            cookieAble.style.display = "none";
+        }
+    }
+    checkCookie();
+</script>

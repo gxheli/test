@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.SECTION = "账单报表";
+    ViewBag.FUNCTION = "账单报表";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/billreportlist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>账单报表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="state">
+                    <a href="javascript:" class="buttonradio" data-code="-1">全部</a>
+                    @foreach (LanghuaNew.Data.CheckState item in Enum.GetValues(typeof(LanghuaNew.Data.CheckState)))
+                    {
+                        <a href="javascript:;" class="buttonradio" data-code="@((int)item)">@LanghuaNew.Data.EnumHelper.GetEnumDescription(item)</a>
+                    }
+                </div>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font12">
+            </span>
+            <span class="rightbar">
+                <select id="DateType" class="input input-sm input-xsmall input-inline">
+                    <option selected value="0">日期类型</option>
+                    <option value="1">创建日期</option>
+                    <option value="2">付款日期</option>
+                    <option value="3">账单开始日期</option>
+                    <option value="4">账单结束日期</option>
+                </select>
+                <span class="input-icon-right">
+                    <input id="Date" class="form-control input-sm input130">
+                    <span class="inputicon glyphicon glyphicon-calendar"></span>
+                </span>
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems border-rounded  ddbutton searchbutton"> 搜索 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table ddtable table-striped  table-checkable " id="orderList">
+    <thead>
+        <tr>
+            <th style="width:80px">账单类型</th>
+            <th style="width:150px">账单周期</th>
+            <th style="width:150px">参考金额</th>
+            <th style="width:150px">实付金额</th>
+            <th style="width:150px">账单生成时间</th>
+            <th style="width:150px">付款时间</th>
+            <th style="width:80px">账单状态</th>
+            <th style="width:80px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

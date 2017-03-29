@@ -1,0 +1,203 @@
+﻿@{
+    ViewBag.SECTION = "分销统计";
+    ViewBag.FUNCTION = "分销统计";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section PageJS {
+<script src="~/Scripts/pages/distribution.js?v=@System.Configuration.ConfigurationManager.AppSettings[" version"]"></script>
+}
+<div id="searchoption"  data-search='@ViewBag.search'></div>
+<div class="tabletools">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>分销统计
+        </span>
+
+        <span class="rightbar">
+            <a data-toggle="modal" data-target="#distribution-create"  class="btn btn-sm btn-primary">新增分销统计</a>
+        </span>
+    </div>
+    <div style="min-height:40px;">
+        <span class="leftlabel font13">
+            对<span id="selectedNumber" class="number">0</span>个记录：
+        </span>
+        <div id="operations" class="leftkeys" style="display:inline-block">
+            <a id="deleteall" href="javascript:" class="btn btn-default btn-sm button65" data-next-code="0">删除</a>
+        </div>
+        <div class="rightbar">
+            <div id="fuzzyall" class="displayInlineBlock">
+                <div class="input-icon-right ">
+                    <input id="TravelDate" class="form-control input-sm input-small" />
+                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                </div>
+                <input id="FuzzySearch" class="form-control displayInlineBlock input155" placeholder="输入团号搜索" />
+            </div>
+            <a id="search" class="btn btn-sm btn-default button65">搜索</a>
+        </div>
+    </div>
+</div>
+
+<table id="distribution" class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ">
+    <thead>
+        <tr role="row">
+            <th style="width: 30px" class="sorting_disabled" rowspan="1" colspan="1">
+                <input type="checkbox" class="allrows group-checkable">
+            </th>
+            <th id="tooltipscontainer" style="width: 301px" class="sorting_disabled" rowspan="1" colspan="1">分销产品</th>
+            <th id="tooltipscontainer" style="width: 97px" class="sorting_disabled" rowspan="1" colspan="1">供应商</th>
+            <th id="tooltipscontainer" style="width: 117px" class="sorting_disabled" rowspan="1" colspan="1">人数</th>
+            <th id="tooltipscontainer" style="width: 150px" class="sorting_disabled" rowspan="1" colspan="1">出行日期</th>
+            <th id="tooltipscontainer" style="width: 189px" class="sorting_disabled" rowspan="1" colspan="1">团号</th>
+            <th id="tooltipscontainer" style="width: 155px" class="sorting_disabled" rowspan="1" colspan="1">登记人/时间</th>
+            <th id="tooltipscontainer" style="width: 139px" class="sorting_disabled" rowspan="1" colspan="1">操作</th>
+        </tr>
+    </thead>
+</table>
+
+<div id="distribution-create" class="modal  modal-animate" tabindex="-1" data-backdrop="static"  role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">分销统计</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>产品：</label>
+                            <div class="col-md-9">
+                                <input id="ItemID" placeholder="输入产品编码、名称查询" class="form-control" style="width:280px">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span> 供应商：</label>
+                            <div class="col-md-9">
+                                <select id="SupplierID" class="form-control input140 input-inline"></select>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>团号：</label>
+                            <div class="col-md-9">
+                                <input id="GroupNo"  class="form-control input-inline input140">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>出行日期：</label>
+                            <div class="col-md-9">
+                                <div class="input-icon-right input-inline">
+                                    <input id="TravelDate" class="form-control input140">
+                                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                </div>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>人数：</label>
+                            <div class="col-md-9">
+                                <input id="AdultNum" placeholder="成人" class="form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center">
+                                <input id="ChildNum" placeholder="儿童" class="form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center">
+                                <input id="INFNum" placeholder="婴儿" class="form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center">
+                                <input id="RoomNum" placeholder="间数" class="notusing form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center;display:none">
+                                <input id="RightNum"  placeholder="晚数" class="notusing form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center;display:none">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-primary" id="create">保存</a>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="distribution-edit" class="modal  modal-animate" tabindex="-1" data-backdrop="static" role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">分销统计</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <span id="DistributionTallyID"  class="hidden"></span>
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>产品：</label>
+                            <div class="col-md-9">
+                                <input id="ItemID" placeholder="输入产品编码、名称查询" class="form-control" style="width:280px">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span> 供应商：</label>
+                            <div class="col-md-9">
+                                <select id="SupplierID" class="form-control input140 input-inline"></select>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>团号：</label>
+                            <div class="col-md-9">
+                                <input id="GroupNo" class="form-control input-inline input140">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>出行日期：</label>
+                            <div class="col-md-9">
+                                <div class="input-icon-right input-inline">
+                                    <input id="TravelDate" class="form-control input140">
+                                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                </div>
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>人数：</label>
+                            <div class="col-md-9">
+                                <input id="AdultNum" placeholder="成人" class="form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center">
+                                <input id="ChildNum" placeholder="儿童" class="form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center">
+                                <input id="INFNum" placeholder="婴儿" class="form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center">
+                                <input id="RoomNum" placeholder="间数" class="notusing form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center;display:none">
+                                <input id="RightNum" placeholder="晚数" class="notusing form-control input-inline" style="width:40px;margin-right:6px; padding:6px 2px;text-align:center;display:none">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-primary" id="edit">保存</a>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

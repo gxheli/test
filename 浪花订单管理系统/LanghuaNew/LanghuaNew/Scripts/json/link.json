@@ -1,0 +1,43 @@
+﻿{
+  "_comment": "",
+  "enable": true,
+  "displayLength": true,
+  "list": [
+    {
+      "text": "店铺首页",
+      "href": "http://szlhddgl.alitrip.com",
+      "target": "_blank",
+      "enable": true
+    },
+    {
+      "text": "公司邮箱",
+      "href": "http://mail.dodotour.net",
+      "target": "_blank",
+      "enable": true
+    },
+    {
+      "text": "旧预订系统",
+      "href": "http://bak.dodotour.cn/langhua/adminlogin.asp",
+      "target": "_blank",
+      "enable": true
+    },
+    {
+      "text": "团表导出",
+      "href": "http://order.dodotour.cn/Orders/execl",
+      "target": "_blank",
+      "enable": true
+    },
+    {
+      "text": "价格列表",
+      "href": "http://order.dodotour.cn/ServiceItems/ItemPrices",
+      "target": "_blank",
+      "enable": true
+    },
+    {
+      "text": "中华保险",
+      "href": "http://ptn.cic.cn/facade/login",
+      "target": "_blank",
+      "enable": true
+    }
+  ]
+}

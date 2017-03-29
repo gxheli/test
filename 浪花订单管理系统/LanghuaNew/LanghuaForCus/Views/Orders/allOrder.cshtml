@@ -1,0 +1,141 @@
+﻿
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "我的全部订单";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTables_Css")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS {
+    <script src="../../Scripts/pages/allOrders.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+
+}
+
+@* 表格工具 *@
+@{
+    Dictionary<string, string> stateLeft = ViewBag.status;
+}
+
+<div class="tabletools" style="min-height:40px">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>我的全部订单
+        </span>
+        <div class="leftkeys" style="padding-left:10px">
+            <div id="status-select">
+                @{
+                    foreach (var one in stateLeft)
+                    {
+                        <a href="javascript:" data-postkey="status" data-type="state" class="buttonradio" data-code="@one.Key">@one.Value</a>
+                    }
+                }
+            </div>
+        </div>
+        <span class="rightbar">
+            <a href="/Orders/OldOrders" target="_blank" class="margin-right-10" style="line-height: 30px;">订单不见了？点这里看看</a>
+            <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px" class="margin-right-10"></span>
+            <a href="/Orders/Index" role="button" class="btn btn-sm btn-default">返回订单首页</a>
+        </span>
+
+    </div>
+</div>
+
+
+    @*<div class="table-responsive">*@
+        <table id="orders-all-cus" class="table ddtable  table-striped ">
+            <COLGROUP>
+                <COL width=242>
+                <COL width=533>
+                <COL width=129>
+                <COL width=147>
+                <COL width=109>
+            </COLGROUP>
+            <thead>
+                <tr>
+                    <th>订单号</th>
+                    <th>预订项目</th>
+                    <th>人数</th>
+                    <th>日期
+                    </th>
+                    <th class="hover" data-target="#introductions" data-toggle="modal"title="点击查看状态说明" >
+                        状态 <i  class="fa fa-question-circle"></i>
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    @*</div>*@
+    
+
+
+@* 订单状态说明 *@
+<div class="modal  modal-animate modal-largeSize" id="introductions" tabindex="-1" data-backdrop="static" data-height="400" data-width=700 role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="exampleModalLabel">请求变更</span>
+            </div>
+            <div  class="modal-body">
+                <table class="table ddtable mini table-striped">
+                    <colgroup>
+                        <col width="125">
+                        <col width="540">
+                      
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>订单状态</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>未填写</td>
+                        <td style="text-align:left;padding-left:10px !important;">订单已生成，您还没有填写行程预约的相关资料，请您尽快填写。</td>
+                    </tr>
+                    <tr>
+                        <td>待核对</td>
+                        <td style="text-align:left;padding-left:10px !important;">资料已填写，需要和客服进行资料的核对，请联系客服进行资料核对。</td>
+                    </tr>
+                    <tr>
+                        <td>已核对</td>
+                        <td style="text-align:left;padding-left:10px !important;">资料已核对完毕，等待客服进行预订操作。</td>
+                    </tr>
+                    <tr>
+                        <td>已拒绝</td>
+                        <td style="text-align:left;padding-left:10px !important;">订单因各种原因没有预订、变更、取消成功，请尽快联系客服咨询。</td>
+                    </tr>
+                    <tr>
+                        <td>预定中</td>
+                        <td style="text-align:left;padding-left:10px !important;">订单在预订过程中，一般需要2个工作日，请耐心等待。</td>
+                    </tr>
+                    <tr>
+                        <td>变更中</td>
+                        <td style="text-align:left;padding-left:10px !important;">资料发生变化，订单已在变更过程中，请耐心等待。</td>
+                    </tr>
+                    <tr>
+                        <td>取消中</td>
+                        <td style="text-align:left;padding-left:10px !important;">订单因各种原因被取消，订单正在申请取消的过程中，请耐心等待。</td>
+                    </tr>
+                    <tr>
+                        <td>已确认</td>
+                        <td style="text-align:left;padding-left:10px !important;">订单已预订成功，信息被确认。</td>
+                    </tr>
+                    <tr>
+                        <td>已取消</td>
+                        <td style="text-align:left;padding-left:10px !important;">订单已经被成功取消。</td>
+                    </tr>
+
+                </table>
+               
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-primary" data-dismiss="modal">确定</a>
+            </div>
+        </div>
+    </div>
+</div>
+

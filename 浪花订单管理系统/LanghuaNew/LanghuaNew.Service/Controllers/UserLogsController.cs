@@ -1,0 +1,165 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Web.Http;
+using System.Web.ModelBinding;
+using System.Web.OData;
+using System.Web.OData.Query;
+using System.Web.OData.Routing;
+using LanghuaNew.Data;
+
+namespace LanghuaNew.Service.Controllers
+{
+    /*
+    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
+
+    using System.Web.OData.Builder;
+    using System.Web.OData.Extensions;
+    using LanghuaNew.Data;
+    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+    builder.EntitySet<UserLog>("UserLogs");
+    config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+    */
+    public class UserLogsController : ODataController
+    {
+        private LanghuaContent db = new LanghuaContent();
+
+        // GET: odata/UserLogs
+        [EnableQuery]
+        public IQueryable<UserLog> GetUserLogs()
+        {
+            return db.UserLogs;
+        }
+
+        // GET: odata/UserLogs(5)
+        [EnableQuery]
+        public SingleResult<UserLog> GetUserLog([FromODataUri] int key)
+        {
+            return SingleResult.Create(db.UserLogs.Where(userLog => userLog.UserLogID == key));
+        }
+
+        // PUT: odata/UserLogs(5)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, Delta<UserLog> patch)
+        {
+            Validate(patch.GetEntity());
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            UserLog userLog = await db.UserLogs.FindAsync(key);
+            if (userLog == null)
+            {
+                return NotFound();
+            }
+
+            patch.Put(userLog);
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserLogExists(key))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Updated(userLog);
+        }
+
+        // POST: odata/UserLogs
+        public async Task<IHttpActionResult> Post(UserLog userLog)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.UserLogs.Add(userLog);
+            await db.SaveChangesAsync();
+
+            return Created(userLog);
+        }
+
+        // PATCH: odata/UserLogs(5)
+        [AcceptVerbs("PATCH", "MERGE")]
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<UserLog> patch)
+        {
+            Validate(patch.GetEntity());
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            UserLog userLog = await db.UserLogs.FindAsync(key);
+            if (userLog == null)
+            {
+                return NotFound();
+            }
+
+            patch.Patch(userLog);
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserLogExists(key))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Updated(userLog);
+        }
+
+        // DELETE: odata/UserLogs(5)
+        public async Task<IHttpActionResult> Delete([FromODataUri] int key)
+        {
+            UserLog userLog = await db.UserLogs.FindAsync(key);
+            if (userLog == null)
+            {
+                return NotFound();
+            }
+
+            db.UserLogs.Remove(userLog);
+            await db.SaveChangesAsync();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool UserLogExists(int key)
+        {
+            return db.UserLogs.Count(e => e.UserLogID == key) > 0;
+        }
+    }
+}

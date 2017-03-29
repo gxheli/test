@@ -1,0 +1,9 @@
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\bin\Debug\I18n.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\bin\Debug\I18n.pdb
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\bin\Debug\en-US\I18n.resources.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\obj\Debug\I18n.Resources.resources
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\obj\Debug\I18n.Resources.en-US.resources
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\obj\Debug\I18n.csproj.GenerateResource.Cache
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\obj\Debug\en-US\I18n.resources.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\obj\Debug\I18n.dll
+G:\lhdd\1.源代码\浪花订单管理系统\LanghuaNew\I18n\obj\Debug\I18n.pdb

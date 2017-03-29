@@ -1,0 +1,330 @@
+﻿@model LanghuaNew.Models.OrderViewModel
+
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTIONC = "新增订单";
+
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+
+
+<!--搜索选择-->
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/ordernew.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+
+@{
+
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "新增订单";
+}
+
+<div class="ddtitle ">
+    <div class="title-left">
+        <span class="border-left"></span>订单信息
+    </div>
+    <div class="button-right">
+        <a href="/Orders/Index" class="btn btn-sm btn-default">返回订单首页</a>
+    </div>
+</div>
+
+@* 添加产品区域 *@
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>订单来源：</label>
+                    <div class="col-md-10">
+                        <span id="source" style="display:inline-block">
+                            @{
+                                var index = 0;
+                            }
+                            @foreach (var item in Model.OrderSourse)
+                            {
+                                if (index == 0)
+                                {
+                                    index++;
+                                    <label class="radio-inline"><input class="source" type="radio" checked name="source" value="@item.OrderSourseID " /><span class="vertical-middle">@item.OrderSourseName</span></label>
+                                }
+                                else
+                                {
+                                    <label class="radio-inline"><input class="source" type="radio" name="source" value="@item.OrderSourseID " /><span class="vertical-middle">@item.OrderSourseName</span></label>
+                                }
+                            }
+                        </span>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span> 淘宝ID：</label>
+                    <div class="col-md-10">
+                        <input id="TBID" type="text" class="form-control neworder-input-medium input-inline  ">
+                        <a id="checkTBList" class="btn btn-sm btn-primary button70">
+                            查询天猫订单
+                        </a>
+                        <span class="help-inline"></span>
+                    </div>
+                </div>
+                <hr style="height:1px;border:none;border-top:1px solid #CCCCCC;" />
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span> 淘宝订单号：</label>
+                    <div class="col-md-10">
+                        <input id="TBORDERID" type="text" class="form-control neworder-input-medium input-inline  ">
+                        <span class="help-inline"></span>
+                        @*<textarea id="TBORDERID" onpropertychange="this.style.minHeight=this.scrollHeight + 'px'" oninput="this.style.minHeight=this.scrollHeight + 'px'" class="form-control neworder-input-medium input-inline  " rows="3" style="overflow:hidden"></textarea>
+                            <span class="help-inline help-line-vertical-bottom">如有多个，请每行一个单号</span>*@
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>产品：</label>
+                    <div class="col-md-10">
+                        <input placeholder="输入产品编码、名称查询" type="text" id="typeahead" class="typeahead form-control neworder-input-medium input-inline" style="width:280px">
+                        <span id="serviceCode" class="help-inline">
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>供应商：</label>
+                    <div class="col-md-10">
+                        <select id="suppliers" class="form-control input165 input-inline  "></select>
+                        <span class="help-inline">请采用系统默认供应商，如有需要再手动选择</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a id="addOneItem" class="btn btn-sm btn-primary button70">
+                            添加
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+
+@*已添加产品区域 *@
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left">
+            <span class="border-left"></span>已选产品
+        </div>
+    </div>
+</div>
+<div class="neworderMaker">
+    <table id="itemListNewOrder" class="newordertable">
+        <thead>
+            <tr class="uppercase">
+                <th style="width:10px;"></th>
+                <th style="width:250px;"> 项目 </th>
+                <th class="leftalignth" style="width:260px;">
+                    <span class="roomnumberhead">
+                        成人
+                    </span>
+                    <span class="roomnumberhead">
+                        儿童
+                    </span>
+                    <span class="roomnumberhead">
+                        婴儿
+                    </span>
+                    <span class="roomnumberhead">
+                        间数
+                    </span>
+                    <span class="roomnumberhead">
+                        晚数
+                    </span>
+                </th>
+                <th style="width:508px;"> 附加选项 </th>
+                <th style="width:80px;"> 参考成本 </th>
+                <th style="width:10px;"></th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="newordercost">
+        <span class="tip">订单参考成本：</span>
+        <span class="cost">0</span>
+    </div>
+    <div class="confirm">
+        <a id="postSlectItems" class="btn btn-sm btn-primary button160">
+            提交并生成链接
+        </a>
+    </div>
+</div>
+
+@* 预选产品区域 *@
+
+<div id="orderPre" class="modal  modal-animate modal-size-x4" tabindex="-1" data-backdrop="static" role="dialog" data-max-height="540" aria-labelledby="exampleModalLabel">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" ><span style="line-height:30px">查询天猫订单：</span></span>
+                <input class="form-control input-inline input200"    type="text" id= "TBIDX" value="" />
+                <a id="checkTBListR" class="btn btn-sm btn-primary button70">
+                    查询天猫订单
+                </a>
+            </div>
+            <div class="modal-body" style="padding-left:10px;padding-right:10px">
+                <div style="border-bottom:1px solid #CCCCCC;line-height:30px;height:35px">
+                    <label class="form-lables">
+                        <input id="haveNotOrderedOnly" type="checkbox" name="name" value="" />
+                        <span>只显示没链接的订单</span>
+                    </label>
+                    <label class="form-lables">
+                        <input id="enableOnly" type="checkbox" name="name" value="" />
+                        <span>不显示已关闭订单</span>
+                    </label>
+                    <a href="javascript:;" id="flashOrderPre"  style="float:right" class="btn btn-default btn-sm button70"><i class="fa fa-refresh"></i> 刷新 </a>
+                </div>
+                
+                <table class="table-preorder-outer" id="order-pre-list-pretend">
+                    <colgroup>
+                        <col width="36" />
+                        <col width="350" />
+                        <col width="220" />
+                        <col width="90" />
+                        <col width="130" />
+                        <col width="105" />
+                        <col width="133" />
+                        <col width="85" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>
+                                <input id="selectAllOrdersPre" type="checkbox" name="name" value="" />
+                            </th>
+                            <th>
+                                宝贝信息
+                            </th>
+                            <th>
+                                商家编码
+                            </th>
+                            <th class="text-right">
+                                单价*数量
+                            </th>
+                            <th>
+                                状态
+                            </th>
+
+                            <th>
+                                优惠
+                            </th>
+                            <th>
+                                实付
+                            </th>
+                            <th>
+                                交易状态
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <table class="table-preorder-outer" id="order-pre-list">
+                    <colgroup>
+                        <col width="1149" />
+                    </colgroup>
+                    <thead style="display:none">
+                        <tr>
+                            <th>
+                              
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="margin-right-10">
+                    已选择
+                    <span id="selecteNum">0</span>
+                    个订单
+                </span>
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default btn-primary" id="setOrders">添加</a>&nbsp;
+                <a type="button" href="javascript:;" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="orders-edit" class="modal  modal-animate" tabindex="-1" data-max-height="800px" data-backdrop="static" role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title" id="">修改已选产品</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body">
+                        @*<div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span> 淘宝订单号：</label>
+                            <div class="col-md-9">
+                                <input id="TBORDERIDR" type="text" class="form-control neworder-input-medium input-inline  ">
+                                <span class="help-inline"></span>
+                            </div>
+                        </div>*@
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span> 淘宝订单号：</label>
+                            <div class="col-md-9">
+                                <div id="orderNolist" class="orderNolist" style="min-height:38px;width:234px;margin-right:0px;display:inline-block">
+                                    <div class="one">
+                                        <span class="no">3192595514295973</span>
+                                        <span class="delete" title="删除单号及对应信息"></span>
+                                    </div>
+                                    
+                                </div><a id="addTmallData" style="position:absolute;margin-left: 5px;">选择淘宝订单</a><span class="help-inline"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>产品：</label>
+                            <div class="col-md-9">
+                                <input placeholder="输入产品编码、名称查询" type="text" id="typeaheadR" class="typeahead form-control neworder-input-medium input-inline" style="width:234px">
+                                <span id="serviceCodeR" class="help-inline" style="height:auto  ">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>供应商：</label>
+                            <div class="col-md-9">
+                                <select id="suppliersR" class="form-control input165 input-inline  "></select>
+                                <span class="help-inline">请采用系统默认供应商，如有需要再手动选择</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <input  id="data-container"class="hidden"/>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default btn-primary" id="addOneItemR">保存</a>
+                <span></span>
+                <a href="javascript:;" type="button" class="btn btn-sm button70 btn-default" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

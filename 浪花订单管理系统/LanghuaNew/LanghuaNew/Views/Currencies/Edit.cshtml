@@ -1,0 +1,100 @@
+﻿@model LanghuaNew.Data.Currency
+
+@{
+    ViewBag.SECTION = "基础数据";
+    ViewBag.FUNCTION = "修改货币";
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>货币设置</div>
+    <div class="button-right"><a href="~/Currencies/Index" class="btn btn-sm btn-default button70">返回</a></div>
+</div>
+
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        <form action="/Currencies/Edit" method="post" class="form-horizontal" onsubmit="return validate_form(this)">
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.CurrencyID)
+                @Html.HiddenFor(model => model.CurrencyEnableState)
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.CurrencyName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CurrencyName, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.CurrencyName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.CurrencyNo)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CurrencyNo, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.CurrencyNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">@Html.LabelFor(model => model.CurrencyChangeType)：</label>
+                    <div class="col-md-10">
+                        <select data-val="true" class="input input-sm input-xsmall" id="CurrencyChangeType" name="CurrencyChangeType">
+                            @{
+                                if (Model.CurrencyChangeType == LanghuaNew.Data.ChangeType.FromChina)
+                                {
+                                    <option selected="selected" value="0">人民币-外币</option>
+                                    <option value="1">外币-人民币</option>
+                                }
+                                else
+                                {
+                                    <option value="0">人民币-外币</option>
+                                    <option selected="selected" value="1">外币-人民币</option>
+                                }
+                            }
+                        </select>
+                        @Html.ValidationMessageFor(model => model.CurrencyChangeType, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.ExchangeRate)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ExchangeRate, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.ExchangeRate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="保存" class="btn btn-primary button70" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    function validate_form(thisform) {
+        with (thisform) {
+            var bl = true;
+            if (validate(CurrencyName, "请填写") == false)
+                bl = false;
+            if (validate(CurrencyNo, "请填写") == false)
+                bl = false;
+            if (validate(ExchangeRate, "请填写") == false)
+                bl = false;
+            if (bl) {
+                $("#btnSave").attr('disabled', true);
+            }
+
+            return bl;
+        }
+    }
+    function validate(field, show) {
+        with (field) {
+            if (!value) {
+                $(field).warning(show);
+                return false;
+            }
+            return true;
+        }
+    }
+</script>
+

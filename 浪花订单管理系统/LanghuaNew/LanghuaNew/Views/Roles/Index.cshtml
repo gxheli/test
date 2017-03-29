@@ -1,0 +1,82 @@
+﻿@{
+    ViewBag.SECTION = "角色管理";
+    ViewBag.FUNCTION = "角色管理";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/roleList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>基础数据
+        </span>
+        <div class="btn-group">
+            <a type="button" href="~/Users/Index" class="btn button86 btn-sm btn-default" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                用户管理
+            </a>
+            <a type="button" href="~/Roles/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                角色管理
+            </a>
+        </div>
+        <span class="rightbar">
+            <a href="javascript:;" id="reflashTable" class="btn btn-default btn-sm button65"><i class="fa fa-refresh"></i> 刷新 </a>
+            <a href="~/Roles/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增</a>
+        </span>
+    </div>
+    <div style="min-height:40px;">
+        <span class="leftlabel font13">
+            对<span id="selectedNumber" class="number">0</span>个选项：
+        </span>
+        <div id="operations" class="leftkeys" style="display:inline-block">
+            <a id="enableall" href="javascript:" class="status-green action btn btn-sm btn-default button65" operation="0">启用</a>
+            <a id="unableall" href="javascript:" class="status-red action btn btn-sm btn-default button65" operation="1">禁用</a>
+            <a id="deleteall" href="javascript:" class="btn btn-default btn-sm button65" operation="delete">删除</a>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove " id="roleList">
+    <thead>
+        <tr>
+            <th style="width:30px">
+                <input type="checkbox" class="group-checkable allrows">
+            </th>
+            <th style="width:207px">角色名称 </th>
+            <th style="width:643px">角色描述 </th>
+            <th style="width:106px">角色人数</th>
+            <th style="width:91px">状态</th>
+            <th style="width:101px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div class="modal  modal-animate" id="roleDetail" tabindex="-1" data-backdrop="static" role="dialog">
+    <div class="modal-dialog " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+                <span class="modal-title" id="exampleModalLabel">角色成员</span>
+            </div>
+            <div class="modal-body">
+                <div  style="height:170px;overflow: auto;">
+                    <div >
+                        <div id="roleName" style="font-weight:bold;width:50%;float:left"></div>
+                        <div id="roleMemberNumber" style="width:50%;float:left"></div>
+                    </div>
+                    <div id="members" >
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary button70" data-dismiss="modal" data-toggle="modal" id="1478759910973">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+

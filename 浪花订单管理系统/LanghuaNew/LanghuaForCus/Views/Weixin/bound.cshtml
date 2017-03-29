@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewBag.Title = "账号绑定成功";
+    Layout = "~/Views/Shared/Weixin.cshtml";
+
+}
+<div style="margin:0 auto;width:310px;margin-top:10px">
+    <div style="text-align:center">
+        <div style="height:20px"></div>
+        <h2>账号绑定成功</h2>
+        <div style="height:30px"></div>
+    </div>
+    <div style="text-align:center">
+        <i style="color:#44B549;font-size:120px" class="fa fa-check-circle">
+        </i>
+    </div>
+    <div class="font14" style="text-align:center;line-height:25px;">
+        <div style="height:10px"></div>
+        您的微信已和浪花朵朵旅行预约系统绑定成功！<br />
+        如您需要取消绑定请联系淘宝旺旺客服。
+    </div>
+    <div style="padding:0px 22px">
+        <form action="/Weixin/bind" method="post">
+            <div style="height:30px"></div>
+            <input type="hidden" value="@ViewBag.arg0" name="arg0" />
+            <button style="height:40px; line-height:26px;border-radius:5px;border-color:#44B549;background-color:#44B549;color:white;font-size:20px" type="submit" class="btn btn-default btn-block">进入查看我的订单</button>
+        </form>
+    </div>
+</div>

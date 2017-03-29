@@ -1,0 +1,93 @@
+﻿
+@model IEnumerable<Entity.StatisticsOrderPriceModel>
+@{ ViewBag.SECTION = "业绩统计"; ViewBag.FUNCTION = "利润"; }
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+@section PageJS{
+    <script src="../../Scripts/pages/profit.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+
+<div class="tabletools">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>业绩统计
+            <div style="vertical-align:top;display:inline-block;margin-left:30px">
+                <div class="btn-group">
+                    
+                    <a type="button" href="/SalesStatistics/Index" class="btn button86 btn-sm btn-default" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                        小任务
+                    </a>
+                    <a type="button" href="/SalesStatistics/StatisticsOrderPrice" class="btn button86 btn-sm btn-primary actas" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;"   >
+                        利润
+                    </a>
+                </div>
+            </div>
+        </span>
+
+    </div>
+    <div style="min-height:40px;">
+        <div class="rightbar">
+                <div id="daterange" style="display:inline-block">
+                    <span style="line-height:30px">出行日期： &nbsp;</span>
+                    <div class="input-icon-right ">
+                        <input id="StartDate" name="StartDate" class="form-control input-sm input-small" value="@ViewBag.StartDate" />
+                        <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                    </div>
+                    <span class="help-inline">至</span>
+                    <div class="input-icon-right ">
+                        <input id="EndDate" name="EndDate" class="form-control input-sm input-small"  value="@ViewBag.EndDate" />
+                        <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                    </div>
+                </div>
+                <button id="search" href="javascript:;"  type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i>" class="btn btn-sm btn-default button65">统计</button>
+        </div>
+    </div>
+</div>
+
+
+
+<table id="saleStatistics" class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove">
+    <colgroup>
+        <col width="53">
+        <col width="137">
+        <col width="125">
+        <col width="125">
+        <col width="153">
+        <col width="142">
+        <col width="129">
+        <col width="123">
+        <col width="102" >
+        <col width="88">
+        
+    </colgroup>
+    <thead>
+        <tr role="row">
+            <th >排序</th>
+            <th >统计用户</th>
+            <th >开始日期</th>
+            <th >结束日期</th>
+            <th>收入</th>
+            <th>成本</th>
+            <th>退款</th>
+            <th>支付宝转账</th>
+            <th class="orderby" data-for="Profit">利润额 <span class="caret"></span></th>
+            <th class="orderby" data-for="ProfitRate">利润率 <span class="caret status-gray"></span></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+

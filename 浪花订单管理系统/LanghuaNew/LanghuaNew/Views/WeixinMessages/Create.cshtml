@@ -1,0 +1,109 @@
+﻿@model LanghuaNew.Data.WeixinMessage
+
+@{
+    ViewBag.SECTION = "微信设置";
+    ViewBag.FUNCTION = "新增消息";
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/WeixinMessages.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>消息配置</div>
+    <div class="button-right"><a href="~/WeixinMessages/Index" class="btn btn-sm btn-default button70">返回</a></div>
+</div>
+
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        <form action="/WeixinMessages/Create" method="post" class="form-horizontal" role="form" onsubmit="return validate_form(this)">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>国家：</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("CountryID", null, htmlAttributes: new { @class = "form-control input-sm input-small", @style = "max-width:100px" })
+                        @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>日期范围：</label>
+                    <div class="col-md-10">
+                        <div style="display:inline-block;vertical-align:middle">
+                            <div id="launchdaterange" class="input-group date-picker input-daterange">
+                                <div class="input-icon-right ">
+                                    @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control input-sm input-small" } })
+                                    <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                </div>
+                                <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                                <div class="input-icon-right ">
+                                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control input-sm input-small" } })
+                                    <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>消息内容：</label>
+                    <div class="col-md-10">
+                        <textarea id="Message" name="Message" class="form-control input-inline" rows="5" style="max-width:500px">@(Model!=null?Model.Message:"")</textarea>
+                        @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">页面链接：</label>
+                    <div class="col-md-10">
+                        <textarea id="Url" name="Url" class="form-control input-inline" rows="3" style="max-width:500px">@(Model != null ? Model.Url : "")</textarea>
+                        @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="保存" class="btn btn-primary button70" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    function validate_form(thisform) {
+        with (thisform) {
+            var bl = true;
+            if (validate(CountryID, "请选择") == false)
+                bl = false;
+            if (validate(StartTime, "请填写") == false)
+                bl = false;
+            if (validate(EndTime, "请填写") == false)
+                bl = false;
+            if (validate(Message, "请填写") == false)
+                bl = false;
+            if (bl) {
+                $("#btnSave").attr('disabled', true);
+            }
+            return bl;
+        }
+    }
+    function validate(field, show) {
+        with (field) {
+            if (!value) {
+                $(field).warning(show);
+                return false;
+            }
+            return true;
+        }
+    }
+</script>

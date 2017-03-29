@@ -1,0 +1,91 @@
+﻿@{
+    ViewBag.SECTION = "支付宝转账";
+    ViewBag.FUNCTION = "支付宝转账";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/alipaytransferlist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+<input hidden id="isCheck" value="@ViewBag.isCheck">
+<input hidden id="isTransfer" value="@ViewBag.isTransfer">
+<input hidden id="isDelete" value="@ViewBag.isDelete">
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>转账列表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="TransferState">
+                    <a href="javascript:" class="buttonradio" data-code="0">全部</a>
+                    @foreach (LanghuaNew.Data.TransferState item in Enum.GetValues(typeof(LanghuaNew.Data.TransferState)))
+                    {
+                        var value = (int)item + 1;
+                        <a href="javascript:;" class="buttonradio" data-code="@value">@LanghuaNew.Data.EnumHelper.GetEnumDescription(item)</a>
+                    }
+                </div>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="~/AlipayTransfers/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font12">
+                上月已转账：<span id="TransferBeforeMonth">xxx</span>元，本月已转账：<span id="TransferThisMonth">xxx</span>元，待转账：<span id="CheckTransfer">xxx</span>元
+            </span>
+            <span class="rightbar">
+                <select id="TransferType" class="input input-sm input-xsmall">
+                    <option selected value="0">类型</option>
+                    @foreach (LanghuaNew.Data.TransferType item in Enum.GetValues(typeof(LanghuaNew.Data.TransferType)))
+                    {
+                        var value = (int)item + 1;
+                        <option value="@value">@LanghuaNew.Data.EnumHelper.GetEnumDescription(item)</option>
+                    }
+                </select>
+                <input placeholder="模糊搜索：淘宝ID、支付宝账号" style="padding:0px 10px" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems border-rounded  ddbutton searchbutton"> 搜索 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:100px">淘宝ID </th>
+            <th style="width:180px">收款账号 </th>
+            <th style="width:80px">转账金额</th>
+            <th style="width:100px">转账类型</th>
+            <th style="width:150px">系统订单号</th>
+            <th style="width:150px">创建人/时间</th>
+            <th style="width:220px">转账原因</th>
+            <th style="width:140px">备注</th>
+            <th style="width:80px">状态</th>
+            <th style="width:140px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<div class="modal modal-largeSize modal-animate" id="Remarksearch" tabindex="-1" data-backdrop="static" role="dialog" data-width=500>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">备注</span>
+            </div>
+            <div class="modal-body">
+                <textarea id="Remark" class="form-control " rows="5" style="width:460px;margin-right:0px; display:inline-block;max-width:460px"></textarea>
+            </div>
+            <div class="modal-footer">
+                <a id="saveRemark" style="" class="btn btn-default btn-sm button65">保存</a>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

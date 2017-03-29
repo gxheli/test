@@ -1,0 +1,74 @@
+﻿@{
+    ViewBag.SECTION = "基础数据";
+    ViewBag.FUNCTION = "货币";
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section PageJS{
+    <script src="../../Scripts/pages/CurrenciesList.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>基础数据
+            </span>
+            <div class="btn-group">
+                <a type="button" href="~/Currencies/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                    货币
+                </a>
+                <a type="button" href="~/Countries/Index" class="btn button86 btn-sm btn-default">
+                    国家区域
+                </a>
+                <a type="button" href="~/Hotals/Index" class="btn button86  btn-sm btn-default">
+                    酒店
+                </a>
+                <a type="button" href="~/OrderSourses/Index" class="btn button86 btn-sm btn-default" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                    订单来源
+                </a>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="~/Currencies/Create" class="fixbuttonnew btn btn-sm btn-primary button65">新增</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font13">
+                对<span id="selectedNumber" class="number">0</span>个选项：
+            </span>
+            <div id="operations" class="leftkeys" style="display:inline-block">
+                <a href="javascript:" class="status-green action btn btn-sm btn-default button65" data-next-code="0">启用</a>
+                <a href="javascript:" class="status-red action btn btn-sm btn-default button65" data-next-code="1">禁用</a>
+            </div>
+            <span class="rightbar">
+                <select id="status" class="input input-sm input-xsmall">
+                    <option value="0">状态</option>
+                    <option value="1">启用</option>
+                    <option value="2">禁用</option>
+                </select>
+                <input placeholder="模糊搜索：货币名称、代码" href="javascript:;" id="fuzzyString" class="border-rounded rightbaritems searchipnut" />
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 搜索 </a>
+                <span style="border-left:1px solid black;display:inline-block;width:1px;height:30px"></span>
+                <a href="javascript:;" id="exportproducts" class="rightbaritems btn btn-sm btn-default button65 searchbutton"> 导出 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove ddtable" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:30px"><input type="checkbox" class="group-checkable"></th>
+            <th style="width:100px">货币名称 </th>
+            <th style="width:100px">货币代码 </th>
+            <th style="width:180px">外币-人民币</th>
+            <th style="width:180px">人民币-外币</th>
+            <th style="width:80px">状态</th>
+            <th style="width:100px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>

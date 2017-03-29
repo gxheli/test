@@ -1,0 +1,92 @@
+﻿@model LanghuaNew.Data.Area
+
+@{
+    ViewBag.SECTION = "基础数据";
+    ViewBag.FUNCTION = "修改国家区域";
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>国家区域设置</div>
+    <div class="button-right"><a href="~/Countries/Index" class="btn btn-sm btn-default button70">返回</a></div>
+</div>
+
+
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        <form action="/Countries/Edit" method="post" class="form-horizontal" onsubmit="return validate_form(this)">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.AreaID)
+                @Html.HiddenFor(model => model.AreaEnableState)
+                <div class="form-group">
+                    <label class="col-md-2 control-label">国家：</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("CountryID", null, "请选择", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px",@onchange= "selectCity()" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">省市：</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("CityID", null, "请选择", htmlAttributes: new { @class = "form-control input input-sm input-small input-inline", @style = "max-width:120px" })
+                    </div>
+                </div>
+                <div class="form-group areaRow">
+                    <label class="col-md-2 control-label">区域：</label>
+                    <div class="col-md-10">
+                        <input placeholder="中文名" id="AreaName" name="AreaName" type="text" class="form-control neworder-input-medium input-inline" style="width:120px" value="@Model.AreaName">
+                        <input placeholder="英文名" id="AreaEnName" name="AreaEnName" type="text" class="form-control neworder-input-medium input-inline" style="width:120px" value="@Model.AreaEnName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="保存" class="btn btn-primary button70" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    function selectCity() {
+        var id = jQuery("#CountryID").val();
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/Hotals/GetCity/' + id,
+            success: function (data) {
+                var str = "<option value=''>请选择</option>";
+                for (var i in data.city) {
+                    str += '<option value="' + data.city[i].CityID + '">' + data.city[i].CityName + '</option>';
+                }
+                $('#CityID').empty().append(str);
+            }
+        });
+    }
+    function validate_form(thisform) {
+        with (thisform) {
+            var bl = true;
+            if (validate(CountryID, "请选择") == false)
+                bl = false;
+            if (validate(CityID, "请选择") == false)
+                bl = false;
+            if (validate(AreaName, "请填写") == false)
+                bl = false;
+            if (validate(AreaEnName, "请填写") == false)
+                bl = false;
+            if (bl) {
+                $("#btnSave").attr('disabled', true);
+            }
+            return bl;
+        }
+    }
+    function validate(field, show) {
+        with (field) {
+            if (!value) {
+                $(field).warning(show);
+                return false;
+            }
+            return true;
+        }
+    }
+</script>

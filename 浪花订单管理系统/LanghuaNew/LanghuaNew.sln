@@ -1,0 +1,179 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaNew", "LanghuaNew\LanghuaNew.csproj", "{D5A7ABC7-6C44-4732-8EDA-F7DAEBE2FFA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaNew.Data", "LanghuaNew.Data\LanghuaNew.Data.csproj", "{ECB07BFD-1E9A-4CF4-AD7F-6031AB5BB1E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaForCus", "LanghuaForCus\LanghuaForCus.csproj", "{38CD7B01-4E76-4390-8D0E-8FD479EAB52C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaNew.Service", "LanghuaNew.Service\LanghuaNew.Service.csproj", "{105BCAD8-9585-48B3-85D8-3DB7738F3FA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaNew.Service.Tests", "LanghuaNew.Service.Tests\LanghuaNew.Service.Tests.csproj", "{2C59A0D6-4821-43F3-B7BB-531AEB1B2F28}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commond", "Commond\Commond.csproj", "{DFC83C2B-6C92-41B7-B832-F2612585B28D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeiXinWeb", "WeiXinWeb\WeiXinWeb.csproj", "{4003E178-0D98-494A-8A9D-CB8CE9E57732}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WXForeverNews", "WXForeverNews\WXForeverNews.csproj", "{375069B3-B5CB-4FC4-AD3E-1621FE1944EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WXData", "WXData\WXData.csproj", "{FD1A1D08-71F5-424F-8E89-25D7D42D74BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{91630F73-1241-487A-AB48-D5DECB0C103C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaForSup", "LanghuaForSup\LanghuaForSup.csproj", "{AB8010D5-6F62-444D-AF62-425876E492C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Everything", "Everything\Everything.csproj", "{200596F6-D8FB-446C-AC82-B9CF1A09E5EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaQRCode", "LanghuaQRCode\LanghuaQRCode.csproj", "{9A9A6E8D-ACCB-499B-A4A2-A242B361D055}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaNewTests", "LanghuaNewTests\LanghuaNewTests.csproj", "{6BD4C555-370D-4521-ACCA-A3F055857114}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{F6743B0C-7C12-4900-B48F-080A2E4667AE}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Aspose.Words.dll = Lib\Aspose.Words.dll
+		Lib\Common.Logging.dll = Lib\Common.Logging.dll
+		Lib\libeay32.dll = Lib\libeay32.dll
+		Lib\libgcc_s_dw2-1.dll = Lib\libgcc_s_dw2-1.dll
+		Lib\mingwm10.dll = Lib\mingwm10.dll
+		Lib\Pechkin.dll = Lib\Pechkin.dll
+		Lib\ssleay32.dll = Lib\ssleay32.dll
+		Lib\TopSdk.dll = Lib\TopSdk.dll
+		Lib\wkhtmltox0.dll = Lib\wkhtmltox0.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanghuaWapForCus", "LanghuaWapForCus\LanghuaWapForCus.csproj", "{363C300F-CE9E-4FE2-A48D-1E1D8B7F5961}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "I18n", "I18n\I18n.csproj", "{325F0122-53EE-4762-89AC-0E71F3201A06}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D5A7ABC7-6C44-4732-8EDA-F7DAEBE2FFA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A7ABC7-6C44-4732-8EDA-F7DAEBE2FFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A7ABC7-6C44-4732-8EDA-F7DAEBE2FFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A7ABC7-6C44-4732-8EDA-F7DAEBE2FFA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECB07BFD-1E9A-4CF4-AD7F-6031AB5BB1E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECB07BFD-1E9A-4CF4-AD7F-6031AB5BB1E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECB07BFD-1E9A-4CF4-AD7F-6031AB5BB1E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECB07BFD-1E9A-4CF4-AD7F-6031AB5BB1E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38CD7B01-4E76-4390-8D0E-8FD479EAB52C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38CD7B01-4E76-4390-8D0E-8FD479EAB52C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38CD7B01-4E76-4390-8D0E-8FD479EAB52C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38CD7B01-4E76-4390-8D0E-8FD479EAB52C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105BCAD8-9585-48B3-85D8-3DB7738F3FA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105BCAD8-9585-48B3-85D8-3DB7738F3FA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105BCAD8-9585-48B3-85D8-3DB7738F3FA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105BCAD8-9585-48B3-85D8-3DB7738F3FA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C59A0D6-4821-43F3-B7BB-531AEB1B2F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C59A0D6-4821-43F3-B7BB-531AEB1B2F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C59A0D6-4821-43F3-B7BB-531AEB1B2F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C59A0D6-4821-43F3-B7BB-531AEB1B2F28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFC83C2B-6C92-41B7-B832-F2612585B28D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFC83C2B-6C92-41B7-B832-F2612585B28D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFC83C2B-6C92-41B7-B832-F2612585B28D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFC83C2B-6C92-41B7-B832-F2612585B28D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4003E178-0D98-494A-8A9D-CB8CE9E57732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4003E178-0D98-494A-8A9D-CB8CE9E57732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4003E178-0D98-494A-8A9D-CB8CE9E57732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4003E178-0D98-494A-8A9D-CB8CE9E57732}.Release|Any CPU.Build.0 = Release|Any CPU
+		{375069B3-B5CB-4FC4-AD3E-1621FE1944EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{375069B3-B5CB-4FC4-AD3E-1621FE1944EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{375069B3-B5CB-4FC4-AD3E-1621FE1944EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{375069B3-B5CB-4FC4-AD3E-1621FE1944EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1A1D08-71F5-424F-8E89-25D7D42D74BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1A1D08-71F5-424F-8E89-25D7D42D74BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1A1D08-71F5-424F-8E89-25D7D42D74BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1A1D08-71F5-424F-8E89-25D7D42D74BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91630F73-1241-487A-AB48-D5DECB0C103C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91630F73-1241-487A-AB48-D5DECB0C103C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91630F73-1241-487A-AB48-D5DECB0C103C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91630F73-1241-487A-AB48-D5DECB0C103C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8010D5-6F62-444D-AF62-425876E492C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8010D5-6F62-444D-AF62-425876E492C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8010D5-6F62-444D-AF62-425876E492C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8010D5-6F62-444D-AF62-425876E492C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{200596F6-D8FB-446C-AC82-B9CF1A09E5EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{200596F6-D8FB-446C-AC82-B9CF1A09E5EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{200596F6-D8FB-446C-AC82-B9CF1A09E5EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{200596F6-D8FB-446C-AC82-B9CF1A09E5EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A9A6E8D-ACCB-499B-A4A2-A242B361D055}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A9A6E8D-ACCB-499B-A4A2-A242B361D055}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A9A6E8D-ACCB-499B-A4A2-A242B361D055}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A9A6E8D-ACCB-499B-A4A2-A242B361D055}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD4C555-370D-4521-ACCA-A3F055857114}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD4C555-370D-4521-ACCA-A3F055857114}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD4C555-370D-4521-ACCA-A3F055857114}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD4C555-370D-4521-ACCA-A3F055857114}.Release|Any CPU.Build.0 = Release|Any CPU
+		{363C300F-CE9E-4FE2-A48D-1E1D8B7F5961}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{363C300F-CE9E-4FE2-A48D-1E1D8B7F5961}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{363C300F-CE9E-4FE2-A48D-1E1D8B7F5961}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{363C300F-CE9E-4FE2-A48D-1E1D8B7F5961}.Release|Any CPU.Build.0 = Release|Any CPU
+		{325F0122-53EE-4762-89AC-0E71F3201A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{325F0122-53EE-4762-89AC-0E71F3201A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{325F0122-53EE-4762-89AC-0E71F3201A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{325F0122-53EE-4762-89AC-0E71F3201A06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 17
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://win-4lhjrneam2m:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = LanghuaNewTests\\LanghuaNewTests.csproj
+		SccProjectName1 = LanghuaNewTests
+		SccLocalPath1 = LanghuaNewTests
+		SccProjectUniqueName2 = Commond\\Commond.csproj
+		SccProjectName2 = Commond
+		SccLocalPath2 = Commond
+		SccProjectUniqueName3 = LanghuaNew.Service\\LanghuaNew.Service.csproj
+		SccProjectName3 = LanghuaNew.Service
+		SccLocalPath3 = LanghuaNew.Service
+		SccProjectUniqueName4 = LanghuaNew.Service.Tests\\LanghuaNew.Service.Tests.csproj
+		SccProjectName4 = LanghuaNew.Service.Tests
+		SccLocalPath4 = LanghuaNew.Service.Tests
+		SccProjectUniqueName5 = WeiXinWeb\\WeiXinWeb.csproj
+		SccProjectName5 = WeiXinWeb
+		SccLocalPath5 = WeiXinWeb
+		SccProjectUniqueName6 = LanghuaNew\\LanghuaNew.csproj
+		SccProjectName6 = LanghuaNew
+		SccLocalPath6 = LanghuaNew
+		SccProjectUniqueName7 = WXData\\WXData.csproj
+		SccProjectName7 = WXData
+		SccLocalPath7 = WXData
+		SccProjectUniqueName8 = WXForeverNews\\WXForeverNews.csproj
+		SccProjectName8 = WXForeverNews
+		SccLocalPath8 = WXForeverNews
+		SccProjectUniqueName9 = LanghuaForCus\\LanghuaForCus.csproj
+		SccProjectName9 = LanghuaForCus
+		SccLocalPath9 = LanghuaForCus
+		SccProjectUniqueName10 = LanghuaNew.Data\\LanghuaNew.Data.csproj
+		SccProjectName10 = LanghuaNew.Data
+		SccLocalPath10 = LanghuaNew.Data
+		SccProjectUniqueName11 = LanghuaForSup\\LanghuaForSup.csproj
+		SccProjectName11 = LanghuaForSup
+		SccLocalPath11 = LanghuaForSup
+		SccProjectUniqueName12 = Everything\\Everything.csproj
+		SccProjectName12 = Everything
+		SccLocalPath12 = Everything
+		SccProjectUniqueName13 = LanghuaQRCode\\LanghuaQRCode.csproj
+		SccProjectName13 = LanghuaQRCode
+		SccLocalPath13 = LanghuaQRCode
+		SccProjectUniqueName14 = Entity\\Entity.csproj
+		SccProjectName14 = Entity
+		SccLocalPath14 = Entity
+		SccProjectUniqueName15 = LanghuaWapForCus\\LanghuaWapForCus.csproj
+		SccProjectName15 = LanghuaWapForCus
+		SccLocalPath15 = LanghuaWapForCus
+		SccProjectUniqueName16 = I18n\\I18n.csproj
+		SccProjectName16 = I18n
+		SccLocalPath16 = I18n
+	EndGlobalSection
+EndGlobal

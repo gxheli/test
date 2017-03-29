@@ -1,0 +1,157 @@
+﻿@model LanghuaNew.Data.Supplier
+
+@{
+    ViewBag.SECTION = "供应商";
+    ViewBag.FUNCTION = "新增供应商";
+}
+<div class="ddtitle">
+    <div class="title-left"><span class="border-left"></span>供应商设置</div>
+    <div class="button-right"><a href="~/Suppliers/Index" class="btn btn-sm btn-default button70">返回供应商首页</a></div>
+</div>
+
+
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        <form action="/Suppliers/Create" method="post" class="form-horizontal" onsubmit="return validate_form(this)">
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.CountryID)：</label>
+                    <div class="col-md-10">
+                        @Html.DropDownList("CountryID", null, "请选择", htmlAttributes: new { @class = "form-control input input-sm input-xsmall input-inline", @style = "max-width:100px" })
+                        @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.SupplierName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SupplierName, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.SupplierName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.SupplierEnName)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SupplierEnName, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.SupplierEnName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.SupplierNo)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.SupplierNo, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.SupplierNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">@Html.LabelFor(model => model.EMail)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.EMail, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>@Html.LabelFor(model => model.ContactWay)：</label>
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ContactWay, new { htmlAttributes = new { @class = "form-control input-sm input-inline" } })
+                        @Html.ValidationMessageFor(model => model.ContactWay, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">@Html.LabelFor(model => model.EnableOnline, "使用本系统")：</label>
+                    <div class="col-md-10">
+                        <span id="EnableOnline">
+                            @*@Html.EditorFor(model => model.EnableOnline)*@
+                            <label class="radio-inline"><input class="EnableOnline" type="radio" name="EnableOnline" value="true" />是</label>
+                            <label class="radio-inline"><input class="EnableOnline" type="radio" name="EnableOnline" value="false" />否</label>
+                            @Html.ValidationMessageFor(model => model.EnableOnline, "", new { @class = "text-danger" })
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">系统账号：</label>
+                    <div class="col-md-10">
+                        <input name="SupplierSysName" class = "form-control input-sm input-inline"/>
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <span>不使用本系统的供应商可不填</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label">系统密码：</label>
+                    <div class="col-md-10">
+                        <input name="SupplierPWD" class="form-control input-sm input-inline" />
+                        <span>密码必须6-12位数字、字母和特殊字符组合</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input id="btnSave" type="submit" value="保存" class="btn btn-primary button70" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" language="javascript">
+    function validate_form(thisform) {
+        with (thisform) {
+            var bl = true;
+            if (validate(CountryID, "请选择") == false)
+                bl = false;
+            if (validate(SupplierName, "请填写") == false)
+                bl = false;
+            if (validate(SupplierEnName, "请填写") == false)
+                bl = false;
+            if (validate(SupplierNo, "请填写") == false)
+                bl = false;
+            if (validate(ContactWay, "请填写") == false)
+                bl = false;
+            if (validate_radio(EnableOnline, "#EnableOnline", "请选择") == false)
+                bl = false;
+            if (jQuery('#EnableOnline input.EnableOnline[name=EnableOnline]:checked').val()=="true") {
+                if (validate(SupplierSysName, "请填写") == false)
+                    bl = false;
+                if (validate_password(SupplierPWD) == false)
+                    bl = false;
+            }
+            if (bl) {
+                $("#btnSave").attr('disabled', true);
+            }
+            return bl;
+        }
+    }
+    function validate(field, show) {
+        with (field) {
+            if (!value) {
+                $(field).warning(show);
+                return false;
+            }
+            return true;
+        }
+    }
+    function validate_radio(field,showid, show) {
+        with (field) {
+            if (!value) {
+                $(showid).warning(show);
+                return false;
+            }
+            return true;
+        }
+    }
+    function validate_password(field) {
+        with (field) {
+            if (value.length > 5 && length < 13)
+                return true;
+            $(field).warning("密码必须6-12位数");
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>编辑订单</title>
+	<link rel="stylesheet" href="order/base.min.css">
+<style type="text/css">
+html,body{ height: 100%; }
+.md-modifyOrder{ height: 100%;overflow-y:auto;  background: #fff; padding: 0 .05rem; }
+.md-nav{position: absolute;bottom:0;width:100%;font-size:.12rem;color:#1E1E1E;height:.5rem;overflow:hidden;text-align:center;color:#A1A1A1;border-top:1px solid #999;background:#fff;}
+.md-nav a{ color:#A1A1A1; }
+.md-nav a.selected{ color:#2E9DE6; }
+.md-nav .nav-item{ float:left;width:33.3333333%;line-height: .2rem;margin-top: .06rem; }
+.md-nav .nav-item i{  display: inline-block;width:100%;font-size: .15rem;}
+.panel-default{ border:0; }
+
+</style>
+</head>
+<body>
+	<div class="md-modifyOrder">
+		<div class="ddtitle">
+	        <div class="title-left">
+	            <span class="border-left"></span>联系人基本资料
+	        </div>
+	    </div>
+	    <div id="react1"></div>
+	    <div class="ddtitle">
+	        <div class="title-left">
+	            <span class="border-left"></span>项目预约信息
+	        </div>
+	    </div>
+	    <div id="react2"></div>
+	    <div style="text-align:center;margin-top:10px">
+	        <div style="max-width:440px;display:inline-block;position:relative">
+	            <div class="checkbox">
+	                <label style="text-align:left">
+		                <input type="checkbox" id="agreed">
+		                我已打开并阅读《<a target="_blank" href="http://www.dodotour.net/fengxian.html">旅游风险须知和安全提示告知书</a>》，我承诺转达全部内容给全体参与以上行程的人员，并代表他们进行签字。
+		            </label>
+	            </div>
+	        </div>
+	    </div>
+	    <div class="" style="text-align:center;    margin-bottom: .6rem;">
+	        <a data-iscommit="false" id="nowsave" class="save-button btn btn-sm btn-default"> 暂存，稍后继续填写</a>
+	        <a data-iscommit="true" id="confirmsave" class="save-button btn btn-sm btn-primary button70"> 提交保存</a>
+	    </div>
+		<div class="md-nav">
+			<a href="/wap/dist/#/order" class="selected">
+				<div class="nav-item item-trip">
+					<i class="fa fa-paper-plane"></i>
+					<span>行程</span>
+				</div>
+			</a>
+			<a href="/wap/dist/#/visitor" >
+				<div class="nav-item item-visitors">
+					<i class="fa fa-users"></i>
+					<span>常用游客</span>
+				</div>
+			</a>
+			<a href="/wap/dist/#/user" >
+				<div class="nav-item item-user">
+					<i class="fa fa-user"></i>
+					<span>个人中心</span>
+				</div>
+			</a>
+		</div>
+	</div>
+</body>
+</html>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+<script type="text/javascript" src="order/base.min.js"></script>
+<script type="text/javascript" src="order/lhddComponents.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=640){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 360) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+
+	if( document.cookie.indexOf('.ASPXAUTH') === -1 ){
+	    window.location.hash = "#/login";
+	}
+		
+	var OrderID = getQueryString('OrderID');
+	if( OrderID ){
+		$.ajax({
+			url:'/Orders/GetOrderEdit',
+			type:'post',
+			dataType:'json',
+			data:{
+				id: OrderID
+			}
+		}).done(function( data ){
+
+			ReactDOM.render(
+				React.createElement(Components.UserInfo,
+				{
+				 	"baseinfo": data.OrderDetail,
+				 	"code": data.OrderDetail.CustomerTBCode,
+				 	"editFlag" :data.OrderDetail.ServiceItemHistorys.ElementsValue == null ? false : true,
+				    "imageUrl" : data.OrderDetail.RQUrl
+				}),
+				document.getElementById("react1")
+			)
+
+			ReactDOM.render(
+				React.createElement(Components.Orders,
+				{
+				 	"initdata": data.OrderDetail,//api get
+				 	"UIType":"edit",
+				 	"state":"editable",
+				 	"isForCusClient":false,
+				 	"unlimited":true,
+				 	"buttons":{}
+				}),
+				document.getElementById("react2")
+			);
+		})
+	}
+
+});
+function getQueryString(name) { 
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+	var r = decodeURIComponent( window.location.search.substr(1) ).match(reg); 
+	if (r != null) return unescape(r[2]); return null; 
+} 
+</script>

@@ -1,0 +1,119 @@
+.md-order{
+	height:calc(100% - .5rem );
+	background:#F2F2F2;
+	overflow-y:auto;
+	height: 100%;
+
+	//margin-top:.4rem;
+
+	.order-box.all{ margin-bottom:.6rem; }
+
+	.order-box{
+
+		margin:.2rem .1rem;
+
+		.title{
+			text-align: center;
+			font-size: .14rem;
+			position:relative;
+			height: .3rem;
+
+			span{
+				display: inline-block;
+				width:1.18rem;
+				height: .3rem;
+				line-height: .3rem;
+				text-align: center;
+				border:1px solid #999;
+				border-radius:10px;
+				background:#fff;
+				position: absolute;
+				left:50%;
+				margin-left:-.59rem; 
+				z-index: 2;
+			}
+			.line{
+				position:absolute;
+				width:100%;
+				border:1px solid #999;
+				left:0;
+				top:.15rem;
+				z-index: 1;
+			}
+
+		}
+
+
+		.order-list{
+
+			.order-info{
+
+				overflow: hidden;
+				background:#fff;
+				height: .9rem;
+				margin-top: .1rem;
+				border-radius: 5px;
+
+				.if-lf{
+					float:left;
+					width:2.4rem;
+					padding-left: .1rem;
+					font-size: .15rem;
+
+					.order-title{
+						height: .45rem;
+						line-height:.45rem;
+						color:#111;
+						font-weight: 600;
+					}
+					.order-person{
+						height: .45rem;
+						line-height: .45rem;
+
+						span{
+							display: inline-block;
+							width:.65rem;
+
+							em{
+								font-style: normal;
+							}
+						}
+					}
+				}
+				.if-rt{
+					float:right;
+					width:.75rem;
+					height: .9rem;
+					text-align: center;
+					display: flex;
+					justify-content: center;
+					flex-direction: column;
+					i{
+						font-size: .2rem;
+					}
+					span{
+						display: inline-block;
+						width:100%;
+					}
+				}
+				.if-rt.weitianxie{background:#fffccc;}
+				.if-rt.daihedui{background:#FFCC00;}
+				.if-rt.yiqueren{
+					background:#2E9DE6;
+					color: #fff;
+					i{ color:#fff; }
+				}
+			}
+
+		}
+	}
+}
+.icon-face0:before{ content:'\F141'} //未填写
+.icon-face10:before{ content:'\F119' } //已拒绝
+.icon-face20:before{ content:'\F141' } //待核对
+.icon-face30:before{ content:'\F141' } //已核对
+.icon-face40:before{ content:'\f017' } //预定中
+.icon-face50:before{ content:'\F141' } //变更中
+.icon-face60:before{ content:'\F141' } //取消中
+.icon-face70:before{ content:'\f00c';} //已确认
+.icon-face80:before{ content:'\F141' } //已取消

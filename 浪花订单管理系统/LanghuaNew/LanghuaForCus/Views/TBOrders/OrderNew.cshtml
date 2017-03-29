@@ -1,0 +1,430 @@
+﻿@model LanghuaNew.Data.TBOrder
+@{
+    ViewBag.Title = "OrderNew";
+}
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "订单填写";
+}
+
+
+
+
+<!--日期选择-->
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePicker_Css")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+
+<!--搜索选择-->
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAhead_Css")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+
+@section PageJS {
+    <script src="../../Scripts/pages/ordernewcus.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+    <script src="../../Scripts/pages/personPicker.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+
+}
+
+@*联系人基本信息 *@
+
+<div class="ddtitle">
+    <div class="title-left">
+        <span class="border-left"></span>联系人基本资料
+    </div>
+    <div class="button-right">
+        <a href="/Orders" class="btn btn-sm btn-default">返回订单首页</a>
+    </div>
+</div>
+@{
+    var isDisable = true;//为false时整个页面变为不可编辑
+    var isShownowsave = true;//为false时暂存按钮不可用
+                             //不是填写状态时，整个页面变为不可编辑
+    var isOrder = Model.Orders.Where(o => o.state != LanghuaNew.Data.OrderState.Notfilled & o.state != LanghuaNew.Data.OrderState.Filled).FirstOrDefault();
+    if (isOrder != null)
+    {
+        isDisable = false;
+    }
+    else
+    {
+        //不是未填写状态时，暂存按钮不可用
+        var Shownowsave = Model.Orders.Where(o => o.state != LanghuaNew.Data.OrderState.Notfilled).FirstOrDefault();
+        if (Shownowsave != null)
+        {
+            isShownowsave = false;
+        }
+    }
+}
+@{
+    var order = Model.Orders[0];
+    //if (Model.Orders.Where(s => s.CustomerName != "" && s.CustomerName != null) != null)
+    //{//当联系人信息不为空时，取有联系人信息的order进行展示。addby何力
+    //    order = Model.Orders.Where(s => s.CustomerName != "" && s.CustomerName != null).ToList()[0];
+    //}
+    var showRQ = false;
+    if (@ViewBag.ImageUrl != null)
+    {
+        showRQ = true;
+    }
+}
+<div class="hidden" id="customerid">@order.CustomerID</div>
+<div class="hidden" id="TBOrderID">@Model.TBOrderID</div>
+@*<div class="panel panel-default  " style="position:relative">
+    <div class="panel-body form " style="display: block;">
+         <form class="form-horizontal" role="form">
+             <disv class="form-body" style="padding-top:0px;padding-bottom:0px">
+                 <div class="form-group">
+                     <label class="col-md-2 control-label">淘宝ID：</label>
+                     <div class="col-md-10">
+                         <p id="CustomerTBCode" class="form-control-static">@Model.TBID</p>
+
+                     </div>
+                 </div>
+
+                 <div class="form-group">
+                     <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>姓名（中文）：</label>
+                     <div class="col-md-10">
+                         <input id="CustomerName" type="text" class="form-control input-inline input-sm input200" value="@order.CustomerName" placeholder="中文姓名" />
+                         <span class="help-inline">  </span>
+
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>姓名（拼音）：</label>
+                     <div class="col-md-10">
+                         <input id="CustomerEnname" type="text" class="form-control input-inline input-sm input200" value="@order.CustomerEnname" placeholder="姓名（拼音）" />
+                         <span class="help-inline">请与护照上的姓名拼音保持一致. </span>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span>联系电话：</label>
+                     <div class="col-md-10">
+                         <input id="Tel" type="text" class="form-control input-inline input-sm input200" value="@order.Tel" placeholder="" />
+                         <span class="help-inline">最好是到国外也能接听的电话</span>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="col-md-2 control-label">备用联系电话：</label>
+                     <div class="col-md-10">
+                         <input id="BakTel" type="text" class="form-control input-inline input-sm input200" value="@order.BakTel" placeholder="" />
+                         <span class="help-inline"> 尽量填写国外当地号码，以便及时联系 </span>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span> Email地址：</label>
+                     <div class="col-md-10">
+                         <input id="Email" type="text" class="form-control input-inline input-sm input200" value="@order.Email" placeholder="" />
+                         <span class="help-inline"> 常用邮箱，用来接收确认单或预订信息变更通知 </span>
+                     </div>
+                 </div>
+                 <div class="form-group">
+                     <label class="col-md-2 control-label"><span style="color:red;margin-right:5px;">*</span> 微信号：</label>
+                     <div class="col-md-10">
+                         <input id="Wechat" type="text" class="form-control input-inline input-sm input200" value="@order.Wechat" placeholder="" />
+                         <span class="help-inline"> 不是昵称，在“微信-我”界面中，您头像的旁边可以找到 </span>
+                     </div>
+                 </div>
+             </disv>
+         </form>
+
+     </div>
+     </div>*@
+
+@{
+    var imageUrl = "";
+    if (showRQ)
+    {
+        imageUrl = ViewBag.ImageUrl;
+    }
+}
+@Html.React("BaseInfo", new
+{
+    baseinfo = order,
+    code = @Model.TBID,
+    editFlag = order.ServiceItemHistorys.ElementsValue == null ? false : true,
+    imageUrl = imageUrl
+})
+
+
+
+@* 预约产品区域 *@
+<div class="ddtitle ">
+    <div class="row">
+        <div class="col-md-6 title-left">
+            <span class="border-left"></span>项目预约信息
+        </div>
+    </div>
+</div>
+
+
+@{
+    IEnumerable<LanghuaNew.Data.Area> areas = ViewBag.Area;
+
+}
+@{
+    LanghuaNew.Data.OrderState orderstate = LanghuaNew.Data.OrderState.Notfilled;
+    foreach (var oneorder in Model.Orders)
+    {
+        orderstate = oneorder.state > orderstate ? oneorder.state : orderstate;
+    }
+    var state = "editable";
+    if (orderstate < LanghuaNew.Data.OrderState.Send)
+    {
+        state = "editable";
+    }
+    else
+    {
+        state = "rechangeable";
+    }
+}
+@{
+    Dictionary<string, bool> buttons = new Dictionary<string, bool>();
+}
+@Html.React("Orders", new
+{
+    initdata = Model.Orders,
+    UIType = "edit",
+    state = state,
+    isForCusClient = true,
+    buttons = buttons
+})
+<div style="text-align:center;margin-top:10px">
+    <div style="max-width:440px;display:inline-block;position:relative">
+        <div class="checkbox">
+            <label style="text-align:left">
+                <input type="checkbox" id="agreed">
+                我已打开并阅读《<a target="_blank" href="http://www.dodotour.net/fengxian.html">旅游风险须知和安全提示告知书</a>》，我承诺转达全部内容给全体参与以上行程的人员，并代表他们进行签字。
+            </label>
+        </div>
+    </div>
+</div>
+<div class="" style="text-align:center">
+    @if (isDisable)
+    {
+        if (isShownowsave)
+        {
+            <a id="nowsave" class="btn btn-sm btn-default"> 暂存，稍后继续填写</a>
+        }
+
+        <a id="confirmsave" class="btn btn-sm btn-primary button70"> 提交保存</a>
+    }
+</div>
+
+
+
+@* 联系人列表 *@
+<div id="personlistsfsf" class="modal fade" tabindex="-1" data-focus-on="input:first">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">选择联系人</h4>
+    </div>
+    <div class="modal-body">
+        <p style="text-align:center">
+            <a class="ddbutton  border-rounded" data-toggle="x" id="selectoneperson" data-target="#addonepersonx"><i class="fa fa-plus"></i>添加常用游客</a>
+        </p>
+
+
+
+        <ul class="list-group perosnlist">
+            <li class="list-group-item one">
+                <label class="select">
+                    <input type="checkbox" />
+                </label>
+                <span class="main ">
+                    <span class="keyinfo">
+                        <span class="top">张三  ZHANGSAN</span>
+                        <span class="bottom">护照：E12345678</span>
+                    </span>
+                    <span class="revise" data-toggle="modal" data-target="#extrainfo">填写附加资料</span>
+                </span>
+
+            </li>
+
+
+        </ul>
+
+    </div>
+    <div class="modal-footer">
+        <div class="visible-xs">
+        </div>
+        <div class="row">
+            <div class="col-sm-3  col-xs-4">
+                <a class="ddbutton  border-rounded" style="float:left">全选</a>
+            </div>
+
+            <div class="col-sm-5 hidden-xs  ">
+                <a class="ddbutton  border-rounded" style="float:left">全w选</a>
+            </div>
+            <div class="col-sm-4 col-xs-8">
+                <a style="" class="ddbutton importantbutton border-rounded">确定</a>
+                <a data-dismiss="modal" class="ddbutton  border-rounded">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+@*添加一个联系人 *@
+<div id="addoneperson" class="modal fade" tabindex="-1" data-focus-on="input:first">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">新增常用游客资料</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" role="form">
+            <div class="form-body">
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label"><span style="color:red;margin-right:5px;">*</span>中文姓名</label>
+                    <div class="col-md-9">
+                        <input id="cnname" type="text" class="form-control input-inline input-medium" placeholder="张三">
+                        <span class="help-inline">  </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"><span style="color:red;margin-right:5px;">*</span>姓名拼音</label>
+                    <div class="col-md-9">
+                        <input id="enname" type="text" class="form-control input-inline input-medium" placeholder="ZHANGSAN">
+                        <span class="help-inline">  </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label"><span style="color:red;margin-right:5px;">*</span>护照号</label>
+                    <div class="col-md-9">
+                        <input id="identity" type="text" class="form-control input-inline input-medium" placeholder="身份证号也可以">
+                        <span class="help-inline">  </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">生日</label>
+                    <div class="col-md-9">
+                        <div class="input-group input-medium  input-group-sm ddDatePicker date date-picker  " data-date-format="dd-mm-yyyy" data-date-start-date="+0d">
+                            <input type="text" id="birthday" class="form-control " readonly="">
+                            <span class="input-group-btn">
+                                <button class="btn default" type="button">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </span>
+                        </div>
+                        @*<input id=" birthday" type="text" class="form-control input-inline input-medium" placeholder="">*@
+                        <span class="help-inline">  </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">性别</label>
+                    <div class="col-md-9">
+                        <select id="sex" type="text" class="form-control input-inline input-medium">
+                            <option value=0>男</option>
+                            <option value=1>女</option>
+                        </select>
+                        <span class="help-inline">  </span>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <a id="addanewperson" class="ddbutton importantbutton border-rounded">确定</a>
+        <a data-dismiss="modal" class="ddbutton  border-rounded">取消</a>
+    </div>
+</div>
+@*填写附加资料 *@
+<div id="extrainfox" class="modal fade" tabindex="-1" data-focus-on="input:first">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        <h4 class="modal-title">填写附加资料</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label class="col-md-3 control-label"><span style="color:red;margin-right:5px;">*</span>身高</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control input-inline input-small" placeholder="Enter text">CM
+                <span class="help-inline">  </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"><span style="color:red;margin-right:5px;">*</span>体重 </label>
+            <div class="col-md-9">
+                <input type="text" class="form-control input-inline input-small" placeholder="Enter text" />KG
+                <span class="help-inline">  </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"><span style="color:red;margin-right:5px;">*</span>鞋子码数</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control input-inline input-small" placeholder="Enter text">
+                <span class="help-inline">  </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"></span>衣服码数</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control input-inline input-small" placeholder="Enter text">
+                <span class="help-inline">  </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-3 control-label"></span>近视度数</label>
+            <div class="col-md-9">
+                <input type="text" class="form-control input-inline input-small" placeholder="Enter text">
+                <span class="help-inline">  </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class="ddbutton importantbutton border-rounded">确定</a>
+        <a data-dismiss="modal" class="ddbutton  border-rounded">取消</a>
+    </div>
+</div>
+<div id="agreeFlightDiving" class="modal modal-animate" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">重要提醒</h4>
+            </div>
+            <div class="modal-body">
+                <p style="color:red;text-indent:2em;font-size:20px">参加深潜后18小时不能乘坐飞机，否则会对身体造成伤害，请检查您的航班时间在深潜之后至少18小时！</p>
+                <p style="color:red;text-indent:2em;font-size:20px">如您点击确定按钮并填写了深潜需要的附加资料后，代表您已经知晓以上提示。浪花朵朵已尽到告知义务，对因此带来的无法参加深潜，航班改签，以及造成的身体伤害等全部后果不承担任何责任！</p>
+            </div>
+            <div class="modal-footer">
+                <span style="float:left;display:inline-block;margin-top:5px;">
+                    <label class="form-lables">
+                        <input type="checkbox" id="remberMe" value="" /><span>我已知道，下次不提示</span>
+                    </label>
+                </span>
+                <a id="confirmagree" class="btn btn-sm btn-primary button65">确定</a>
+                <a id="cancelagree" data-dismiss="modal" class="btn btn-sm btn-default button65">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="clientOrderLoading" class="modal-scrollable" style="z-index: 1060;background:rgba(255,255,255,0.5)!important;">
+    <div class="modal in" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="text-align: center; background: rgb(45, 45, 45); height: 60px !important; padding: 10px 0px !important; top: 50% !important; display: block; width: 500px; margin-left: -250px; margin-top: -20px;" aria-hidden="false">
+        <div style="display:inline-block;width:40px;height:40px;position:relative;vertical-align:middle">
+            <div class="progress-langhua medium circles" style="display: block;">
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+                <span class="circle"></span>
+            </div>
+        </div>
+        <span style="display:inline-block;padding-left:20px;line-height:40px;height:40px;vertical-align:middle;font-weight:bold;color:white">正 在 准 备 呈 现 …… </span>
+    </div>
+</div>
+<script>
+    setTimeout(function () {
+        var orderloadingtips = document.getElementById("order-loading-tips");
+        orderloadingtips.innerText = "网络似乎不给力，亲，刷新下？";
+    }, 15000)
+</script>

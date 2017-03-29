@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @{
+         <title>@ViewBag.FUNCTION-@ViewBag.SECTION-浪花朵朵</title>
+    }
+
+    @*@Styles.Render("~/Content/mandatory/css")*@
+
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/plugins/modal_Css")
+    @Styles.Render("~/Content/plugins/dataTables_Css")
+    @Styles.Render("~/Content/plugins/datePicker_Css")
+    @Styles.Render("~/Content/plugins/timePicker_Css")
+
+
+    @*<script src="../../Scripts/html5.js"></script>*@
+    @*@Scripts.Render("~/bundles/respond/js")*@
+
+    @if (IsSectionDefined("DatatableCSS"))
+    {
+        @RenderSection("DatatableCSS", required: false)
+    }
+
+    @if (IsSectionDefined("DatepickerCSS"))
+    {
+        @RenderSection("DatepickerCSS", required: false)
+    }
+
+    @if (IsSectionDefined("TypeaheadCSS"))
+    {
+        @RenderSection("TypeaheadCSS", required: false)
+    }
+    @if (IsSectionDefined("ModalCSS"))
+    {
+        @RenderSection("ModalCSS", required: false)
+
+    }
+    @if (IsSectionDefined("jqueryUICSS"))
+    {
+        @RenderSection("jqueryUICSS", required: false)
+    }
+
+    @if (IsSectionDefined("TimepickerCSS"))
+    {
+        @RenderSection("TimepickerCSS", required: false)
+    }
+
+
+
+
+    @if (IsSectionDefined("ValidateCSS"))
+    {
+        @RenderSection("ValidateCSS", required: false)
+    }
+
+    @*@Styles.Render("~/Content/theme/css")*@
+    @*@Styles.Render("~/Content/layout/css")*@
+
+</head>
+@{
+    var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    string[] whitegroundlisgt = { "orders-index", "orders-details", "serviceitems-index" };
+    var teststr = controllerName + '-' + action;
+    var background = " ";
+    if (Array.IndexOf(whitegroundlisgt, teststr) != -1)
+    {
+        background = "white";
+    }
+}
+<body style="background:@background;" >
+    <div class="hidden" id="controlleraction" data-controller="@controllerName" data-action="@action"></div>
+    <div id="mainContainer" class="container-fluid"  style="margin-top:10px"  >
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @Scripts.Render("~/bundles/plugins/modalJs")
+    @Scripts.Render("~/bundles/Langhua")
+    <script src="../../Scripts/LangHua/notification.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+
+    @if (IsSectionDefined("DatatableJS"))
+    {
+        @RenderSection("DatatableJS", required: false)
+    }
+
+    @if (IsSectionDefined("DatepickerJS"))
+    {
+        @RenderSection("DatepickerJS", required: false)
+    }
+
+    @if (IsSectionDefined("TypeaheadJS"))
+    {
+        @RenderSection("TypeaheadJS", required: false)
+    }
+    @if (IsSectionDefined("ValidateJS"))
+    {
+        @RenderSection("ValidateJS", required: false)
+    }
+    @if (IsSectionDefined("ZeroCopy"))
+    {
+        @RenderSection("ZeroCopy", required: false)
+    }
+
+    @if (IsSectionDefined("BootBox"))
+    {
+        @RenderSection("BootBox", required: false)
+    }
+
+    @if (IsSectionDefined("ModalJS"))
+    {
+        @*@RenderSection("ModalJS", required: false)*@
+    }
+    @section ZeroCopy{
+        @Scripts.Render("~/bundles/zeroCopy/js")
+    }
+
+    @if (IsSectionDefined("Html2Canvas"))
+    {
+
+        @RenderSection("Html2Canvas", required: false)
+    }
+
+    @if (IsSectionDefined("jqueryUIJS"))
+    {
+        @RenderSection("jqueryUIJS", required: false)
+    }
+    @if (IsSectionDefined("TimepickerJS"))
+    {
+        @RenderSection("TimepickerJS", required: false)
+    }
+    @Scripts.Render("~/bundles/reactbase")
+
+    @Scripts.Render("~/bundles/reactcomponents")
+
+    @if (IsSectionDefined("PageJS"))
+    {
+        @RenderSection("PageJS", required: false)
+    }
+   
+    @RenderSection("scripts", required: false)
+
+
+
+
+
+</body>
+</html>

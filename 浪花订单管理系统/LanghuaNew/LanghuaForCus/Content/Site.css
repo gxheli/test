@@ -1,0 +1,435 @@
+﻿body {
+    /*padding-top: 50px;*/
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 12px;
+    padding-right:  12px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+/*个人中心*/
+.width120{
+    width:120px;
+}
+.height160{
+    height:160px;
+}
+.height120{
+    height:120px;
+}
+.height24{
+    height:24px;
+    line-height: 24px;
+}
+.height48{
+    width:100%;
+    height:48px;
+    line-height: 48px;
+}
+.QR-container{
+    display:inline-block;
+    position:relative;
+    text-align: center;
+}
+.QR-container .img{
+    height:75%;
+    width:75%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.QR-container .img img{
+    height:90%;
+    width:90%;
+}
+.one-block .QR-container{
+    float:right;
+}
+
+@media (max-width: 992px) {
+    .one-block:last-child{
+        text-align:center;
+        
+    }
+    .one-block .left{
+        display:inline-block;
+        width:35%;
+        text-align:right;
+    }
+    .one-block .right{
+        display:inline-block;
+        width:60%;
+        text-align:left;
+
+    }
+    .one-block .QR-container{
+        float:none;
+    }
+}
+
+
+/*个人表单*/
+
+table.table-passenger{
+    /*table-layout: fixed;*/
+    border: 1px solid #797979;
+}
+table.table-passenger tbody tr  {
+	height: 40px !important;
+
+}
+table.table-passenger, table.table-passenger th, table.table-passenger td {
+    -webkit-box-sizing:border-box !important;
+    -moz-box-sizing: border-box !important;
+    box-sizing: border-box !important;
+	
+}
+table.table-passenger tbody tr td {
+	min-height: 40px !important;
+	text-align: center;
+	vertical-align: middle;
+	border-top:0px;
+	border-right:1px solid #797979;
+	border-bottom: 1px solid #797979;
+	font-size:12px;
+	/*padding:0px !important;*/
+	
+}
+table.table-passenger tbody  td:first-child {
+	border-left:1px solid #797979;
+
+	
+}
+
+table.table-passenger thead tr th {
+	height: 40px !important;
+	text-align: center;
+	vertical-align: middle;
+	background: #66CCFF;
+	border-bottom:1px solid #797979;
+	border-right:1px solid #797979;
+	font-size:12px;
+	font-weight:bold;
+	padding:0px !important;
+
+	
+	-webkit-user-select: none; /* Chrome all / Safari all */
+	-moz-user-select: none; /* Firefox all */
+	-ms-user-select: none; /* IE 10+ */ /* No support for these yet, use at own risk */
+	-o-user-select: none;
+	user-select: none;
+}
+table.table-passenger thead tr th:first-child {
+	border-left:1px solid #797979;
+
+	
+}
+table.table-passenger td .button-like{
+    width:40%;
+    -webkit-tap-highlight-color:rgba(121, 121, 121, 0.50);
+    color:#333333;
+
+}
+table.table-passenger td .button-like:hover{
+    cursor:pointer;
+}
+table.table-passenger td .button-like:active{
+    background:rgba(121, 121, 121, 0.50);
+    border-radius:2px;
+}
+
+@media  (max-width: 992px)  {
+    #noborder-mobbile{
+        border-color:rgba(4,4,4,0)
+    }
+
+    /* Force table to not be like tables anymore */
+    table.table-passenger,
+    table.table-passenger thead, 
+    table.table-passenger tbody,
+    table.table-passenger th,
+    table.table-passenger td,
+    table.table-passenger tr { 
+        display: block; 
+    }
+    /* Force table to not be like tables anymore */
+    table.table-passenger{
+        border:0px;
+    }
+    
+    /* Hide table headers (but not display: none;, for accessibility) */
+    table.table-passenger thead tr { 
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+    
+    table.table-passenger tbody tr {
+        height: auto !important;
+        border-right:1px solid #797979;
+        border-left:1px solid #797979;
+        border-top:1px solid #797979;
+        margin-top:10px;
+            
+    }
+    table.table-passenger tbody tr:nth-of-type(odd) {
+        background: #F0F0F0;
+        
+    }
+    
+    
+    table.table-passenger tbody tr td { 
+        /* Behave  like a "row" */
+        border-right:0px;
+        border-left:0px;
+        position: relative !important;
+        padding-left: 50%; 
+        height: 40px; 
+        line-height:23px; 
+        text-align: left;
+        box-sizing:border-box;  
+        vertical-align:middle;
+    }
+    table.table-passenger tbody tr td:first-child{
+        border-left:0px;
+    }
+    
+    table.table-passenger td:before { 
+        /* Now like a table header */
+        position: absolute;
+        font-weight: bold;
+        /* Top/left values mimic padding */
+        left: 0px;
+        /*top:0px;*/
+        width: 45%; 
+            /*height: 40px;*/  
+        white-space: nowrap;
+        padding-left:10px;
+        
+    }
+    
+    /*
+    Label the data
+    */
+    table.table-passenger td:nth-of-type(1):before { content: "序号"; }
+    table.table-passenger td:nth-of-type(2):before { content: "中文姓名"; }
+    table.table-passenger td:nth-of-type(3):before { content: "中文姓名"; }
+    table.table-passenger td:nth-of-type(4):before { content: "护照号"; }
+    table.table-passenger td:nth-of-type(5):before { content: "生日"; }
+    table.table-passenger td:nth-of-type(6):before { content: "性别"; }
+    table.table-passenger td:nth-of-type(7):before { content: "附加资料"; }
+    table.table-passenger td:nth-of-type(8):before { content: "操作"; }
+
+}
+
+/*个人中心结束*/
+
+/*订单首页*/
+
+.ulable{
+    position:relative ;
+    display:  inline-block;
+    height:38px; 
+    border:1px solid black;
+    border-radius:10px !important;
+    line-height:  36px;
+    width:235px;background: white ;
+    text-align: center;
+}
+.order-tiny {
+  height: 90px;
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+}
+.order-tiny a {
+  display: inline-block;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  -webkit-tap-highlight-color: rgba(35, 35, 35, 0.2);
+}
+.order-tiny a:active {
+  background: rgba(35, 35, 35, 0.2);
+}
+.order-tiny .left {
+  position: absolute;
+  height: 90px;
+  top: 0px;
+  right: 90px;
+  left: 0px;
+  border-radius: 10px 0px 0px 10px ;
+  background: white;
+}
+@media (max-width: 768px) {
+  .order-tiny .left {
+    right: 60px;
+  }
+}
+.order-tiny .left .top {
+  display: block;
+  position: relative;
+  height: 44px;
+  padding-left: 20px;
+  line-height: 44px;
+  border-bottom: 1px solid #E4E4E4;
+}
+.order-tiny .left .bottom {
+  display: block;
+  position: relative;
+  padding-left: 20px;
+  height: 44px;
+  padding-top: 5px;
+}
+.order-tiny .right {
+  position: absolute;
+  height: 90px;
+  width: 90px;
+  top: 0px;
+  right: 0px;
+  background: white;
+  border-radius: 0px 10px 10px 0px;
+  text-align: center;
+  display: inline-block;
+}
+@media (max-width: 768px) {
+  .order-tiny .right {
+    width: 60px;
+  }
+}
+.order-tiny .right .img {
+  margin-top: 10px;
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-size: 50px 50px;
+}
+.order-tiny .right .text {
+  height: 26px;
+  position: absolute;
+  width: 100%;
+  line-height: 26px;
+  bottom: 0px;
+}
+.order-tiny .notFill {
+  background: #FFFFCC;
+}
+.order-tiny .notFill .img {
+  background-image: url('img/waiting.png');
+}
+.order-tiny .notFill .text {
+  color: #000000;
+}
+.order-tiny .onCheck {
+  background: #FFCC00;
+}
+.order-tiny .onCheck .img {
+  background-image: url('img/waiting.png');
+}
+.order-tiny .onCheck .text {
+  color: #000000;
+}
+.order-tiny .checked {
+  background: #00FF00;
+}
+.order-tiny .checked .img {
+  background-image: url('img/waiting.png');
+}
+.order-tiny .checked .text {
+  color: #000000;
+}
+.order-tiny .refused {
+  background: #FFCCFF ;
+}
+.order-tiny .refused .img {
+  background-image: url('img/Fullbook.png');
+}
+.order-tiny .refused .text {
+  color: #000000;
+}
+.order-tiny .booking {
+  background: #66FFCC;
+}
+.order-tiny .booking .img {
+  background-image: url('img/booking.png');
+}
+.order-tiny .booking .text {
+  color: #000000;
+}
+.order-tiny .rebooking {
+  background: #66FFCC;
+}
+.order-tiny .rebooking .img {
+  background-image: url('img/booking.png');
+}
+.order-tiny .rebooking .text {
+  color: #000000;
+}
+.order-tiny .canceling {
+  background: #66FFCC;
+}
+.order-tiny .canceling .img {
+  background-image: url('img/booking.png');
+}
+.order-tiny .canceling .text {
+  color: #000000;
+}
+.order-tiny .confirm {
+  background: #2E9DE6;
+}
+.order-tiny .confirm .img {
+  background-image: url('img/Right_white.png');
+}
+.order-tiny .confirm .text {
+  color: white;
+}
+
+.time-link{
+    margin-left:30px;
+    height:10px;
+    border-left:2px solid black;
+    margin-top:-5px;
+}
+.time-link:first-child{
+    border-left:0px solid black;
+}
+
+
+
+/*订单完成页面*/
+ #finshed-tips{
+    margin-top:100px;
+    padding-right:38px;
+    
+}
+
+@media(max-width: 768px) {
+    #finshed-tips{
+        font-size:24px;
+        margin-top:10px;
+        padding-right:0px;
+
+    }
+    #finshed-tips img{
+       width:48px;
+
+    }
+}

@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "账号绑定";
+    Layout = "~/Views/Shared/Weixin.cshtml";
+
+}
+<div style="margin:0 auto;width:310px;margin-top:10px">
+    <div style="text-align:center">
+        <h2>账号绑定</h2>
+        <div style="height:10px"></div>
+    </div>
+    <div style="text-align:center">
+        <i style="color:#44B549;font-size:120px" class="fa fa-chain">
+        </i>            
+    </div>
+    <div class="font14" style="line-height:25px;">
+        <span class="bold">方法一：</span>登录浪花朵朵旅行预约系统，在个人
+        中心扫描二维码进行扫码绑定。<br />
+        <span class="bold">方法二：</span>输入您在浪花朵朵预订时使用的淘宝
+        ID和联系电话进行手动绑定。
+    </div>
+    <div  style="padding:0px 22px">
+        <form action="/Weixin/unbound" method="post">
+            <input type="hidden" value="@ViewBag.arg0" name="arg0" />
+            <div style="height:20px"></div>            
+            <div>
+                <input placeholder="淘宝ID" name="TBID" class="form-control" value="@ViewBag.TBID" />
+            </div>
+            <div style="height:20px"></div>
+            <div>
+                <input placeholder="联系电话" name="Tel" class="form-control"  value="@ViewBag.Tel" />
+            </div>
+            <div>
+                @ViewBag.Message
+            </div>
+            <div style="height:20px"></div>
+            <div>
+                <button style="height:40px; line-height:26px;border-radius:5px;border-color:#44B549;background-color:#44B549;color:white;font-size:20px" type="submit" class="btn btn-default btn-block" >立即绑定</button>
+            </div>
+        </form>
+
+    </div>
+
+
+</div>
+

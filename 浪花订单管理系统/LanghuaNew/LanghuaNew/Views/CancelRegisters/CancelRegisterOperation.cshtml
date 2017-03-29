@@ -1,0 +1,48 @@
+﻿@model IEnumerable<LanghuaNew.Data.CancelRegisterLog>
+
+@{
+    ViewBag.SECTION = "取消登记";
+    ViewBag.FUNCTION = "操作日志";
+    Layout = "~/Views/Shared/Dairy.cshtml";
+    ViewBag.name = "日志查看";
+
+}
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove table-Dairy">
+    <thead>
+        <tr>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.OperTime)
+            </th>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.OperUserID)
+            </th>
+            <th style="width:20%">
+                @Html.DisplayNameFor(model => model.Operate)
+            </th>
+            <th style="width:40%">
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.OperTime.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.OperUserNickName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Operate)
+                </td>
+                <td>
+                    @Html.Raw(item.Remark)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

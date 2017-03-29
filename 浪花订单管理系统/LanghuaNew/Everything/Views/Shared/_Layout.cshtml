@@ -1,0 +1,190 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+@{
+    var actionxx = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controllerNamex = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var HtmlWidth = "min-width:1250px";
+    if ((controllerNamex + actionxx) == "homeindex")
+    {
+        HtmlWidth = "";
+    }
+}
+<html lang="en" style="@HtmlWidth">
+<!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    @{
+        var title = "";
+        var actionx = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+        if (actionx == "index")
+        {
+            title = @ViewBag.SECTION + "-" + "浪花朵朵";
+        }
+        else
+        {
+            title = @ViewBag.FUNCTION + "-" + @ViewBag.SECTION + "-" + "浪花朵朵";
+        }
+        <title>@title</title>
+
+    }
+    @*@Styles.Render("~/Content/mandatory/css")*@
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/plugins/modalCss")
+
+
+    @if (IsSectionDefined("DatatableCSS"))
+    {
+        @RenderSection("DatatableCSS", required: false)
+    }
+    @if (IsSectionDefined("DatepickerCSS"))
+    {
+        @RenderSection("DatepickerCSS", required: false)
+    }
+    @if (IsSectionDefined("TypeaheadCSS"))
+    {
+        @RenderSection("TypeaheadCSS", required: false)
+    }
+    @if (IsSectionDefined("ModalCSS"))
+    {
+        @RenderSection("ModalCSS", required: false)
+    }
+    @if (IsSectionDefined("jqueryUICSS"))
+    {
+        @RenderSection("jqueryUICSS", required: false)
+    }
+    @if (IsSectionDefined("TimepickerCSS"))
+    {
+        @RenderSection("TimepickerCSS", required: false)
+    }
+    @if (IsSectionDefined("ValidateCSS"))
+    {
+        @RenderSection("ValidateCSS", required: false)
+    }
+    <!--[if IE 8]>
+    @Scripts.Render("~/bundles/essupport")
+        <![endif]-->
+</head>
+@{
+    var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controllerName = ViewContext.RouteData.Values["controller"].ToString().ToLower();
+    var Action = ViewContext.RouteData.Values["Action"];
+    var ControllerName = ViewContext.RouteData.Values["controller"];
+    string[] whitegroundlisgt = {
+        
+    };
+    var teststr = controllerName + '-' + action;
+    var background = " ";
+    if (Array.IndexOf(whitegroundlisgt, teststr) != -1)
+    {
+        background = "white";
+    }
+
+}
+
+
+
+
+
+<body style="background:@background">
+    
+    <div class="hidden" id="controlleraction" data-controller="@controllerName" data-action="@action"></div>
+    <div class="hidden" id="ControllerAction" data-controller="@ControllerName" data-action="@Action"></div>
+    <div id="LHDDHeader" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid page-container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a style="padding-bottom:5px;padding-top:5px;line-height:40px" class="navbar-brand" href="/"><img src="../../Content/img/dodotour_logo_cn_140_30.png" alt="浪花朵朵" /></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid body-content page-container">
+        @RenderBody()
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/plugins/modalJs")
+
+    @if (IsSectionDefined("DatatableJS"))
+    {
+        @RenderSection("DatatableJS", required: false)
+    }
+
+    @if (IsSectionDefined("DatepickerJS"))
+    {
+        @RenderSection("DatepickerJS", required: false)
+    }
+
+    @if (IsSectionDefined("TypeaheadJS"))
+    {
+        @RenderSection("TypeaheadJS", required: false)
+    }
+    @if (IsSectionDefined("ValidateJS"))
+    {
+        @RenderSection("ValidateJS", required: false)
+    }
+    @if (IsSectionDefined("ZeroCopy"))
+    {
+        @RenderSection("ZeroCopy", required: false)
+    }
+
+    @if (IsSectionDefined("BootBox"))
+    {
+        @RenderSection("BootBox", required: false)
+    }
+
+    @if (IsSectionDefined("ModalJS"))
+    {
+        @*@RenderSection("ModalJS", required: false)*@
+    }
+
+    @section ZeroCopy{
+        @Scripts.Render("~/bundles/zeroCopy/js")
+    }
+
+    @if (IsSectionDefined("Html2Canvas"))
+    {
+
+        @RenderSection("Html2Canvas", required: false)
+    }
+
+    @if (IsSectionDefined("jqueryUIJS"))
+    {
+
+        @RenderSection("jqueryUIJS", required: false)
+    }
+
+    @if (IsSectionDefined("TimepickerJS"))
+    {
+        @RenderSection("TimepickerJS", required: false)
+    }
+    @Scripts.Render("~/bundles/Langhua")
+
+    @Scripts.Render("~/bundles/reactbase")
+    @Scripts.Render("~/bundles/reactcomponents")
+
+    @if (IsSectionDefined("PageJS"))
+    {
+        @RenderSection("PageJS", required: false)
+    }
+    @* 此处应该至于页面最末尾 *@
+    @if ((controllerName == "orders" && action == "edit")||(controllerName == "orders" && action == "tborderdetail"))
+    {
+        @Html.ReactInitJavaScript()
+    }
+    @RenderSection("scripts", required: false)
+</body>
+</html>

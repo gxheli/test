@@ -1,0 +1,86 @@
+﻿@using System.Data;
+@{
+    ViewBag.SECTION = "订单";
+    ViewBag.FUNCTION = "旧系统订单";
+}
+<div class="tabletools" style="min-height:40px">
+    <div style="min-height:40px;">
+        <span class="leftlabel">
+            <span class="border-left"></span>旧系统订单列表（仅供查看）
+        </span>
+        <span class="rightbar">
+            <a href="/Orders/Index" role="button" class="btn btn-sm btn-default">返回订单首页</a>
+        </span>
+    </div>
+</div>
+<table class="table ddtable table-striped  table-Dairy">
+    <thead>
+        <tr>
+            <th style="width: 242px">
+                订单号
+            </th>
+            <th style="width: 533px">
+                预订项目
+            </th>
+            <th style="width: 129px">
+                人数
+            </th>
+            <th style="width: 147px">
+                日期
+            </th>
+            <th style="width: 109px">
+                状态
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            DataTable item = ViewBag.dt;
+            if (item != null)
+            {
+                for (int i = 0; i < item.Rows.Count; i++)
+                {
+                    string statusText = "";
+                    string color = "";
+                    string Status = item.Rows[i]["Status"] == null ? "0" : item.Rows[i]["Status"].ToString();
+                    switch (Status)
+                    {
+                        case "1":
+                            statusText = "已发送";
+                            color = "#66FFCC";
+                            break;
+                        case "2":
+                            statusText = "已确认";
+                            color = "#2E9DE6";
+                            break;
+                        case "3":
+                            statusText = "已核对";
+                            color = "#00FF00";
+                            break;
+                        default:
+                            statusText = "未处理";
+                            color = "#FFFFCC";
+                            break;
+                    }
+                    <tr>
+                        <td>
+                            @item.Rows[i]["OrderNo"]
+                        </td>
+                        <td>
+                            @item.Rows[i]["Service"]
+                        </td>
+                        <td>
+                            @item.Rows[i]["Adult"]/@item.Rows[i]["Child"]/@item.Rows[i]["INF"]
+                        </td>
+                        <td>
+                            @item.Rows[i]["DepDate"]
+                        </td>
+                        <td style="background-color:@color">
+                            @statusText
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

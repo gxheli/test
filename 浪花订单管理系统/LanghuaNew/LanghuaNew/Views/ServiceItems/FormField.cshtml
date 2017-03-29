@@ -1,0 +1,40 @@
+﻿@model IEnumerable<LanghuaNew.Data.FormField>
+
+@{
+    ViewBag.SECTION = "产品";
+    ViewBag.FUNCTION = "表单字段";
+    Layout = "~/Views/Shared/Dairy.cshtml";
+    ViewBag.name = "表单字段查看";
+}
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove  table-Dairy">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FieldNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExampleStyle)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FieldNo)
+                </td>
+                <td>
+                    @Html.Raw(item.ExampleStyle)
+                </td>
+            </tr>
+        }
+        </tbody>
+</table>

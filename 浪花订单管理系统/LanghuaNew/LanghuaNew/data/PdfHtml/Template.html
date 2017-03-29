@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link href="../../Content/bootstrap.css?v=1.1" rel="stylesheet" />
+    <link href="../../Content/Site.css?v=1.1" rel="stylesheet" />
+    <link href="../../Content/font-awesome.css?v=1.1" rel="stylesheet" />
+    <link href="../../Content/ring.css?v=1.1" rel="stylesheet" />
+    <link href="../../Content/fixedForLanghua.css?v=1.1" rel="stylesheet" />
+    <link href="../../Content/langhua.css?v=1.1" rel="stylesheet" />
+    <link href="../../Content/animate.min.css?v=1.1" rel="stylesheet" />
+</head>
+<body style="text-align:center;margin:auto;background-color: #fff;">
+    <div id="detailmain" class="detailmain">
+        <div id="onebookingorder" class="bookingorder">
+            <div class="orderdetailtitle" style="text-align:center">
+                <span class="icon"><img src="../../Content/img/dodotour_logo_cn_color_180_50.png" alt=""></span>
+                <span class="word">预订单 Booking Sheet</span>
+            </div>
+            <div id="notes" class="orderdetailtips">
+                <span style="color:red">重要提醒</span>：
+                <span>
+                    如有司机接人的行程， 请您按最早的接人时间在酒店大堂等司机， 司机到达酒店后只等待5分钟， 如果由于您的迟到没有赶上当天行程， 船公司会按NoShow算， 不退款的哦！
+                </span>
+            </div>
+            <div id="cancels" style="border:1px solid red;font-size: 20px;color: red;">
+                <span style="line-height: 60px; height: 60px;">
+                    请求取消PLEASE CANCEL THIS BOOKIING
+                </span>
+            </div>
+            <div style="margin: auto">
+                $htmlformat[0]
+            </div>
+            <!--<div class="QR-CODE">
+                <span class="one">
+                    <span class="word">
+                        <span class="font4x" style="font-size:12px ;">微信扫码，确认单带着走！</span>
+                    </span>
+                </span>
+                <span class="one">
+                        <img style="width:84px;height:84px" src="../../Content/img/QR_WeiX_Tmall.jpg" alt="">
+                </span>
+                <span class="one">
+                    <span class="word">
+                        <span class="font4x" style="font-size:12px ;">手机淘宝扫，随时预订，更多优惠</span>
+                    </span>
+                </span>
+            </div>-->
+            <div class="QR-CODE">
+                <div class="left">
+                    <img src="../../Content/img/QR_WeiX_Tmall.jpg" alt="">
+                    <div class="marktips">
+                        <div class="one-line">扫码好处多多</div>
+                        <div class="one-line">快速优惠预订</div>
+                        <div class="one-line">订单状态通知</div>
+                        <div class="one-line">确认单随身带</div>
+                    </div>
+                    <div class="line-vertical">
+                    </div>
+                </div>
+                <div class="right">
+                    产品服务信息：本产品由 <span id="supEnName"></span> 提供服务，本公司不是组团社，仅代游客进行预订，一切责任由提供产品的当地旅游经营者承担。
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var url = location.search;
+        var notes = document.getElementById("notes");
+        var isCancel = document.getElementById("cancels");
+        var supEnNameTxt = document.getElementById("supEnName");
+        var table = document.getElementsByTagName("table")[0];
+        var theRequest = new Object;
+
+        notes.style.width = "100%";
+        isCancel.style.width = "100%";
+        table.style.width = "100%";
+
+        if(url.indexOf("?")!=-1){
+            var str = url.substr(1);
+            if (str.indexOf("&") != -1) {
+                var arr = str.split('&');
+                var notesArr = arr[0].split("=");
+                if (notesArr[0] == 'isNotes' && notesArr[1] == 'false') {
+                     notes.style.display = "none";
+                }
+                var cancelArr = arr[1].split("=");
+                if (cancelArr[0] == "isCancel" && cancelArr[1]=="false") {
+                    isCancel.style.display = "none";
+                }
+                var supEnNameArr = arr[2].split("=");
+                if (supEnNameArr[0] == "supEnName" && supEnNameArr[1] != "") {
+                    supEnNameTxt.innerText = decodeURI(supEnNameArr[1]);
+                }
+            }
+        }
+    </script>
+</body>
+</html>

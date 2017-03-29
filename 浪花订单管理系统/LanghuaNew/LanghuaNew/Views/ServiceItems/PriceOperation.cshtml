@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LanghuaNew.Data.ItemPriceLog>
+
+@{
+    ViewBag.SECTION = "价格";
+    ViewBag.FUNCTION = "操作日志";
+    Layout = "~/Views/Shared/Dairy.cshtml";
+    ViewBag.name = "日志查看";
+
+}
+
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove table-Dairy">
+    <thead>
+        <tr>
+            <th style="width:15%">
+                @Html.DisplayNameFor(model => model.OperateTime)
+            </th>
+            <th style="width:15%">
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th style="width:15%">
+                @Html.DisplayNameFor(model => model.Operate)
+            </th>
+            <th style="width:55%">
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.OperateTime.ToString("yyyy-MM-dd HH:mm:ss")
+                </td>
+                <td>
+                    @(item.Operator == LanghuaNew.Data.OrderOperator.supplier ? "（供应商）" : "")
+                    @Html.DisplayFor(model => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Operate)
+                </td>
+                <td>
+                    @Html.Raw(item.Remark)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

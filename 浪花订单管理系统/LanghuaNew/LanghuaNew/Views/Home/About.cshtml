@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "";
+}
+<html>
+
+<head>
+    <title>综合示例</title>
+    <script src="/Scripts/jquery-1.10.2.js"></script>
+    <script>
+        $(document).ready(function () {
+            console.log("xxxxx")
+            console.log($('#baidu').length);
+            console.log("xxxxx")
+            setInterval(function () {
+                console.log($("#baidu .s_ipt#kw"))
+                console.log(document.getElementById("kw"));
+                $("#baidu .s_ipt#kw").val("daye")
+            }, 1000)
+            
+        });
+    </script>
+</head>
+
+<frameset cols="50%,*" rows="50%,*">
+    <frame  id ="baidu" src="localhost:90"></frame>
+</frameset>
+<body>
+    <div>sfsdfsdfssf</div>
+    </body>
+
+
+</html>

@@ -1,0 +1,221 @@
+﻿@model List<WXData.WeiXinMenu>
+@{
+    ViewBag.SECTION = "微信设置";
+    ViewBag.FUNCTION = "微信设置";
+}
+@section PageJS{
+    <script src="../Scripts/pages/WeiXinMenu.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>微信设置
+            </span>
+            <div class="btn-group">
+                <a type="button" href="~/WeixinMenu/Index" class="btn button86 btn-sm btn-primary actas" style="border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+                    菜单设置
+                </a>
+                <a type="button" href="~/WeixinMessages/Index" class="btn button86 btn-sm btn-default" style="border-top-right-radius: 5px;border-bottom-right-radius: 5px;">
+                    消息配置
+                </a>
+            </div>
+            <span class="rightbar">
+            </span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+            @for (var i = 0; i < 3; i++)
+            {
+                <div name="divMenuContainer">
+                    <div class="ddtitle ">
+                        <div class="title-left"><input name="MenuName" type="text" class="form-control " style="min-width:200px" placeholder="不多余4个汉字" value="@(Model[i].name)"></div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="table-responsive">
+                            <table name="MenuTable" class="table" style="text-align:center">
+                            @for (int j = 0; j < 5; j++)
+                            {
+                            <tr index="@(i*5+j+1)">
+                                <td style="width:100px;" align="center">
+                                    <label class="control-label" style="min-width:100px">菜单项 @(j+1)：</label>
+                                </td>
+                                <td style="width:200px;" align="center">
+                                    <input name="MenuName" type="text" class="form-control " style="min-width:200px" placeholder="不多余4个汉字" value="@(Model[i].Items[j].name)">
+                                </td>
+                                <td style="width:100px;" align="center">
+                                    <select name="MenuType" class="form-control"  style="min-width:100px" index="@(i*5+j+1)" onchange="Show(this)">
+                                        <option value="0" @(Model[i].Items[j].ItemType==WXData.MenuType.PictrueMenu?"selected":"")>图文素材</option>
+                                        <option value="1" @(Model[i].Items[j].ItemType==WXData.MenuType.TextMenu?"selected":"")>纯文本</option>
+                                        <option value="2" @(Model[i].Items[j].ItemType==WXData.MenuType.ViewMenu?"selected":"")>超级链接</option>
+                                    </select>
+                                </td>
+                                <td>
+
+                                    <textarea name="MenuValue" class="form-control " rows="5" style='width:300px;margin-right:0px; display:inline-block;max-width:300px;@(Model[i].Items[j].ItemType!=WXData.MenuType.PictrueMenu?"":"display:none")'   index="@(i*5+j+1)">@(Model[i].Items[j].ItemType != WXData.MenuType.PictrueMenu ? Model[i].Items[j].Text : "")</textarea>
+                                    @*<input name="MenuValue" type="text" class="form-control" style='min-width:300px; width:100%;@(Model[i].Items[j].ItemType!=WXData.MenuType.PictrueMenu?"":"display:none")' index="@(i*5+j+1)" value="@(Model[i].Items[j].ItemType!=WXData.MenuType.PictrueMenu?Model[i].Items[j].Text:"")">*@
+                                    <div index="@(i*5+j+1)" style='text-align:left;min-width:300px;@(Model[i].Items[j].ItemType==WXData.MenuType.PictrueMenu?"":"display:none")'>
+                                        <span name="MenuText" type="text" style="width:300px;line-height:30px;text-align:right">@(Model[i].Items[j].ItemType == WXData.MenuType.PictrueMenu ? Model[i].Items[j].Text : "请选择素材")</span>
+                                        <button name="MenuButton" type="button" class="btn btn-primary" style="float:right" data-toggle="modal" data-target="#myModal" SelectLHNewID="@(Model[i].Items[j].ItemType == WXData.MenuType.PictrueMenu ? Model[i].Items[j].value: "")">选择</button>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-default" style="min-width:100px;margin-left:10px" onclick="ClearRow(this)">清空</button>
+                                </td>
+                            </tr>
+                            }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="confirm" style="text-align:center">
+                <a id="postSlectItems" class="btn btn-sm btn-primary button160" onclick="ConfirmMenu()">
+                    保存菜单
+                </a>
+            </div>
+
+
+        </section>
+
+
+
+    </div>
+    <div class="col-md-4">
+        <section id="socialLoginForm">
+         <img src="~/Content/img/WeiXinMenu.png" />
+        </section>
+    </div>
+</div>
+<div id="myModal" class="modal modal-largeSize modal-animate"  tabindex="-1" data-backdrop="static" role="dialog" data-width=650 >
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">图文素材</h4>
+            </div>
+            <div class="modal-body">
+               <div>
+                   <input id="KeyWord" type="text" class="form-control neworder-input-medium input-inline" style="min-width:300px;" placeholder="标题关键字" >
+                   <button type="button" id="KeyButton" class="btn btn-default" onclick="GetNewsByKeyWord()"  >搜索</button>
+                   <span>新增的素材没有？请<a href="javascript:UpdateNews()">手动同步</a>素材</span>
+               </div>
+                <div>
+                    <div id="tabelContent" class="table-responsive" style="height:480px">
+                        @*<table class="table">
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                      1:端午小长假 粽情境外游<br/>
+                                      2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                            <tr style="height:100px">
+                                <td style="width:100px">
+                                    <img src="~/Content/img/pic.png" style="width:100px;height:100px" />
+                                </td>
+                                <td style="text-align:left">
+                                    1:端午小长假 粽情境外游<br />
+                                    2:怎么去皇帝岛玩？
+                                </td>
+                                <td style="text-align:right">
+                                    <button type="button" id="myButton" class="btn btn-default" style="margin-top:40px">已选择</button>
+                                </td>
+                            </tr>
+                        </table>*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+             
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Stack the columns on mobile by making one full-width and the other half-width -->
+
+       
+
+
+

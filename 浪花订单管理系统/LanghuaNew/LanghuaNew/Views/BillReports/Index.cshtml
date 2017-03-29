@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.SECTION = "账单报表";
+    ViewBag.FUNCTION = "账单报表";
+}
+@section PageJS {
+    <script src="../../Scripts/pages/billreportlist.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+@section DatatableCSS{
+    @Styles.Render("~/Content/plugins/dataTablesCss")
+}
+@section DatatableJS{
+    @Scripts.Render("~/bundles/plugins/dataTablesJs")
+}
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+<div class="tabletools">
+    <div class="left">
+        <div style="min-height:40px;">
+            <span class="leftlabel">
+                <span class="border-left"></span>账单报表
+            </span>
+            <div class="leftkeys" style="">
+                <div id="state">
+                    <a href="javascript:" class="buttonradio" data-code="-1">全部</a>
+                    @foreach (LanghuaNew.Data.CheckState item in Enum.GetValues(typeof(LanghuaNew.Data.CheckState)))
+                    {
+                        <a href="javascript:;" class="buttonradio" data-code="@((int)item)">@LanghuaNew.Data.EnumHelper.GetEnumDescription(item)</a>
+                    }
+                </div>
+            </div>
+            <span class="rightbar">
+                <button id="reflashTable" type="button" class="btn btn-default btn-sm button70"><span class="glyphicon glyphicon-refresh"></span>刷新</button>
+                <a href="#CreateBill" class="fixbuttonnew btn btn-sm btn-primary button65" data-toggle="modal">生成账单</a>
+            </span>
+        </div>
+        <div style="min-height:40px;">
+            <span class="leftlabel font12">
+            </span>
+            <span class="rightbar">
+                <select id="SupplierID" class="input input-sm input-xsmall input-inline">
+                    <option selected value="0">供应商</option>
+                    @foreach (LanghuaNew.Data.Supplier item in ViewBag.suppliers)
+                    {
+                        <option value="@item.SupplierID">@item.SupplierNo-@item.SupplierName</option>
+                    }
+                </select>
+                <select id="DateType" class="input input-sm input-xsmall input-inline">
+                    <option selected value="0">日期类型</option>
+                    <option value="1">创建日期</option>
+                    <option value="2">付款日期</option>
+                    <option value="3">账单开始日期</option>
+                    <option value="4">账单结束日期</option>
+                </select>
+                <span class="input-icon-right">
+                    <input id="Date" class="form-control input-sm input130">
+                    <span class="inputicon glyphicon glyphicon-calendar"></span>
+                </span>
+                <a href="javascript:;" id="fuzzySearch" class="rightbaritems border-rounded  ddbutton searchbutton"> 搜索 </a>
+            </span>
+        </div>
+    </div>
+</div>
+<table class="table-lh table-lh-bordered-white table-lh-bordered-edge-remove" id="orderList">
+    <thead>
+        <tr>
+            <th style="width:80px">供应商</th>
+            <th style="width:80px">账单类型</th>
+            <th style="width:150px">账单周期</th>
+            <th style="width:150px">参考金额</th>
+            <th style="width:150px">实付金额</th>
+            <th style="width:150px">账单生成时间</th>
+            <th style="width:150px">付款时间</th>
+            <th style="width:150px">备注</th>
+            <th style="width:80px">账单状态</th>
+            <th style="width:120px">操作</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+<div class="modal modal-largeSize modal-animate" id="CreateBill" tabindex="-1" data-backdrop="static" role="dialog" data-width=500>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">生成账单</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>供应商：</label>
+                            <div class="col-md-9">
+                                <select id="supplier" class="input input-sm input-xsmall input-inline margin-left-10 form-control" style="max-width:130px">
+                                    <option selected value="0">请选择</option>
+                                    @foreach (LanghuaNew.Data.Supplier item in ViewBag.suppliers)
+                                    {
+                                        <option value="@item.SupplierID">@item.SupplierNo-@item.SupplierName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>账单类型：</label>
+                            <div class="col-md-9">
+                                <label class="radio-inline margin-left-10">
+                                    <input class="type" type="radio" name="type" value="1" checked />
+                                    <span class="vertical-middle">出行日期核算</span>
+                                </label>
+                                <label class="radio-inline">
+                                    <input class="type" type="radio" name="type" value="2" />
+                                    <span class="vertical-middle">下单日期核算</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>日期范围：</label>
+                            <div class="col-md-9">
+                                <div id="launchdaterange" class="input-group input-xlarge input-sm date-picker input-daterange">
+                                    <div class="input-icon-right ">
+                                        <input id="StartDate" class="form-control input-sm input-small">
+                                        <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                    <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                                    <div class="input-icon-right ">
+                                        <input id="EndDate" class="form-control input-sm input-small">
+                                        <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="create" style="" class="btn btn-default btn-sm button65">生成</a>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal modal-largeSize modal-animate" id="Remarksearch" tabindex="-1" data-backdrop="static" role="dialog" data-width=500>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <span class="modal-title">实付</span>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>实付：</label>
+                            <div class="col-md-9">
+                                <span class="caption-subject  ">
+                                    <input id="RealReceive" style="vertical-align:middle;width:120px" class="form-control input-sm input-inline" />
+                                    <span id="Currency"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label"><span class="redspark">*</span>备注：</label>
+                            <div class="col-md-9">
+                                <textarea id="Remark" class="form-control " rows="5" style="width:320px;margin-right:0px; display:inline-block;max-width:460px"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="saveRemark" class="btn btn-default btn-sm button65">保存</a>
+                <a istyle="" class="btn btn-default btn-sm button65" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </div>
+</div>

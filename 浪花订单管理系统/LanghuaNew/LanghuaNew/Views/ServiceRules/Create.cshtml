@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.SECTION = "规则";
+    ViewBag.FUNCTION = "新增规则";
+}
+@section PageJS {
+    <script src="~/Scripts/pages/rule.js?v=@System.Configuration.ConfigurationManager.AppSettings["version"]"></script>
+}
+
+@section DatepickerCSS {
+    @Styles.Render("~/Content/plugins/datePickerCss")
+}
+@section DatepickerJS {
+    @Scripts.Render("~/bundles/plugins/datePickerJs")
+}
+
+@section TypeaheadCSS{
+    @Styles.Render("~/Content/plugins/typeAheadCss")
+}
+@section TypeaheadJS{
+    @Scripts.Render("~/bundles/plugins/typeAheadJs")
+}
+<div class="ddtitle">
+        <div class="title-left"><span class="border-left"></span>规则设置</div>
+        <div class="button-right"><a href="~/ServiceRules/Index" class="btn btn-sm btn-default">返回规则首页</a></div>
+</div>
+<div class="panel-default panel">
+    <div class="panel-body form ">
+        <form class="form-horizontal" role="form">
+            <div class="form-body" style="padding-top:0px;padding-bottom:0px">
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>出行范围：</label>
+                    <div class="col-md-10">
+                       
+
+                        <div style="display:inline-block">
+                            <div id="rulerange" class="input-group  date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                <div class="input-icon-right ">
+                                    <input id="StartTime" class="form-control input-sm input-small">
+                                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                </div>
+                                <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                                <div class="input-icon-right ">
+                                    <input id="EndTime" class="form-control input-sm input-small">
+                                    <span class="inputicon  glyphicon glyphicon-calendar"></span>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>规则：</label>
+                    <div class="col-md-10">
+                        <div id="RuleUseTypeValue" style="width:120px">
+                            <label class="radio-inline"><input class="RuleUseTypeValue" type="radio" name="RuleUseTypeValue" value="0" />只允许</label>
+                            <label class="radio-inline"><input class="RuleUseTypeValue" type="radio" name="RuleUseTypeValue" value="1" />禁止</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="SelectRuleType">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"><span class="redspark">*</span>限制细则：</label>
+                        <div class="col-md-10">
+                            <label class="radio-inline">
+                                <input class="SelectRuleType" type="radio" name="SelectRuleType" value="0" />日期选择：
+                            </label>
+                           
+                            @*<div id="launchdaterange" class="input-group input-group-sm  input-xlarge  date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                <input type="text" id="RangeStart" class="form-control " name="from">
+                                <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 至 </span>
+                                <input type="text" id="RangeEnd" class="form-control " name="to">
+                            </div>*@
+
+
+                            <div style="display:inline-block;vertical-align:middle">
+                                <div id="launchdaterange" class="input-group date-picker input-daterange" data-date="10/11/2012" data-date-format="mm/dd/yyyy">
+                                    <div class="input-icon-right ">
+                                        <input id="RangeStart" class="form-control input-sm input-small">
+                                        <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                    <span class="input-group-addon" style="background:none;border:0px;padding:0px 10px"> 到 </span>
+                                    <div class="input-icon-right ">
+                                        <input id="RangeEnd" class="form-control input-sm input-small">
+                                        <span class="inputicon glyphicon glyphicon-calendar"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10" id="Week">
+                            <label class="radio-inline"><input class="SelectRuleType" type="radio" name="SelectRuleType" value="1" />星期选择：</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="1" />星期一</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="2" />星期二</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="3" />星期三</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="4" />星期四</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="5" />星期五</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="6" />星期六</label>
+                            <label class="checkbox-inline"><input class="Week" type="checkbox" name="Week" value="0" />星期日</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            
+                            <label class="radio-inline"><input class="SelectRuleType" type="radio" name="SelectRuleType" value="2" />单双选择：</label>
+                            <div id="IsDouble"  style="width:120px;display:inline-block">
+                                <label class="radio-inline" style="margin-left:0px"><input class="IsDouble" type="radio" name="IsDouble" value="false" />单号</label>
+                                <label class="radio-inline" style="margin-left:23px"><input class="IsDouble" type="radio" name="IsDouble" value="true" />双号</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+                            <label class="radio-inline"><input class="SelectRuleType" type="radio" name="SelectRuleType" value="3" />固定日期：</label>
+                            <input id="UseDate" class="form-control input-sm input-inline" type="text" />
+                            <span class="help-inline help-line-vertical-bottom">只写号数并用竖线分隔，如：14|28</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">规则原因/备注：</label>
+                        <div class="col-md-10">
+                            <textarea id="Remark" class="form-control input-inline" rows="5" style="width:290px"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label"><span class="redspark">*</span>规则使用产品：</label>
+                    <div class="col-md-10 ">
+                        <div style="width:800px">
+                            <table class="table-lh table-lh-bordered-white table-lh-bordered-edge-black " id="tbServiceItem">
+                                <colgroup>
+                                    <col width="99" />
+                                    <col width="722" />
+                                    <col width="229"/>
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th >序号</th>
+                                        <th>产品名称</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            <span class="caption-subject  ">
+                                                <input id="ServiceItems" style="vertical-align:middle;width:200px;margin-right:0px" placeholder="输入产品编码、名称查询" class="form-control input-sm input-inline " />
+                                            </span>
+                                            <span id="selectedItem" data-itemid="" class="hidden">
+                                            </span>
+                                            <span id="selectedTips" class="hidden" style="font-size:12px;color:#333">
+                                                已选中:
+                                                <span id="which" class="which" style="font-size:12px;font-weight:bold">
+                                                </span>
+                                            </span>
+                                            <span id="warningError" class="tips hidden" style="font-size:12px;color:#333">
+                                                请选择产品
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a id="btnAdd" class="btn btn-sm btn-default  button70" >保存</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="" style="text-align:center">
+    <a id="btnSave" class="btn btn-sm btn-primary button70">保存规则设置</a>
+</div>
